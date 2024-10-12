@@ -1,0 +1,90 @@
+.btn-agrega {
+  background-color: #4caf50; /* Green */
+  color: white;
+  border-radius: 12px;
+  float: right;
+}
+
+.MuiTableCell-root {
+  width: auto-fit;
+  height: auto-fit;
+}
+
+.modal-dialog {
+  max-width: 1300px !important;
+  height: 900px !important;
+}
+
+/********************** Sweer Alert **************************/
+
+.swal2-container {
+  z-index: 10000;
+  position: fixed;
+}
+
+/********************** Sweer Alert **************************/
+
+/*********************** Modal *******************************/
+#modalinsertar {
+  z-index: 1000;
+  position: fixed;
+  width: 50%;
+  margin-left: 20%;
+}
+
+#modalmodificar {
+  z-index: 1000;
+  position: fixed;
+}
+
+#modaleliminar {
+  z-index: 1000;
+  position: fixed;
+}
+
+.modalestante {
+  z-index: 1000;
+  position: fixed;
+}
+
+/*********************** Modal *******************************/
+
+.container-fluid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.banner {
+  background-color: cadetblue;
+}
+
+.relleno-general {
+  background-color: rgb(62, 148, 228);
+  width: auto-fit;
+  height: auto-fit;
+  padding-bottom: 1rem;
+  font-weight: bold;
+}
+
+.relleno-asociar {
+  background-color: rgb(62, 148, 228);
+  width: auto-fit;
+  height: auto-fit;
+  padding-bottom: 1rem;
+}
+
+.relleno-precios {
+  background-color: rgb(62, 148, 228);
+  width: auto-fit;
+  height: auto-fit;
+  padding-bottom: 1rem;
+  font-weight: bold;
+}
+
+.relleno-hacienda {
+  background-color: rgb(62, 148, 228);
+  width: auto-fit;
+  height: auto-fit;
+  padding-bottom: 1rem;
+  font-weight: bold;
+}
