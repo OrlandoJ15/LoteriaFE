@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import MaterialTable from "@material-table/core";
-import { Modal, Paper, TextField, Button, Box, useTheme } from "@mui/material";
+import { Modal, TextField, Button, Box} from "@mui/material";
 import { AddBox, DeleteOutline, Edit, Password } from "@mui/icons-material";
 import { styled } from "@mui/system";
 import Swal from "sweetalert2";
@@ -33,16 +33,13 @@ const columnas = [
 
 //////////////////////////INICIA URLs///////////////////////////
 
-//const baseUrl = "https://localhost:44365/api/Usuario/recUsuario";
-//const baseUrlPost = "https://localhost:44365/api/Usuario/insUsuario";
-//const baseUrlPut = "https://localhost:44365/api/Usuario/modUsuario";
-//const baseUrlDel = "https://localhost:44365/api/Usuario/delUsuario";
-// const baseUrlPostKardex = "https://localhost:44365/api/Usuario/insUsuario";
-
 const baseUrl = "https://localhost:44366/Usuario/RecUsuario";
 const baseUrlPost = "https://localhost:44366/Usuario/InsUsuario";
 const baseUrlPut = "https://localhost:44366/Usuario/ModUsuario";
 const baseUrlDel = "https://localhost:44366/Usuario/DelUsuario";
+const endPointUsuarioXId = "https://localhost:44366/Usuario/RecUsuarioXId/" + IdUsuario.campo;
+const endPointValidarClave = "https://localhost:44366/Usuario/ValidarUsuarioLogin";
+const endPointCambioClave = "https://localhost:44366/Usuario/ModClaveUsuario";
 
 //////////////////////////TERMINA URLs///////////////////////////
 
@@ -66,15 +63,6 @@ const Usuario = () => {
   });
 
   const [formularioValido, cambiarFormularioValido] = useState(false);
-
-  // const [usuarioSeleccionado, setUsuarioSeleccionado] = useState({
-  //   IdUsuario: "",
-  //   Nombre: "",
-  //   NombreUsuario: "",
-  //   Rol: "",
-  //   Correo: "",
-  //   Clave: "",
-  // });
 
   //////////////////////////TERMINA CONSTANTES - STATE///////////////////////////
 
@@ -159,20 +147,6 @@ const Usuario = () => {
     }
   };
 
-  ///////////////////////////////////AXIOS FUNCIONES//////////////////////////////
-
-  const endPointUsuarioXId =
-    "https://localhost:44366/Usuario/RecUsuarioXId/" + IdUsuario.campo;
-
-  const endPointValidarClave = `https://localhost:44366/Usuario/ValidarUsuarioLogin/${IdUsuario.campo}/${Clave.campo}`;
-
-  // const endPointCambioClave =
-  // `https://localhost:44366/Usuario/ModClaveUsuario/${IdUsuario.campo}/${NuevaClave.campo}`;
-
-  const endPointCambioClave = "https://localhost:44366/Usuario/ModClaveUsuario";
-
-  ///////////////////////////////////FINALIZA AXIOS FUNCIONES//////////////////////////////
-
   ////////////////////////////////VALIDACIONES ID/////////////////////////////////
 
   function ValidarExistenciaUsuarioId() {
@@ -187,6 +161,7 @@ const Usuario = () => {
     const MetodoValidar = async () => {
       await axios.get(endPointUsuarioXId).then((response) => {
         const data = response.data;
+        console.log(data)
         if (data === null) {
           cambiarIdUsuario({ campo: IdUsuario.campo, valido: "true" });
         } else {
@@ -207,8 +182,23 @@ const Usuario = () => {
       });
     }
 
+    const options = {
+      idUsuario: IdUsuario.campo,
+      nombre: "",
+      nombreUsuario: "",
+      rol: 0,
+      correo: "",
+      clave: Clave.campo,
+    };
+
+
     const MetodoValidar = async () => {
-      await axios.get(endPointValidarClave).then((response) => {
+      await axios
+      .post(
+        endPointValidarClave,
+        options
+      )
+      .then((response) => {
         const data = response.data;
         if (data === null) {
           cambiarClave({ campo: "", valido: "false" });
@@ -222,26 +212,6 @@ const Usuario = () => {
   }
 
   ////////////////////////////////FINALIZA VALIDACIONES ID/////////////////////////////////
-
-  //////////////////////////INICIA STYLE///////////////////////////
-
-  const StyledModal = styled(Box)(({ theme }) => ({
-    position: "absolute",
-    width: 400,
-    backgroundColor: theme.palette.background.paper,
-    border: "2px solid #000",
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-  }));
-
-  const StyledInput = styled(TextField)({
-    width: "100%",
-  });
-
-  //////////////////////////TERMINA STYLE///////////////////////////
 
   ////////////////////////////////CONSTANTES MODAL/////////////////////////////////
 
@@ -390,10 +360,6 @@ const Usuario = () => {
       .then((response) => {
         //Filtras los datos eliminando el usuario
         setData(data.filter((Usuario) => Usuario.IdUsuario !== idUsuario));
-        // const nuevaData = data.filter(
-        //   (Usuario) => Usuario.IdUsuario !== idUsuario
-        // );
-        //setData([...nuevaData]); // Actualiza el estado
         peticionGet();
         abrirCerrarModalEliminar();
       })
@@ -436,8 +402,10 @@ const Usuario = () => {
   ////////////////////////// PETICION CAMBIO CLAVE////////////////////////
 
   const peticionCambioClave = async () => {
-    const endPointCambioClave =
-      "https://localhost:44366/Usuario/ModClaveUsuario";
+    console.log("entro al peticioncambioclave");
+    console.log(Clave);
+    console.log(NuevaClave);
+    console.log(ConfirmarNuevaClave);
 
     function showError() {
       Swal.fire({
@@ -457,6 +425,10 @@ const Usuario = () => {
     try {
       const options = {
         IdUsuario: IdUsuario.campo,
+        Nombre: "",
+        NombreUsuario: "",
+        Rol: 0,
+        Correo: "",
         Clave: ConfirmarNuevaClave.campo,
       };
 
@@ -471,36 +443,8 @@ const Usuario = () => {
         }
         abrirCerrarModalCambioClave();
 
-        // // Crear una copia de los datos originales
-        // const dataNueva = [...data];
-        // // Mapear sobre la copia para modificar el usuario
-        // const updatedData = dataNueva.map((Usuario) => {
-        //   if (Usuario.idUsuario === options.idUsuario) {
-        //     return {
-        //       ...Usuario,
-        //       nombre: options.nombre,
-        //       nombreUsuario: options.nombreUsuario,
-        //       rol: options.rol,
-        //       correo: options.correo,
-        //     };
-        //   }
-        //   return Usuario;
-        // });
-
-        // Actualizar el estado con el nuevo array actualizado
-        // setData(updatedData);
-
-        // // Cerrar el modal después de la actualización
-        // abrirCerrarModalEditar();
       });
 
-      // if (response.status === 200) {
-      //   showExito();
-      // } else {
-      //   showError();
-      // }
-
-      // abrirCerrarModalCambioClave();
     } catch (error) {
       console.log(error);
       showError();
@@ -811,6 +755,10 @@ const Usuario = () => {
   );
 
   function showQuestionCambioClave() {
+    console.log("entro al showquestioncambioclave");
+    console.log(Clave);
+    console.log(NuevaClave);
+    console.log(ConfirmarNuevaClave);
     Swal.fire({
       title: "Seguro que desea Cambiar la Clave?",
       showDenyButton: true,
@@ -922,7 +870,6 @@ const Usuario = () => {
           {
             icon: Password,
             tooltip: "Cambiar Contrasena",
-            //onClick: (event, rowData) => abrirCerrarModalCambioClave(),
             onClick: (event, rowData) =>
               seleccionarUsuario(rowData, "CambioClave"),
           },
