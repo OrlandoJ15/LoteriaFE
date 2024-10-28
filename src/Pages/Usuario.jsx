@@ -5,7 +5,13 @@ import { Modal, Button } from "@mui/material";
 import { AddBox, DeleteOutline, Edit, Password } from "@mui/icons-material";
 import Swal from "sweetalert2";
 import InputGeneral from "../Components/InputGeneral";
-import {ColumnaCenter, Columna, Formulario, MensajeExito, MensajeError} from "../Components/Formularios";
+import {
+  ColumnaCenter,
+  Columna,
+  Formulario,
+  MensajeExito,
+  MensajeError,
+} from "../Components/Formularios";
 import "../Styles/Cliente.modal.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
@@ -31,23 +37,25 @@ const UrlPost = "https://localhost:44366/Usuario/InsUsuario";
 const UrlPut = "https://localhost:44366/Usuario/ModUsuario";
 const UrlDel = "https://localhost:44366/Usuario/DelUsuario";
 const EndPointUsuarioXId = "https://localhost:44366/Usuario/RecUsuarioXId";
-const EndPointValidarUsuarioLogin = "https://localhost:44366/Usuario/ValidarUsuarioLogin";
+const EndPointValidarUsuarioLogin =
+  "https://localhost:44366/Usuario/ValidarUsuarioLogin";
 const EndPointCambiarClave = "https://localhost:44366/Usuario/ModClaveUsuario";
 
 //////////////////////////TERMINA URLs///////////////////////////
 
 const Usuario = () => {
   //////////////////////////INICIA CONSTANTES - STATE///////////////////////////
-  const initialState = {campo: "", valido: null};
+  const initialState = { campo: "", valido: null };
 
   const [IdUsuario, cambiarIdUsuario] = useState(initialState);
   const [Nombre, cambiarNombre] = useState(initialState);
   const [NombreUsuario, cambiarNombreUsuario] = useState(initialState);
-  const [Rol, cambiarRol] = useState({campo: 0,valido: null});
+  const [Rol, cambiarRol] = useState({ campo: 0, valido: null });
   const [Correo, cambiarCorreo] = useState(initialState);
   const [Clave, cambiarClave] = useState(initialState);
   const [NuevaClave, cambiarNuevaClave] = useState(initialState);
-  const [ConfirmarNuevaClave, cambiarConfirmarNuevaClave] = useState(initialState);
+  const [ConfirmarNuevaClave, cambiarConfirmarNuevaClave] =
+    useState(initialState);
   const [formularioValido, cambiarFormularioValido] = useState(false);
   const [data, setData] = useState([]);
   const [modalInsertar, setModalInsertar] = useState(false);
@@ -79,7 +87,7 @@ const Usuario = () => {
   };
 
   const validarFormulario = (fields) => {
-    return fields.every(field => field.valido === "true");
+    return fields.every((field) => field.valido === "true");
   };
 
   const handleSubmit = (e, action, fields) => {
@@ -93,19 +101,45 @@ const Usuario = () => {
     }
   };
 
-  const onSubmitPost = (e) => handleSubmit(e, showQuestionPost, [IdUsuario, Nombre, NombreUsuario, Rol, Correo, Clave]);
+  const onSubmitPost = (e) =>
+    handleSubmit(e, showQuestionPost, [
+      IdUsuario,
+      Nombre,
+      NombreUsuario,
+      Rol,
+      Correo,
+      Clave,
+    ]);
 
-  const onSubmitPut = (e) => handleSubmit(e, showQuestionPut, [IdUsuario, Nombre, NombreUsuario, Rol, Correo]);
+  const onSubmitPut = (e) =>
+    handleSubmit(e, showQuestionPut, [
+      IdUsuario,
+      Nombre,
+      NombreUsuario,
+      Rol,
+      Correo,
+    ]);
 
-  const onSubmitCambioClave = (e) => handleSubmit(e, showQuestionCambioClave, [Clave, NuevaClave, ConfirmarNuevaClave]);
+  const onSubmitCambioClave = (e) =>
+    handleSubmit(e, showQuestionCambioClave, [
+      Clave,
+      NuevaClave,
+      ConfirmarNuevaClave,
+    ]);
 
   ////////////////////////////////VALIDACIONES ID/////////////////////////////////
 
-  const validarUsuario = async (url, options, fieldSetter, errorMessage, tipoValidacion) => {
+  const validarUsuario = async (
+    url,
+    options,
+    fieldSetter,
+    errorMessage,
+    tipoValidacion
+  ) => {
     try {
       const response = await axios.post(url, options);
 
-      if (tipoValidacion === 'idUsuario') {
+      if (tipoValidacion === "idUsuario") {
         // Validación para existencia de usuario por ID
         if (response.data === null) {
           // Si el usuario no existe (es un nuevo ID), dejamos el campo como está.
@@ -115,7 +149,7 @@ const Usuario = () => {
           fieldSetter({ campo: "", valido: "false" });
           Swal.fire({ icon: "error", title: "Cuidado", text: errorMessage });
         }
-      } else if (tipoValidacion === 'clave') {
+      } else if (tipoValidacion === "clave") {
         // Validación para la clave
         if (response.data === null) {
           // Si la clave es incorrecta, mostramos el error y seteamos a vacío
@@ -129,39 +163,55 @@ const Usuario = () => {
       console.error("Error:", error);
     }
   };
-  
+
   const validarExistenciaUsuarioId = () => {
     const options = {
-          idUsuario: IdUsuario.campo,
-          nombre: "",
-          nombreUsuario: "",
-          rol: 0,
-          correo: "",
-          clave: "",
-        };  
+      idUsuario: IdUsuario.campo,
+      nombre: "",
+      nombreUsuario: "",
+      rol: 0,
+      correo: "",
+      clave: "",
+    };
     // Pasamos el tipo de validación como 'usuarioId'
-    validarUsuario(EndPointUsuarioXId, options, cambiarIdUsuario, "Código Usuario Existente, Intente Nuevamente", 'idUsuario');
+    validarUsuario(
+      EndPointUsuarioXId,
+      options,
+      cambiarIdUsuario,
+      "Código Usuario Existente, Intente Nuevamente",
+      "idUsuario"
+    );
   };
-  
+
   const validarClave = () => {
     const options = {
-          idUsuario: IdUsuario.campo,
-          nombre: "",
-          nombreUsuario: "",
-          rol: 0,
-          correo: "",
-          clave: Clave.campo,
-        };  
+      idUsuario: IdUsuario.campo,
+      nombre: "",
+      nombreUsuario: "",
+      rol: 0,
+      correo: "",
+      clave: Clave.campo,
+    };
     // Pasamos el tipo de validación como 'clave'
-    validarUsuario(EndPointValidarUsuarioLogin, options, cambiarClave, "Contraseña incorrecta, Intente Nuevamente", 'clave');
+    validarUsuario(
+      EndPointValidarUsuarioLogin,
+      options,
+      cambiarClave,
+      "Contraseña incorrecta, Intente Nuevamente",
+      "clave"
+    );
   };
 
   ////////////////////////////////FINALIZA VALIDACIONES ID/////////////////////////////////
 
-  const showQuestionPost = () => showQuestion("Desea Guardar Los Cambios?", peticionPost);
-  const showQuestionPut = () => showQuestion("Desea Editar Los Cambios?", peticionPut);
-  const showQuestionDel = () => showQuestion("Desea Eliminar Los Cambios?", peticionDelete);
-  const showQuestionCambioClave = () => showQuestion("Desea Cambiar la Contraseña?", peticionCambioClave);
+  const showQuestionPost = () =>
+    showQuestion("Desea Guardar Los Cambios?", peticionPost);
+  const showQuestionPut = () =>
+    showQuestion("Desea Editar Los Cambios?", peticionPut);
+  const showQuestionDel = () =>
+    showQuestion("Desea Eliminar Los Cambios?", peticionDelete);
+  const showQuestionCambioClave = () =>
+    showQuestion("Desea Cambiar la Contraseña?", peticionCambioClave);
 
   ////////////////////////////PETICION POST//////////////////////////////////////////////////
 
@@ -172,11 +222,11 @@ const Usuario = () => {
       confirmButtonText: "Confirmar",
       denyButtonText: "Cancelar",
     }).then((result) => {
-      if (result.isConfirmed){
+      if (result.isConfirmed) {
         Swal.fire("Operacion Exitosa", "", "success");
         accion();
-      }else if (result.isDenied){
-        Swal.fire("Cambios No Guardados", "","info");
+      } else if (result.isDenied) {
+        Swal.fire("Cambios No Guardados", "", "info");
       }
     });
   };
@@ -195,8 +245,8 @@ const Usuario = () => {
       const response = await axios.post(UrlPost, options);
       setData([...data, response.data]);
       abrirCerrarModalInsertar();
-    }catch (error){
-      console.error("Error en la peticion Post: ",error);
+    } catch (error) {
+      console.error("Error en la peticion Post: ", error);
     }
   };
 
@@ -213,12 +263,14 @@ const Usuario = () => {
       correo: Correo.campo,
     };
 
-    try{
+    try {
       const response = await axios.put(UrlPut, options);
-      const updatedData = data.map(user => (user.idUsuario === options.idUsuario ? options : user));
+      const updatedData = data.map((user) =>
+        user.idUsuario === options.idUsuario ? options : user
+      );
       setData(updatedData);
       abrirCerrarModalEditar();
-    } catch (error){
+    } catch (error) {
       console.error("Error En La Peticion Put: ", error);
     }
   };
@@ -230,15 +282,15 @@ const Usuario = () => {
   const peticionDelete = async () => {
     const idUsuario = IdUsuario.campo; // Asegúrate de que esto esté obteniendo el ID correcto
     const payload = {
-        headers: {
-          "Content-Type": "application/json", // Establecer tipo de contenido
-          Authorization: "",
-        },
-        data: JSON.stringify(idUsuario), // Convertimos a JSON, Aquí pasas el ID del usuario en el cuerpo de la solicitud
-      };
-    try{
-      await axios.delete(UrlDel, payload)
-      setData(data.filter(user => user.IdUsuario !== IdUsuario.campo));
+      headers: {
+        "Content-Type": "application/json", // Establecer tipo de contenido
+        Authorization: "",
+      },
+      data: JSON.stringify(idUsuario), // Convertimos a JSON, Aquí pasas el ID del usuario en el cuerpo de la solicitud
+    };
+    try {
+      await axios.delete(UrlDel, payload);
+      setData(data.filter((user) => user.IdUsuario !== IdUsuario.campo));
       abrirCerrarModalEliminar();
       peticionGet();
     } catch (error) {
@@ -266,11 +318,11 @@ const Usuario = () => {
   };
 
   const peticionGet = async () => {
-    try{
+    try {
       const response = await axios.get(UrlBase);
       setData(response.data);
-    } catch (eror){
-      console.error ("Error al obtener os usuario", error);
+    } catch (eror) {
+      console.error("Error al obtener os usuario", error);
     }
   };
 
@@ -391,7 +443,12 @@ const Usuario = () => {
 
   /////////////////////////INCLUIR ARTICULOS////////////////////////////
 
-  const MensajeFormulario = ({titulo, formularioValido, onCancel, onSubmit }) => {
+  const MensajeFormulario = ({
+    titulo,
+    formularioValido,
+    onCancel,
+    onSubmit,
+  }) => {
     return (
       <>
         {formularioValido === false && (
@@ -405,7 +462,7 @@ const Usuario = () => {
         {formularioValido === true && (
           <MensajeExito>Campos llenos exitosamente!</MensajeExito>
         )}
-  
+
         <div align="right">
           <Button color="success" onClick={onCancel}>
             Cancelar
@@ -417,7 +474,7 @@ const Usuario = () => {
       </>
     );
   };
-  
+
   const bodyInsertar = (
     <div style={scrollVertical}>
       <h3>Incluir Usuario v2</h3>
@@ -499,7 +556,7 @@ const Usuario = () => {
         </div>
       </div>
       <MensajeFormulario
-        titulo= "Insertar"
+        titulo="Insertar"
         formularioValido={formularioValido}
         onCancel={abrirCerrarModalInsertar}
         onSubmit={onSubmitPost} // Reemplaza con la función adecuada
@@ -594,7 +651,7 @@ const Usuario = () => {
         </div>
       </div>
       <MensajeFormulario
-        titulo = "Eliminar"
+        titulo="Eliminar"
         onCancel={abrirCerrarModalEliminar}
         onSubmit={showQuestionDel} // Reemplaza con la función adecuada
       />
@@ -649,7 +706,7 @@ const Usuario = () => {
         </div>
       </div>
       <MensajeFormulario
-        titulo = "Cambiar Clave"
+        titulo="Cambiar Clave"
         formularioValido={formularioValido}
         onCancel={abrirCerrarModalCambioClave}
         onSubmit={onSubmitCambioClave} // Reemplaza con la función adecuada
