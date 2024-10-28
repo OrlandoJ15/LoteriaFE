@@ -14,11 +14,17 @@ import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 //////////////////////////INICIA GRID INICIAL//////////////////////////
 
 const columnas = [
-  { title: "Codigo", field: "idUsuario" },
+  { title: "Codigo", field: "idCliente" },
+  { title: "Cedula", field: "cedula" },
   { title: "Nombre", field: "nombre" },
-  { title: "Nombre De Usuario", field: "nombreUsuario" },
-  { title: "Rol", field: "rol", type: "numeric" },
-  { title: "Correo", field: "correo" },
+  { title: "Email", field: "Email" },
+  { title: "Telefono", field: "telefono" },
+  { title: "FechaCreacion", field: "fechaCreacion" },
+  { title: "FechaBorrado", field: "fechaBorrado" },
+  { title: "Bloqueado", field: "bloqueado" },
+  { title: "NombreUsuario", field: "nombreUsuario" },
+  { title: "Clave", field: "clave" },
+
 ];
 
 //////////////////////////TERMINA GRID INICIAL//////////////////////////
@@ -26,28 +32,29 @@ const columnas = [
 
 //////////////////////////INICIA URLs///////////////////////////
 
-const UrlBase = "https://localhost:44366/Usuario/RecUsuario";
-const UrlPost = "https://localhost:44366/Usuario/InsUsuario";
-const UrlPut = "https://localhost:44366/Usuario/ModUsuario";
-const UrlDel = "https://localhost:44366/Usuario/DelUsuario";
-const EndPointUsuarioXId = "https://localhost:44366/Usuario/RecUsuarioXId";
-const EndPointValidarUsuarioLogin = "https://localhost:44366/Usuario/ValidarUsuarioLogin";
-const EndPointCambiarClave = "https://localhost:44366/Usuario/ModClaveUsuario";
+const UrlBase = "https://localhost:44366/Cliente/RecCliente";
+const UrlPost = "https://localhost:44366/Cliente/InsCliente";
+const UrlPut = "https://localhost:44366/Cliente/ModCliente";
+const UrlDel = "https://localhost:44366/Cliente/DelCliente";
+const EndPointClienteXId = "https://localhost:44366/Cliente/RecClienteXId";
+const EndPointValidarClienteLogin = "https://localhost:44366/Cliente/ValidarClienteLogin";
+const EndPointCambiarClave = "https://localhost:44366/Cliente/ModClaveCliente";
 
 //////////////////////////TERMINA URLs///////////////////////////
 
-const Usuario = () => {
+const Cliente = () => {
   //////////////////////////INICIA CONSTANTES - STATE///////////////////////////
   const initialState = {campo: "", valido: null};
 
-  const [IdUsuario, cambiarIdUsuario] = useState(initialState);
+  const [IdCliente, cambiarIdCliente] = useState(initialState);
+  const [Cedula, cambiarCedula] = useState(initialState);
   const [Nombre, cambiarNombre] = useState(initialState);
+  const [Email, cambiarEmail] = useState(initialState);
+  const [Telefono, cambiarTelefono] = useState(initialState);
+  const [FechaCreacion, cambiarFechaCreacion] = useState(initialState);
+  const [FechaBorrado, cambiarFechaBorrado] = useState(initialState);
   const [NombreUsuario, cambiarNombreUsuario] = useState(initialState);
-  const [Rol, cambiarRol] = useState({campo: 0,valido: null});
-  const [Correo, cambiarCorreo] = useState(initialState);
   const [Clave, cambiarClave] = useState(initialState);
-  const [NuevaClave, cambiarNuevaClave] = useState(initialState);
-  const [ConfirmarNuevaClave, cambiarConfirmarNuevaClave] = useState(initialState);
   const [formularioValido, cambiarFormularioValido] = useState(false);
   const [data, setData] = useState([]);
   const [modalInsertar, setModalInsertar] = useState(false);
@@ -59,20 +66,24 @@ const Usuario = () => {
   /////////////////////////////////////INICIA EXPRESIONES//////////////////////////////////
 
   const expresionesRegulares = {
-    IdUsuario: /^[0-9]*$/,
+    IdCliente: /^[0-9]*$/,
+    Cedula: /^[0-9]*$/,
     Nombre: /^[a-zA-Z0-9_-\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
-    NombreUsuario: /^[a-zA-Z0-9_-\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
-    Rol: /^[1-9]$/, // solo numero del 1-9
-    Correo: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, //formato de correo electronico
+    Email: /^[a-zA-Z0-9_-\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
+    Telefono: /^[1-9]$/, // solo numero del 1-9
+    FechaCreacion: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, //formato de correo electronico
+    FechaBorrado: /^(?=(?:.*[A-Za-z]){4,})(?=.*[A-Z])(?=(?:.*\d){4,})[A-Za-z\d]{8,}$/, //contrasena con almenos 4 letras y minimo 1 mayuscukla, 4 numeros y minimo 8 carcteres
+    Bloqueado: /^(?=(?:.*[A-Za-z]){4,})(?=.*[A-Z])(?=(?:.*\d){4,})[A-Za-z\d]{8,}$/, //contrasena con almenos 4 letras y minimo 1 mayuscukla, 4 numeros y minimo 8 carcteres
+    NombreUsuario: /^(?=(?:.*[A-Za-z]){4,})(?=.*[A-Z])(?=(?:.*\d){4,})[A-Za-z\d]{8,}$/, //contrasena con almenos 4 letras y minimo 1 mayuscukla, 4 numeros y minimo 8 carcteres
     Clave: /^(?=(?:.*[A-Za-z]){4,})(?=.*[A-Z])(?=(?:.*\d){4,})[A-Za-z\d]{8,}$/, //contrasena con almenos 4 letras y minimo 1 mayuscukla, 4 numeros y minimo 8 carcteres
-  };
+};
 
   /////////////////////////////////////TERMINA EXPRESIONES//////////////////////////////////
 
   const resetForm = () => {
-    cambiarIdUsuario(initialState);
+    cambiarIdCliente(initialState);
     cambiarNombre(initialState);
-    cambiarNombreUsuario(initialState);
+    cambiarNombreCliente(initialState);
     cambiarRol({ campo: 0, valido: null });
     cambiarCorreo(initialState);
     cambiarClave(initialState);
@@ -93,25 +104,25 @@ const Usuario = () => {
     }
   };
 
-  const onSubmitPost = (e) => handleSubmit(e, showQuestionPost, [IdUsuario, Nombre, NombreUsuario, Rol, Correo, Clave]);
+  const onSubmitPost = (e) => handleSubmit(e, showQuestionPost, [IdCliente, Nombre, NombreCliente, Rol, Correo, Clave]);
 
-  const onSubmitPut = (e) => handleSubmit(e, showQuestionPut, [IdUsuario, Nombre, NombreUsuario, Rol, Correo]);
+  const onSubmitPut = (e) => handleSubmit(e, showQuestionPut, [IdCliente, Nombre, NombreCliente, Rol, Correo]);
 
   const onSubmitCambioClave = (e) => handleSubmit(e, showQuestionCambioClave, [Clave, NuevaClave, ConfirmarNuevaClave]);
 
   ////////////////////////////////VALIDACIONES ID/////////////////////////////////
 
-  const validarUsuario = async (url, options, fieldSetter, errorMessage, tipoValidacion) => {
+  const validarCliente = async (url, options, fieldSetter, errorMessage, tipoValidacion) => {
     try {
       const response = await axios.post(url, options);
 
-      if (tipoValidacion === 'idUsuario') {
-        // Validación para existencia de usuario por ID
+      if (tipoValidacion === 'idCliente') {
+        // Validación para existencia de Cliente por ID
         if (response.data === null) {
-          // Si el usuario no existe (es un nuevo ID), dejamos el campo como está.
+          // Si el Cliente no existe (es un nuevo ID), dejamos el campo como está.
           return;
         } else {
-          // Si existe otro usuario con ese ID, seteamos el campo a vacío y no válido
+          // Si existe otro Cliente con ese ID, seteamos el campo a vacío y no válido
           fieldSetter({ campo: "", valido: "false" });
           Swal.fire({ icon: "error", title: "Cuidado", text: errorMessage });
         }
@@ -130,30 +141,30 @@ const Usuario = () => {
     }
   };
   
-  const validarExistenciaUsuarioId = () => {
+  const validarExistenciaClienteId = () => {
     const options = {
-          idUsuario: IdUsuario.campo,
+          idCliente: IdCliente.campo,
           nombre: "",
-          nombreUsuario: "",
+          nombreCliente: "",
           rol: 0,
           correo: "",
           clave: "",
         };  
-    // Pasamos el tipo de validación como 'usuarioId'
-    validarUsuario(EndPointUsuarioXId, options, cambiarIdUsuario, "Código Usuario Existente, Intente Nuevamente", 'idUsuario');
+    // Pasamos el tipo de validación como 'ClienteId'
+    validarCliente(EndPointClienteXId, options, cambiarIdCliente, "Código Cliente Existente, Intente Nuevamente", 'idCliente');
   };
   
   const validarClave = () => {
     const options = {
-          idUsuario: IdUsuario.campo,
+          idCliente: IdCliente.campo,
           nombre: "",
-          nombreUsuario: "",
+          nombreCliente: "",
           rol: 0,
           correo: "",
           clave: Clave.campo,
         };  
     // Pasamos el tipo de validación como 'clave'
-    validarUsuario(EndPointValidarUsuarioLogin, options, cambiarClave, "Contraseña incorrecta, Intente Nuevamente", 'clave');
+    validarCliente(EndPointValidarClienteLogin, options, cambiarClave, "Contraseña incorrecta, Intente Nuevamente", 'clave');
   };
 
   ////////////////////////////////FINALIZA VALIDACIONES ID/////////////////////////////////
@@ -183,9 +194,9 @@ const Usuario = () => {
 
   const peticionPost = async () => {
     const options = {
-      IdUsuario: IdUsuario.campo,
+      IdCliente: IdCliente.campo,
       Nombre: Nombre.campo,
-      NombreUSuario: NombreUsuario.campo,
+      NombreCliente: NombreCliente.campo,
       Rol: Rol.campo,
       Correo: Correo.campo,
       Clave: Clave.campo,
@@ -206,16 +217,16 @@ const Usuario = () => {
 
   const peticionPut = async () => {
     const options = {
-      idUsuario: IdUsuario.campo,
+      idCliente: IdCliente.campo,
       nombre: Nombre.campo,
-      nombreUsuario: NombreUsuario.campo,
+      nombreCliente: NombreCliente.campo,
       rol: Rol.campo,
       correo: Correo.campo,
     };
 
     try{
       const response = await axios.put(UrlPut, options);
-      const updatedData = data.map(user => (user.idUsuario === options.idUsuario ? options : user));
+      const updatedData = data.map(user => (user.idCliente === options.idCliente ? options : user));
       setData(updatedData);
       abrirCerrarModalEditar();
     } catch (error){
@@ -228,21 +239,21 @@ const Usuario = () => {
   ////////////////////////PETICION DELETE////////////////////////
 
   const peticionDelete = async () => {
-    const idUsuario = IdUsuario.campo; // Asegúrate de que esto esté obteniendo el ID correcto
+    const idCliente = IdCliente.campo; // Asegúrate de que esto esté obteniendo el ID correcto
     const payload = {
         headers: {
           "Content-Type": "application/json", // Establecer tipo de contenido
           Authorization: "",
         },
-        data: JSON.stringify(idUsuario), // Convertimos a JSON, Aquí pasas el ID del usuario en el cuerpo de la solicitud
+        data: JSON.stringify(idCliente), // Convertimos a JSON, Aquí pasas el ID del Cliente en el cuerpo de la solicitud
       };
     try{
       await axios.delete(UrlDel, payload)
-      setData(data.filter(user => user.IdUsuario !== IdUsuario.campo));
+      setData(data.filter(user => user.IdCliente !== IdCliente.campo));
       abrirCerrarModalEliminar();
       peticionGet();
     } catch (error) {
-      console.error("Error Al Eliminar Usuario: ", error);
+      console.error("Error Al Eliminar Cliente: ", error);
     }
   };
 
@@ -250,14 +261,14 @@ const Usuario = () => {
 
   //////////////////////////PETICION SELECT////////////////////////
 
-  const seleccionarUsuario = async (usuario, caso) => {
-    const XUsuario = Object.values(...usuario);
+  const seleccionarCliente = async (Cliente, caso) => {
+    const XCliente = Object.values(...Cliente);
 
-    cambiarIdUsuario({ campo: XUsuario[0], valido: "true" });
-    cambiarNombre({ campo: XUsuario[1], valido: "true" });
-    cambiarNombreUsuario({ campo: XUsuario[2], valido: "true" });
-    cambiarRol({ campo: XUsuario[3], valido: "true" });
-    cambiarCorreo({ campo: XUsuario[4], valido: "true" });
+    cambiarIdCliente({ campo: XCliente[0], valido: "true" });
+    cambiarNombre({ campo: XCliente[1], valido: "true" });
+    cambiarNombreCliente({ campo: XCliente[2], valido: "true" });
+    cambiarRol({ campo: XCliente[3], valido: "true" });
+    cambiarCorreo({ campo: XCliente[4], valido: "true" });
     caso === "Editar"
       ? abrirCerrarModalEditar()
       : caso === "Eliminar"
@@ -270,7 +281,7 @@ const Usuario = () => {
       const response = await axios.get(UrlBase);
       setData(response.data);
     } catch (eror){
-      console.error ("Error al obtener os usuario", error);
+      console.error ("Error al obtener os Cliente", error);
     }
   };
 
@@ -298,11 +309,11 @@ const Usuario = () => {
       });
     }
     const options = {
-      IdUsuario: IdUsuario.campo,
+      IdCliente: IdCliente.campo,
       Clave: ConfirmarNuevaClave.campo,
       Rol: 0,
       Nombre: "",
-      NombreUsuario: "",
+      NombreCliente: "",
       Correo: "",
     };
 
@@ -420,7 +431,7 @@ const Usuario = () => {
   
   const bodyInsertar = (
     <div style={scrollVertical}>
-      <h3>Incluir Usuario v2</h3>
+      <h3>Incluir Cliente v2</h3>
       <div className="relleno-general">
         {" "}
         General
@@ -428,16 +439,16 @@ const Usuario = () => {
           <Formulario>
             <Columna>
               <InputGeneral
-                estado={IdUsuario}
-                cambiarEstado={cambiarIdUsuario}
+                estado={IdCliente}
+                cambiarEstado={cambiarIdCliente}
                 tipo="text"
-                label="Id Usuario"
-                placeholder="Introduzca Id Del Usuario"
-                name="IdUsuario"
-                leyendaError="El Id Del Usuario solo puede contener numeros."
-                expresionRegular={expresionesRegulares.IdUsuario}
-                onChange={validarExistenciaUsuarioId}
-                onBlur={validarExistenciaUsuarioId}
+                label="Id Cliente"
+                placeholder="Introduzca Id Del Cliente"
+                name="IdCliente"
+                leyendaError="El Id Del Cliente solo puede contener numeros."
+                expresionRegular={expresionesRegulares.IdCliente}
+                onChange={validarExistenciaClienteId}
+                onBlur={validarExistenciaClienteId}
                 autofocus
               />
               <InputGeneral
@@ -452,14 +463,14 @@ const Usuario = () => {
               />
 
               <InputGeneral
-                estado={NombreUsuario}
-                cambiarEstado={cambiarNombreUsuario}
+                estado={NombreCliente}
+                cambiarEstado={cambiarNombreCliente}
                 tipo="text"
-                label="Nombre De Usuario"
-                placeholder="Introduzca El Nombre De Usuario"
-                name="NombreUsuario"
-                leyendaError="El Nombre del Usuario solo puede contener letras y espacios."
-                expresionRegular={expresionesRegulares.NombreUsuario}
+                label="Nombre De Cliente"
+                placeholder="Introduzca El Nombre De Cliente"
+                name="NombreCliente"
+                leyendaError="El Nombre del Cliente solo puede contener letras y espacios."
+                expresionRegular={expresionesRegulares.NombreCliente}
               />
 
               <InputGeneral
@@ -509,7 +520,7 @@ const Usuario = () => {
 
   const bodyEditar = (
     <div style={scrollVertical}>
-      <h3>Editar Usuario</h3>
+      <h3>Editar Cliente</h3>
       <div className="relleno-general">
         General
         <div className="container-fluid">
@@ -528,15 +539,15 @@ const Usuario = () => {
               />
 
               <InputGeneral
-                estado={NombreUsuario}
-                cambiarEstado={cambiarNombreUsuario}
+                estado={NombreCliente}
+                cambiarEstado={cambiarNombreCliente}
                 tipo="text"
-                label="Nombre De Usuario"
-                placeholder="Introduzca El Nombre De Usuario"
-                name="NombreUsuario"
-                leyendaError="El Nombre del Usuario solo puede contener letras y espacios."
-                expresionRegular={expresionesRegulares.NombreUsuario}
-                value={NombreUsuario.campo}
+                label="Nombre De Cliente"
+                placeholder="Introduzca El Nombre De Cliente"
+                name="NombreCliente"
+                leyendaError="El Nombre del Cliente solo puede contener letras y espacios."
+                expresionRegular={expresionesRegulares.NombreCliente}
+                value={NombreCliente.campo}
               />
 
               <InputGeneral
@@ -577,16 +588,16 @@ const Usuario = () => {
 
   const bodyEliminar = (
     <div style={scrollVertical}>
-      <h3>Eliminar Usuario</h3>
+      <h3>Eliminar Cliente</h3>
       <div className="relleno-general">
         {" "}
         General
         <div className="container-fluid">
           <Formulario>
             <Columna>
-              <h4>Codigo: {IdUsuario.campo}</h4>
+              <h4>Codigo: {IdCliente.campo}</h4>
               <h4>Nombre: {Nombre.campo}</h4>
-              <h4>Nombre De Usuario: {NombreUsuario.campo}</h4>
+              <h4>Nombre De Cliente: {NombreCliente.campo}</h4>
               <h4>Rol: {Rol.campo}</h4>
               <h4>Correo: {Correo.campo}</h4>
             </Columna>
@@ -661,7 +672,7 @@ const Usuario = () => {
     <div className="Cliente">
       <div className="banner">
         <h3>
-          <b>200-Mantenimiento Usuarios</b>
+          <b>200-Mantenimiento Clientes</b>
         </h3>
       </div>
       <div className="btn-agrega">
@@ -669,7 +680,7 @@ const Usuario = () => {
           startIcon={<AddBox />}
           onClick={() => abrirCerrarModalInsertar()}
         >
-          Agregar Usuario
+          Agregar Cliente
         </Button>
       </div>
       <br />
@@ -677,24 +688,24 @@ const Usuario = () => {
       <MaterialTable
         columns={columnas}
         data={data}
-        title="Usuarios"
+        title="Clientes"
         actions={[
           {
             icon: Edit,
             tooltip: "Modificar Modificar",
-            onClick: (event, rowData) => seleccionarUsuario(rowData, "Editar"),
+            onClick: (event, rowData) => seleccionarCliente(rowData, "Editar"),
           },
           {
             icon: DeleteOutline,
-            tooltip: "Eliminar Usuario",
+            tooltip: "Eliminar Cliente",
             onClick: (event, rowData) =>
-              seleccionarUsuario(rowData, "Eliminar"),
+              seleccionarCliente(rowData, "Eliminar"),
           },
           {
             icon: Password,
             tooltip: "Cambiar Contrasena",
             onClick: (event, rowData) =>
-              seleccionarUsuario(rowData, "CambioClave"),
+              seleccionarCliente(rowData, "CambioClave"),
           },
         ]}
         options={{
@@ -730,4 +741,4 @@ const Usuario = () => {
   );
 };
 
-export default Usuario;
+export default Cliente;

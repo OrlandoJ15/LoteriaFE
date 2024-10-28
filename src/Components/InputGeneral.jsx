@@ -9,7 +9,15 @@ const InputGeneral = ({ estado, cambiarEstado, tipo, label, placeholder, name, l
 	};
 
 	const validacion = () => {
-		if (expresionRegular) {
+		
+		if (tipo === "date" && expresionRegular) {
+            const fechaFormato = estado.campo; // Obtenemos el valor en formato yyyy-mm-dd
+            if (expresionRegular.test(fechaFormato)) {
+                cambiarEstado({ ...estado, valido: 'true' });
+            } else {
+                cambiarEstado({ ...estado, valido: 'false' });
+            }
+        }else if (expresionRegular) {
 			if (expresionRegular.test(estado.campo)) {
 				cambiarEstado({ ...estado, valido: 'true' });
 			} else {

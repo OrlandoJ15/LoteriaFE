@@ -40,37 +40,50 @@ const DropdownLink = styled(Link)`
     cursor: pointer;
   }
 `;
-
+/////////
 // Configuración de SubMenu Lateral
+//  AQUI: Se configura la funcionaliad del submenu y todas opciones  ///
+
 const SubMenu = ({ item }) => {
-  const [subnav, setSubnav] = useState(false);
-  const showSubnav = () => setSubnav(!subnav);
-
-  return (
-    <>
-      <SidebarLink to={item.path} onClick={item.subNav && showSubnav}>
-        <div>
-          {item.icon}
-          <SidebarLabel>{item.title}</SidebarLabel>
-        </div>
-        <div>
-          {item.subNav && subnav
-            ? item.iconOpened
-            : item.subNav
-            ? item.iconClosed
-            : null}
-        </div>
-      </SidebarLink>
-
-      {subnav &&
-        item.subNav.map((item, index) => (
-          <DropdownLink to={item.path} key={index}>
-            {item.icon}
-            <SidebarLabel>{item.title}</SidebarLabel>
-          </DropdownLink>
-        ))}
-    </>
-  );
-};
+	const [subnav, setSubnav] = useState(false);
+  
+	const showSubnav = (e) => {
+	  e.stopPropagation();  // Evita que se cierre el sidebar
+	  setSubnav(!subnav);   // Alterna el estado de los submenús
+	};
+	
+  
+	return (
+	  <>
+		{/* El evento onClick solo afecta el submenú si es necesario */}
+		<SidebarLink to={item.path} onClick={item.subNav ? showSubnav : undefined}>
+		  <div>
+			{item.icon}
+			<SidebarLabel>{item.title}</SidebarLabel>
+		  </div>
+  
+		  <div>
+			{item.subNav && subnav
+			  ? item.iconOpened
+			  : item.subNav
+			  ? item.iconClosed
+			  : null}
+		  </div>
+		</SidebarLink>
+  
+		{/* Renderiza los submenús si están abiertos */}
+		{subnav &&
+		  item.subNav.map((subItem, index) => {
+			return (
+			  <DropdownLink to={subItem.path} key={index}>
+				{subItem.icon}
+				<SidebarLabel>{subItem.title}</SidebarLabel>
+			  </DropdownLink>
+			);
+		  })}
+	  </>
+	);
+  };
+  
 
 export default SubMenu;
