@@ -12,11 +12,4 @@ createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Router/>
   </React.StrictMode>,
-
-
 )
-/*ReactDOM.render(
-  <React.StrictMode>
-    <Router />
-  </React.StrictMode>,
-  document.getElementById('root')*/
