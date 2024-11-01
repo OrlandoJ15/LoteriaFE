@@ -32,13 +32,13 @@ const columnas = [
 
 //////////////////////////INICIA URLs///////////////////////////
 
-const UrlBase = "https://localhost:44366/Cliente/RecCliente";
-const UrlPost = "https://localhost:44366/Cliente/InsCliente";
-const UrlPut = "https://localhost:44366/Cliente/ModCliente";
-const UrlDel = "https://localhost:44366/Cliente/DelCliente";
-const EndPointClienteXId = "https://localhost:44366/Cliente/RecClienteXId";
-const EndPointValidarClienteLogin = "https://localhost:44366/Cliente/ValidarClienteLogin";
-const EndPointCambiarClave = "https://localhost:44366/Cliente/ModClaveCliente";
+const UrlBase = "http://190.113.84.163:8000/Cliente/RecCliente";
+const UrlPost = "http://190.113.84.163:8000/Cliente/InsCliente";
+const UrlPut = "http://190.113.84.163:8000/Cliente/ModCliente";
+const UrlDel = "http://192.168.1.43:8000/Cliente/DelCliente";
+const EndPointClienteXId = "http://190.113.84.163:8000/Cliente/RecClienteXId";
+const EndPointValidarClienteLogin = "http://190.113.84.163:8000/Cliente/ValidarClienteLogin";
+const EndPointCambiarClave = "http://190.113.84.163:8000/Cliente/ModClaveCliente";
 
 //////////////////////////TERMINA URLs///////////////////////////
 

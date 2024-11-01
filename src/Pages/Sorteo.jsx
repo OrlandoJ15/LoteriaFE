@@ -33,12 +33,12 @@ const columnas = [
 
 //////////////////////////INICIA URLs///////////////////////////
 
-const UrlBase = "https://localhost:44366/Sorteo/RecSorteo";
-const UrlPost = "https://localhost:44366/Sorteo/InsSorteo";
-const UrlPut = "https://localhost:44366/Sorteo/ModSorteo";
-const UrlDel = "https://localhost:44366/Sorteo/DelSorteo";
-const EndPointSorteoXId = "https://localhost:44366/Sorteo/RecSorteoXId";
-const UrlPostKardex = "https://localhost:44366/Kardex/InsKardex";
+const UrlBase = "http://190.113.84.163:8000/Sorteo/RecSorteo";
+const UrlPost = "http://190.113.84.163:8000/Sorteo/InsSorteo";
+const UrlPut = "http://190.113.84.163:8000/Sorteo/ModSorteo";
+const UrlDel = "http://190.113.84.163:8000/Sorteo/DelSorteo";
+const EndPointSorteoXId = "http://190.113.84.163:8000/Sorteo/RecSorteoXId";
+const UrlPostKardex = "http://190.113.84.163:8000/Kardex/InsKardex";
 
 //////////////////////////TERMINA URLs///////////////////////////
 
@@ -96,8 +96,7 @@ const Sorteo = () => {
     }
   };
 
-  const onSubmitPost = (e) =>
-    handleSubmit(e, showQuestionPost, [
+  const onSubmitPost = (e) => handleSubmit(e, showQuestionPost, [
       IdSorteo,
       Nombre,
       Numero,
@@ -106,8 +105,7 @@ const Sorteo = () => {
       IdTipoSorteo,
     ]);
 
-  const onSubmitPut = (e) =>
-    handleSubmit(e, showQuestionPut, [
+  const onSubmitPut = (e) => handleSubmit(e, showQuestionPut, [
       IdSorteo,
       Nombre,
       Numero,

@@ -26,11 +26,11 @@ const columnas = [
 
 //////////////////////////INICIA URLs///////////////////////////
 
-const UrlBase = "https://localhost:44366/TipoSorteo/RecTipoSorteo";
-const UrlPost = "https://localhost:44366/TipoSorteo/InsTipoSorteo";
-const UrlPut = "https://localhost:44366/TipoSorteo/ModTipoSorteo";
-const UrlDel = "https://localhost:44366/TipoSorteo/DelTipoSorteo";
-const EndPointTipoSorteoXId = "https://localhost:44366/TipoSorteo/RecTipoSorteoXId";
+const UrlBase = "http://190.113.84.163:8000/TipoSorteo/RecTipoSorteo";
+const UrlPost = "http://190.113.84.163:8000/TipoSorteo/InsTipoSorteo";
+const UrlPut = "http://190.113.84.163:8000/TipoSorteo/ModTipoSorteo";
+const UrlDel = "http://190.113.84.163:8000/TipoSorteo/DelTipoSorteo";
+const EndPointTipoSorteoXId = "http://190.113.84.163:8000/TipoSorteo/RecTipoSorteoXId";
 
 //////////////////////////TERMINA URLs///////////////////////////
 
