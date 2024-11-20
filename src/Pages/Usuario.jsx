@@ -15,12 +15,18 @@ import {
 import "../Styles/Cliente.modal.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
+import verificarToken from "../Components/VerificaToken";
 
 //////////////////////////INICIA SECCION COLUMNAS///////////////////////////
 //////////////////////////INICIA GRID INICIAL//////////////////////////
 
+
+// usuario 3 passwor Abcd1234
+
+
+
 const columnas = [
-  { title: "Codigo", field: "idUsuario" },
+  { title: "Codigo", field: "id" },
   { title: "Nombre", field: "nombre" },
   { title: "Nombre De Usuario", field: "nombreUsuario" },
   { title: "Rol", field: "rol", type: "numeric" },
@@ -31,16 +37,26 @@ const columnas = [
 //////////////////////////TERMINA SECCION COLUMNAS///////////////////////////
 
 //////////////////////////INICIA URLs///////////////////////////
-
 const UrlBase = "http://190.113.84.163:8000/Usuario/RecUsuario";
-//const UrlBase = "https://localhost:44366/Usuario/RecUsuario";
 const UrlPost = "http://190.113.84.163:8000/Usuario/InsUsuario";
 const UrlPut = "http://190.113.84.163:8000/Usuario/ModUsuario";
 const UrlDel = "http://190.113.84.163:8000/Usuario/DelUsuario";
 const EndPointUsuarioXId = "http://190.113.84.163:8000/Usuario/RecUsuarioXId";
-const EndPointValidarUsuarioLogin =
-  "http://190.113.84.163:8000/Usuario/ValidarUsuarioLogin";
+const EndPointValidarUsuarioLogin ="http://190.113.84.163:8000/Usuario/ValidarUsuarioLogin";
 const EndPointCambiarClave = "http://190.113.84.163:8000/Usuario/ModClaveUsuario";
+
+///////////////////////////////////////////////////////////////////////
+
+// const UrlBase = "https://localhost:44366/Usuario/RecUsuario";
+// const UrlPost = "https://localhost:44366/Usuario/InsUsuario";
+// const UrlPut = "https://localhost:44366/Usuario/ModUsuario";
+// const UrlDel = "https://localhost:44366/Usuario/DelUsuario";
+// const EndPointUsuarioXId = "https://localhost:44366/Usuario/RecUsuarioXId";
+// const EndPointValidarUsuarioLogin ="https://localhost:44366/Usuario/ValidarUsuarioLogin";
+// const EndPointCambiarClave = "https://localhost:44366/Usuario/ModClaveUsuario";
+
+
+
 
 //////////////////////////TERMINA URLs///////////////////////////
 
@@ -48,7 +64,7 @@ const Usuario = () => {
   //////////////////////////INICIA CONSTANTES - STATE///////////////////////////
   const initialState = { campo: "", valido: null };
 
-  const [IdUsuario, cambiarIdUsuario] = useState(initialState);
+  const [Id, cambiarId] = useState(initialState);
   const [Nombre, cambiarNombre] = useState(initialState);
   const [NombreUsuario, cambiarNombreUsuario] = useState(initialState);
   const [Rol, cambiarRol] = useState({ campo: 0, valido: null });
@@ -68,7 +84,7 @@ const Usuario = () => {
   /////////////////////////////////////INICIA EXPRESIONES//////////////////////////////////
 
   const expresionesRegulares = {
-    IdUsuario: /^[0-9]*$/,
+    Id: /^[0-9]*$/,
     Nombre: /^[a-zA-Z0-9_-\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
     NombreUsuario: /^[a-zA-Z0-9_-\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
     Rol: /^[1-9]$/, // solo numero del 1-9
@@ -79,7 +95,7 @@ const Usuario = () => {
   /////////////////////////////////////TERMINA EXPRESIONES//////////////////////////////////
 
   const resetForm = () => {
-    cambiarIdUsuario(initialState);
+    cambiarId(initialState);
     cambiarNombre(initialState);
     cambiarNombreUsuario(initialState);
     cambiarRol({ campo: 0, valido: null });
@@ -104,7 +120,7 @@ const Usuario = () => {
 
   const onSubmitPost = (e) =>
     handleSubmit(e, showQuestionPost, [
-      IdUsuario,
+      Id,
       Nombre,
       NombreUsuario,
       Rol,
@@ -114,7 +130,7 @@ const Usuario = () => {
 
   const onSubmitPut = (e) =>
     handleSubmit(e, showQuestionPut, [
-      IdUsuario,
+      Id,
       Nombre,
       NombreUsuario,
       Rol,
@@ -140,7 +156,7 @@ const Usuario = () => {
     try {
       const response = await axios.post(url, options);
 
-      if (tipoValidacion === "idUsuario") {
+      if (tipoValidacion === "id") {
         // Validación para existencia de usuario por ID
         if (response.data === null) {
           // Si el usuario no existe (es un nuevo ID), dejamos el campo como está.
@@ -167,7 +183,7 @@ const Usuario = () => {
 
   const validarExistenciaUsuarioId = () => {
     const options = {
-      idUsuario: IdUsuario.campo,
+      id: Id.campo,
       nombre: "",
       nombreUsuario: "",
       rol: 0,
@@ -178,15 +194,15 @@ const Usuario = () => {
     validarUsuario(
       EndPointUsuarioXId,
       options,
-      cambiarIdUsuario,
+      cambiarId,
       "Código Usuario Existente, Intente Nuevamente",
-      "idUsuario"
+      "id"
     );
   };
 
   const validarClave = () => {
     const options = {
-      idUsuario: IdUsuario.campo,
+      id: Id.campo,
       nombre: "",
       nombreUsuario: "",
       rol: 0,
@@ -233,8 +249,11 @@ const Usuario = () => {
   };
 
   const peticionPost = async () => {
+    const token = verificarToken(); // Verificar token antes de llamar a la API
+    if (!token) return;
+
     const options = {
-      IdUsuario: IdUsuario.campo,
+      Id: Id.campo,
       Nombre: Nombre.campo,
       NombreUSuario: NombreUsuario.campo,
       Rol: Rol.campo,
@@ -243,7 +262,11 @@ const Usuario = () => {
     };
 
     try {
-      const response = await axios.post(UrlPost, options);
+      const response = await axios.post(UrlPost, options,{
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      });
       setData([...data, response.data]);
       abrirCerrarModalInsertar();
     } catch (error) {
@@ -256,8 +279,13 @@ const Usuario = () => {
   ////////////////////////////PETICION PUT///////////////////////////////////////////////////
 
   const peticionPut = async () => {
+    const token = verificarToken(); // Verificar token antes de llamar a la API
+    if (!token) return;
+
+    console.log("este es el token ",token);
+
     const options = {
-      idUsuario: IdUsuario.campo,
+      id: Id.campo,
       nombre: Nombre.campo,
       nombreUsuario: NombreUsuario.campo,
       rol: Rol.campo,
@@ -265,9 +293,13 @@ const Usuario = () => {
     };
 
     try {
-      const response = await axios.put(UrlPut, options);
+      const response = await axios.put(UrlPut, options,{
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       const updatedData = data.map((user) =>
-        user.idUsuario === options.idUsuario ? options : user
+        user.id === options.id ? options : user
       );
       setData(updatedData);
       abrirCerrarModalEditar();
@@ -281,17 +313,20 @@ const Usuario = () => {
   ////////////////////////PETICION DELETE////////////////////////
 
   const peticionDelete = async () => {
-    const idUsuario = IdUsuario.campo; // Asegúrate de que esto esté obteniendo el ID correcto
+    const token = verificarToken(); // Verificar token antes de llamar a la API
+    if (!token) return;
+
+    const id = Id.campo; // Asegúrate de que esto esté obteniendo el ID correcto
     const payload = {
       headers: {
         "Content-Type": "application/json", // Establecer tipo de contenido
-        Authorization: "",
+        Authorization: `Bearer ${token}`,
       },
-      data: JSON.stringify(idUsuario), // Convertimos a JSON, Aquí pasas el ID del usuario en el cuerpo de la solicitud
+      data: JSON.stringify(id), // Convertimos a JSON, Aquí pasas el ID del usuario en el cuerpo de la solicitud
     };
     try {
       await axios.delete(UrlDel, payload);
-      setData(data.filter((user) => user.IdUsuario !== IdUsuario.campo));
+      setData(data.filter((user) => user.Id !== Id.campo));
       abrirCerrarModalEliminar();
       peticionGet();
     } catch (error) {
@@ -306,7 +341,7 @@ const Usuario = () => {
   const seleccionarUsuario = async (usuario, caso) => {
     const XUsuario = Object.values(...usuario);
 
-    cambiarIdUsuario({ campo: XUsuario[0], valido: "true" });
+    cambiarId({ campo: XUsuario[0], valido: "true" });
     cambiarNombre({ campo: XUsuario[1], valido: "true" });
     cambiarNombreUsuario({ campo: XUsuario[2], valido: "true" });
     cambiarRol({ campo: XUsuario[3], valido: "true" });
@@ -318,12 +353,34 @@ const Usuario = () => {
       : abrirCerrarModalCambioClave();
   };
 
+  //axios.defaults.withCredentials = true;
+
   const peticionGet = async () => {
+
     try {
-      const response = await axios.get(UrlBase);
+      const response = await axios.get(UrlBase, {
+        withCredentials: true // Importante para que las cookies se envíen automáticamente  
+      });
       setData(response.data);
-    } catch (eror) {
-      console.error("Error al obtener os usuario", error);
+      console.log('Datos Recibidos: ',response.data );
+    } catch (error) {
+      // Manejo de errores
+      if (error.response) {
+        // El servidor respondió con un código de estado diferente al 2xx
+        console.error("Error de respuesta del servidor:", error.response.status, error.response.data);
+        
+        // Si el error es 401 (no autorizado), redirige al usuario al login
+        if (error.response.status === 401) {
+          console.warn("No autorizado. Redirigiendo al login...");
+          //window.location.href = '/'; // Ajusta el path según tu ruta de login
+        }
+      } else if (error.request) {
+        // La solicitud fue hecha pero no hubo respuesta
+        console.error("Error en la solicitud:", error.request);
+      } else {
+        // Ocurrió un error al configurar la solicitud
+        console.error("Error al configurar la solicitud:", error.message);
+      }
     }
   };
 
@@ -336,6 +393,9 @@ const Usuario = () => {
   ////////////////////////// PETICION CAMBIO CLAVE////////////////////////
 
   const peticionCambioClave = async () => {
+    const token = verificarToken(); // Verificar token antes de llamar a la API
+    if (!token) return;
+
     function showError() {
       Swal.fire({
         icon: "error",
@@ -351,7 +411,7 @@ const Usuario = () => {
       });
     }
     const options = {
-      IdUsuario: IdUsuario.campo,
+      Id: Id.campo,
       Clave: ConfirmarNuevaClave.campo,
       Rol: 0,
       Nombre: "",
@@ -360,7 +420,11 @@ const Usuario = () => {
     };
 
     try {
-      const response = await axios.put(EndPointCambiarClave, options);
+      const response = await axios.put(EndPointCambiarClave, options,{
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       if (response.status === 200) {
         showExito();
         abrirCerrarModalCambioClave();
@@ -486,14 +550,14 @@ const Usuario = () => {
           <Formulario>
             <Columna>
               <InputGeneral
-                estado={IdUsuario}
-                cambiarEstado={cambiarIdUsuario}
+                estado={Id}
+                cambiarEstado={cambiarId}
                 tipo="text"
                 label="Id Usuario"
                 placeholder="Introduzca Id Del Usuario"
-                name="IdUsuario"
+                name="Id"
                 leyendaError="El Id Del Usuario solo puede contener numeros."
-                expresionRegular={expresionesRegulares.IdUsuario}
+                expresionRegular={expresionesRegulares.Id}
                 onChange={validarExistenciaUsuarioId}
                 onBlur={validarExistenciaUsuarioId}
                 autofocus
@@ -642,7 +706,7 @@ const Usuario = () => {
         <div className="container-fluid">
           <Formulario>
             <Columna>
-              <h4>Codigo: {IdUsuario.campo}</h4>
+              <h4>Codigo: {Id.campo}</h4>
               <h4>Nombre: {Nombre.campo}</h4>
               <h4>Nombre De Usuario: {NombreUsuario.campo}</h4>
               <h4>Rol: {Rol.campo}</h4>

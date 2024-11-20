@@ -9,28 +9,36 @@ import {ColumnaCenter, Columna, Formulario, MensajeExito, MensajeError} from "..
 import "../Styles/Cliente.modal.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
+import verificarToken from "../Components/VerificaToken";
+
 
 //////////////////////////INICIA SECCION COLUMNAS///////////////////////////
 //////////////////////////INICIA GRID INICIAL//////////////////////////
 
 const columnas = [
-  { title: "Codigo", field: "idTipoSorteo" },
-  { title: "Nombre", field: "nombre" },
-  { title: "Inicio", field: "fechaInicio" },
-  { title: "Fin", field: "fechaFin" },
-  { title: "NumeroGanador", field: "numeroGanador" },
+  { title: "Codigo", field: "id" },
+  { title: "Numero Ganador", field: "numeroGanador" },
+  { title: "Id Tipo Sorteo General", field: "idTipoSorteoGeneral" },
+  { title: "Nombre", field: "nombreTipoSorteoGeneral" },
+  { title: "Fecha", field: "fecha" },
 ];
 
 //////////////////////////TERMINA GRID INICIAL//////////////////////////
 //////////////////////////TERMINA SECCION COLUMNAS///////////////////////////
 
 //////////////////////////INICIA URLs///////////////////////////
+// const UrlBase = "http://190.113.84.163:8000/TipoSorteo/RecTipoSorteo";
+// const UrlPost = "http://190.113.84.163:8000/TipoSorteo/InsTipoSorteo";
+// const UrlPut = "http://190.113.84.163:8000/TipoSorteo/ModTipoSorteo";
+// const UrlDel = "http://190.113.84.163:8000/TipoSorteo/DelTipoSorteo";
+// const EndPointTipoSorteoXId = "http://190.113.84.163:8000/TipoSorteo/RecTipoSorteoXId";
 
-const UrlBase = "http://190.113.84.163:8000/TipoSorteo/RecTipoSorteo";
-const UrlPost = "http://190.113.84.163:8000/TipoSorteo/InsTipoSorteo";
-const UrlPut = "http://190.113.84.163:8000/TipoSorteo/ModTipoSorteo";
-const UrlDel = "http://190.113.84.163:8000/TipoSorteo/DelTipoSorteo";
-const EndPointTipoSorteoXId = "http://190.113.84.163:8000/TipoSorteo/RecTipoSorteoXId";
+
+const UrlBase = "https://localhost:44366/TipoSorteo/RecTipoSorteo";
+const UrlPost = "https://localhost:44366/TipoSorteo/InsTipoSorteo";
+const UrlPut = "https://localhost:44366/TipoSorteo/ModTipoSorteo";
+const UrlDel = "https://localhost:44366/TipoSorteo/DelTipoSorteo";
+const EndPointTipoSorteoXId = "https://localhost:44366/TipoSorteo/RecTipoSorteoXId";
 
 //////////////////////////TERMINA URLs///////////////////////////
 
@@ -39,11 +47,10 @@ const TipoSorteo = () => {
   //////////////////////////INICIA CONSTANTES - STATE///////////////////////////
   const initialState = {campo: "", valido: null};
 
-  const [IdTipoSorteo, cambiarIdTipoSorteo] = useState(initialState);
-  const [Nombre, cambiarNombre] = useState(initialState);
-  const [FechaInicio, cambiarFechaInicio] = useState(initialState);
-  const [FechaFin, cambiarFechaFin] = useState(initialState);
+  const [Id, cambiarId] = useState(initialState);
   const [NumeroGanador, cambiarNumeroGanador] = useState(initialState);
+  const [Nombre, cambiarNombre] = useState(initialState);
+  const [Fecha, cambiarFecha] = useState(initialState);
   const [formularioValido, cambiarFormularioValido] = useState(false);
   const [data, setData] = useState([]);
   const [modalInsertar, setModalInsertar] = useState(false);
@@ -54,23 +61,20 @@ const TipoSorteo = () => {
   /////////////////////////////////////INICIA EXPRESIONES//////////////////////////////////
 
   const expresionesRegulares = {
-    IdTipoSorteo: /^[0-9]*$/,
-    Nombre: /^[a-zA-Z0-9_-\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
-    //FechaInicio: /^([0-2][0-9]|3[0-1])(\/|-)(0[1-9]|1[0-2])\2(\d{4})(\s)([0-1][0-9]|2[0-3])(:)([0-5][0-9])(:)([0-5][0-9])$/, // Formato dd:mm:yyyy hh:mm:ss
-    FechaInicio: /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/, // Formato dd:mm:yyyy hh:mm:ss
-    FechaFin: /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/, // Formato dd:mm:yyyy hh:mm:ss
+    Id: /^[0-9]*$/,
     NumeroGanador: /^[0-9]*$/,
+    Nombre: /^[a-zA-Z0-9_-\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
+    Fecha: /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/, // Formato dd:mm:yyyy hh:mm:ss    
   };
 
 
   /////////////////////////////////////TERMINA EXPRESIONES//////////////////////////////////
 
   const resetForm = () => {
-    cambiarIdTipoSorteo(initialState);
-    cambiarNombre(initialState);
-    cambiarFechaInicio(initialState);
-    cambiarFechaFin(initialState);
+    cambiarId(initialState);
     cambiarNumeroGanador(initialState);
+    cambiarNombre(initialState);
+    cambiarFecha(initialState);    
   };
 
   const validarFormulario = (fields) => {
@@ -85,25 +89,22 @@ const TipoSorteo = () => {
       resetForm();
       action();
     } else {
-      console.log("entro al else handlesubmit");
-
       cambiarFormularioValido(false);
     }
   };
 
-  const onSubmitPost = (e) => handleSubmit(e, showQuestionPost, [IdTipoSorteo, Nombre, FechaInicio, FechaFin, NumeroGanador]);
+  const onSubmitPost = (e) => handleSubmit(e, showQuestionPost, [Id, NumeroGanador, Nombre, Fecha]);
 
-  const onSubmitPut = (e) => handleSubmit(e, showQuestionPut, [IdTipoSorteo, Nombre, FechaInicio, FechaFin, NumeroGanador]);
+  const onSubmitPut = (e) => handleSubmit(e, showQuestionPut, [Id, NumeroGanador, Nombre, Fecha]);
 
   ////////////////////////////////VALIDACIONES ID/////////////////////////////////
   
   const validarExistenciaTipoSorteoId = async () => {
     const options = {
-          idTipoSorteo: IdTipoSorteo.campo,
-          nombre: "",
-          fechaInicio: new Date(null),
-          fechaFin: new Date(null),
+          id: Id.campo,
           numeroGanador: 0,
+          nombre:"",
+          fecha: new Date(null),
         };  
     try {
       const response = await axios.post(EndPointTipoSorteoXId, options);
@@ -114,7 +115,7 @@ const TipoSorteo = () => {
         return;
       } else {
         // Si existe otro usuario con ese ID, seteamos el campo a vacío y no válido
-        cambiarIdTipoSorteo({ campo: "", valido: "false" });
+        cambiarId({ campo: "", valido: "false" });
         Swal.fire({ icon: "error", title: "Cuidado", text: "Código Tipo de Sorteo Existente, Intente Nuevamente" });
       }
     } catch (error) {
@@ -162,16 +163,22 @@ const TipoSorteo = () => {
   // };
 
   const peticionPost = async () => {
+    const token = verificarToken(); // Verificar token antes de llamar a la API
+    if (!token) return;
+
     const options = {
-      IdTipoSorteo: IdTipoSorteo.campo,
-      Nombre: Nombre.campo,
-      FechaInicio: FechaInicio.campo,
-      FechaFin: FechaFin.campo,
+      Id: Id.campo,
       NumeroGanador: NumeroGanador.campo,
+      Nombre: Nombre.campo,
+      Fecha: Fecha.campo,
     };
 
     try {
-      const response = await axios.post(UrlPost, options);
+      const response = await axios.post(UrlPost, options,{
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      });
       setData([...data, response.data]);
       abrirCerrarModalInsertar();
     }catch (error){
@@ -184,17 +191,24 @@ const TipoSorteo = () => {
   ////////////////////////////PETICION PUT///////////////////////////////////////////////////
 
   const peticionPut = async () => {
+    const token = verificarToken(); // Verificar token antes de llamar a la API
+    if (!token) return;
+
     const options = {
-      idTipoSorteo: IdTipoSorteo.campo,
-      nombre: Nombre.campo,
-      fechaInicio: FechaInicio.campo,
-      fechaFin: FechaFin.campo,
+      id: Id.campo,
       numeroGanador: NumeroGanador.campo,
+      nombre: Nombre.campo,
+      fecha: Fecha.campo,
+      
     };
 
     try{
-      const response = await axios.put(UrlPut, options);
-      const updatedData = data.map(user => (user.idTipoSorteo === options.idTipoSorteo ? options : user));
+      const response = await axios.put(UrlPut, options,{
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      });
+      const updatedData = data.map(user => (user.id === options.id ? options : user));
       setData(updatedData);
       abrirCerrarModalEditar();
     } catch (error){
@@ -207,17 +221,20 @@ const TipoSorteo = () => {
   ////////////////////////PETICION DELETE////////////////////////
 
   const peticionDelete = async () => {
-    const idTipoSorteo = IdTipoSorteo.campo; // Asegúrate de que esto esté obteniendo el ID correcto
+    const token = verificarToken(); // Verificar token antes de llamar a la API
+    if (!token) return;
+
+    const id = Id.campo; // Asegúrate de que esto esté obteniendo el ID correcto
     const payload = {
         headers: {
           "Content-Type": "application/json", // Establecer tipo de contenido
-          Authorization: "",
+          Authorization: `Bearer ${token}`,
         },
-        data: JSON.stringify(idTipoSorteo), // Convertimos a JSON, Aquí pasas el ID del TipoSorteo en el cuerpo de la solicitud
+        data: JSON.stringify(id), // Convertimos a JSON, Aquí pasas el ID del TipoSorteo en el cuerpo de la solicitud
       };
     try{
       await axios.delete(UrlDel, payload)
-      setData(data.filter(user => user.IdTipoSorteo !== IdTipoSorteo.campo));
+      setData(data.filter(user => user.Id !== Id.campo));
       abrirCerrarModalEliminar();
       peticionGet();
     } catch (error) {
@@ -232,19 +249,25 @@ const TipoSorteo = () => {
   const seleccionarTipoSorteo = async (TipoSorteo, caso) => {
     const XTipoSorteo = Object.values(...TipoSorteo);
 
-    cambiarIdTipoSorteo({ campo: XTipoSorteo[0], valido: "true" });
-    cambiarNombre({ campo: XTipoSorteo[1], valido: "true" });
-    cambiarFechaInicio({ campo: XTipoSorteo[2], valido: "true" });
-    cambiarFechaFin({ campo: XTipoSorteo[3], valido: "true" });
-    cambiarNumeroGanador({ campo: XTipoSorteo[4], valido: "true" });
+    cambiarId({ campo: XTipoSorteo[0], valido: "true" });
+    cambiarNumeroGanador({ campo: XTipoSorteo[1], valido: "true" });
+    cambiarNombre({ campo: XTipoSorteo[2], valido: "true" });
+    cambiarFecha({ campo: XTipoSorteo[3], valido: "true" });
     caso === "Editar"
       ? abrirCerrarModalEditar()
       : abrirCerrarModalEliminar()
   };
 
   const peticionGet = async () => {
+    const token = verificarToken(); // Verificar token antes de llamar a la API
+    if (!token) return;
+
     try{
-      const response = await axios.get(UrlBase);
+      const response = await axios.get(UrlBase, {
+        headers:{
+          Authorization: `Bearer ${token}`,
+        }
+      });
       setData(response.data);
     } catch (eror){
       console.error ("Error al obtener los tipos de sorteos", error);
@@ -359,60 +382,49 @@ const TipoSorteo = () => {
           <Formulario>
             <Columna>
               <InputGeneral
-                estado={IdTipoSorteo}
-                cambiarEstado={cambiarIdTipoSorteo}
+                estado={Id}
+                cambiarEstado={cambiarId}
                 tipo="text"
                 label="Id Tipo De Sorteo"
                 placeholder="Introduzca Id Del Tipo de Sorteo"
-                name="IdTipoSorteo"
+                name="Id"
                 leyendaError="El Id Del Tipo de Sorteo solo puede contener numeros."
-                expresionRegular={expresionesRegulares.IdTipoSorteo}
+                expresionRegular={expresionesRegulares.Id}
                 onChange={validarExistenciaTipoSorteoId}
                 onBlur={validarExistenciaTipoSorteoId}
                 autofocus
               />
               <InputGeneral
+                estado={NumeroGanador}
+                cambiarEstado={cambiarNumeroGanador}
+                tipo="text"
+                label="NumeroGanador"
+                placeholder="Introduzca El Numero Ganador"
+                name="NumeroGanador"
+                leyendaError="El Numero Ganador Solo Puede Contener Numeros."
+                expresionRegular={expresionesRegulares.NumeroGanador}
+              />
+
+              <InputGeneral
                 estado={Nombre}
                 cambiarEstado={cambiarNombre}
                 tipo="text"
-                label="Nombre"
-                placeholder="Introduzca El Nombre"
+                label="Nombre del Sorteo"
+                placeholder="Introduzca El Tipo De Sorteo"
                 name="Nombre"
-                leyendaError="El Nombre solo puede contener letras y espacios."
+                leyendaError="El Nombre Del Tipo De Sorteo Solo Puede ontener Numeros Y Letras."
                 expresionRegular={expresionesRegulares.Nombre}
               />
 
               <InputGeneral
-                estado={FechaInicio}
-                cambiarEstado={cambiarFechaInicio}
+                estado={Fecha}
+                cambiarEstado={cambiarFecha}
                 tipo="date"
-                label="Fecha De Inicio"
-                placeholder="Introduzca La Fecha De Inicio"
-                name="FechaInicio"
-                leyendaError="La Fecha De Inicio Debe Tener Formato De Fecha."
-                expresionRegular={expresionesRegulares.FechaInicio}
-              />
-
-              <InputGeneral
-                estado={FechaFin}
-                cambiarEstado={cambiarFechaFin}
-                tipo="date"
-                label="Fecha De Fin"
-                placeholder="Introduzca la Fecha de Fin"
-                name="FechaFin"
-                leyendaError="La Fecha De Fin Debe Tener Formato De Fecha"
-                expresionRegular={expresionesRegulares.FechaFin}
-              />
-
-              <InputGeneral
-                estado={NumeroGanador}
-                cambiarEstado={cambiarNumeroGanador}
-                tipo="text"
-                label="Numero Ganador"
-                placeholder="Introduzca El Numero Ganador"
-                name="NumeroGanador"
-                leyendaError="El Numero Ganador Debe Ser Un Numero Entre 00-99"
-                expresionRegular={expresionesRegulares.NumeroGanador}
+                label="Fecha"
+                placeholder="Introduzca La Fecha"
+                name="Fecha"
+                leyendaError="La Fecha De  Debe Tener Formato De Fecha"
+                expresionRegular={expresionesRegulares.Fecha}
               />
             </Columna>
           </Formulario>
@@ -435,52 +447,37 @@ const TipoSorteo = () => {
         <div className="container-fluid">
           <Formulario>
             <Columna>
+            <InputGeneral
+                estado={NumeroGanador}
+                cambiarEstado={cambiarNumeroGanador}
+                tipo="text"
+                label="NumeroGanador"
+                placeholder="Introduzca El Numero Ganador"
+                name="NumeroGanador"
+                leyendaError="El Numero Ganador Solo Puede Contener Numeros."
+                expresionRegular={expresionesRegulares.NumeroGanador}
+              />
+
               <InputGeneral
                 estado={Nombre}
                 cambiarEstado={cambiarNombre}
                 tipo="text"
-                label="Nombre"
-                placeholder="Introduzca El Nombre"
+                label="Nombre del Sorteo"
+                placeholder="Introduzca El Tipo De Sorteo"
                 name="Nombre"
-                leyendaError="El Nombre solo puede contener letras y espacios."
+                leyendaError="El Nombre Del Tipo De Sorteo Solo Puede ontener Numeros Y Letras."
                 expresionRegular={expresionesRegulares.Nombre}
-                value={Nombre.campo}
               />
 
               <InputGeneral
-                estado={FechaInicio}
-                cambiarEstado={cambiarFechaInicio}
+                estado={Fecha}
+                cambiarEstado={cambiarFecha}
                 tipo="date"
-                label="Fecha De Inicio"
-                placeholder="Introduzca La Fecha De Inicio"
-                name="FechaInicio"
-                leyendaError="La Fecha De Inicio Debe Tener Formato De Fecha."
-                expresionRegular={expresionesRegulares.FechaInicio}
-                value={FechaInicio.campo}
-              />
-
-              <InputGeneral
-                estado={FechaFin}
-                cambiarEstado={cambiarFechaFin}
-                tipo="date"
-                label="Fecha De Fin"
-                placeholder="Introduzca La Fecha De Fin"
-                name="FechaFin"
-                leyendaError="La Fecha De Fin Debe Tener Formato De Fecha."
-                expresionRegular={expresionesRegulares.FechaFin}
-                value={FechaFin.campo}
-              />
-
-              <InputGeneral
-                estado={NumeroGanador}
-                cambiarEstado={cambiarNumeroGanador}
-                tipo="email"
-                label="Numero Ganador"
-                placeholder="Introduzca El Numero Ganador"
-                name="NumeroGanador"
-                leyendaError="El Numero Ganador Debe Ser Un Numero Entro 00-99"
-                expresionRegular={expresionesRegulares.NumeroGanador}
-                value={NumeroGanador.campo}
+                label="Fecha"
+                placeholder="Introduzca La Fecha"
+                name="Fecha"
+                leyendaError="La Fecha De  Debe Tener Formato De Fecha"
+                expresionRegular={expresionesRegulares.Fecha}
               />
             </Columna>
           </Formulario>
@@ -504,11 +501,10 @@ const TipoSorteo = () => {
         <div className="container-fluid">
           <Formulario>
             <Columna>
-              <h4>Codigo: {IdTipoSorteo.campo}</h4>
-              <h4>Nombre: {Nombre.campo}</h4>
-              <h4>Fecha De Inicio: {FechaInicio.campo}</h4>
-              <h4>Fecha De Fin: {FechaFin.campo}</h4>
+              <h4>Codigo: {Id.campo}</h4>
               <h4>Numero Ganador: {NumeroGanador.campo}</h4>
+              <h4>Nombre: {Nombre.campo}</h4>
+              <h4>Fecha: {Fecha.campo}</h4>
             </Columna>
           </Formulario>
         </div>

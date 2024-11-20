@@ -7,9 +7,10 @@ import App from './App.jsx'
 import './index.css'
 import Rutas from './Routes/Router.jsx'
 import Router from './Routes/Router.jsx';
+import Login from './Pages/Login.jsx'
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <Router/>
+   <App/>
   </React.StrictMode>,
 )
