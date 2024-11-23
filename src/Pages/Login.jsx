@@ -4,9 +4,11 @@ import axios from "axios";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
 
-const baseUrl = "http://190.113.84.163:8000/Usuario/Login";
-//const baseUrl = "https://localhost:44366/Usuario/Login";
-const baseUrlOut = "http://190.113.84.163:8000/Usuario/Logout";
+
+
+////////////url azure///
+const baseUrl = "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/Login";
+//const baseUrlOut = "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/Logout";
 
 
 const cookies = new Cookies();
@@ -52,8 +54,6 @@ class Login extends React.Component {
     };
 
     try {
-      const response1 = await axios.post(baseUrlOut);
-      console.log(response1);
       const response = await axios.post(baseUrl, options);
       const data = response.data;
       //if (data && data.token){ // && data.user) {
@@ -113,7 +113,7 @@ class Login extends React.Component {
             <input
               type="submit"
               className="fadeIn fourth"
-              value="Log In"
+              value="Log In Putoo"
             />
           </form>
         </div>

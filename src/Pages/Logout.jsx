@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-const UrlBase = "http://190.113.84.163:8000/Usuario/eliminaCookie";
+//const UrlBase = "http://190.113.84.163:8000/Usuario/eliminaCookie";
 
 //const UrlBase = "http://190.113.84.163:8000/Usuario/Logout";
 //const baseUrl = "https://localhost:44366/Usuario/Logout";
-
+const UrlBase = "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/Logout";
 class Logout extends Component {
 
 
@@ -21,7 +21,7 @@ class Logout extends Component {
             alert("Eror al cerrar sesion, Error: ",error);
             //window.location.href = "/";
         }
-
+        
         
     }
 

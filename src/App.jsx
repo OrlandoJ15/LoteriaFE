@@ -31,7 +31,7 @@ function App() {
   return (
     <Suspense fallback={<p>Cargando</p>}>
       <BrowserRouter>
-        {isAuthenticated && <Navbar />}  
+        {/* {isAuthenticated && <Navbar />}   */}
         <Navbar/>     
         <Routes>
           <Route path='/' exact element={<Login/>} />

@@ -26,18 +26,18 @@ const columnas = [
 //////////////////////////TERMINA SECCION COLUMNAS///////////////////////////
 
 //////////////////////////INICIA URLs///////////////////////////
-// const UrlBase = "http://190.113.84.163:8000/TipoSorteoGeneral/RecTipoSorteoGeneral";
-// const UrlPost = "http://190.113.84.163:8000/TipoSorteoGeneral/InsTipoSorteoGeneral";
-// const UrlPut = "http://190.113.84.163:8000/TipoSorteoGeneral/ModTipoSorteoGeneral";
-// const UrlDel = "http://190.113.84.163:8000/TipoSorteoGeneral/DelTipoSorteoGeneral";
-// const EndPointTipoSorteoGeneralXId = "http://190.113.84.163:8000/TipoSorteoGeneral/RecTipoSorteoGeneralXId";
+const UrlBase = "http://190.113.84.163:8000/TipoSorteoGeneral/RecTipoSorteoGeneral";
+const UrlPost = "http://190.113.84.163:8000/TipoSorteoGeneral/InsTipoSorteoGeneral";
+const UrlPut = "http://190.113.84.163:8000/TipoSorteoGeneral/ModTipoSorteoGeneral";
+const UrlDel = "http://190.113.84.163:8000/TipoSorteoGeneral/DelTipoSorteoGeneral";
+const EndPointTipoSorteoGeneralXId = "http://190.113.84.163:8000/TipoSorteoGeneral/RecTipoSorteoGeneralXId";
 
 
-const UrlBase = "https://localhost:44366/TipoSorteoGeneral/RecTipoSorteoGeneral";
-const UrlPost = "https://localhost:44366/TipoSorteoGeneral/InsTipoSorteoGeneral";
-const UrlPut = "https://localhost:44366/TipoSorteoGeneral/ModTipoSorteoGeneral";
-const UrlDel = "https://localhost:44366/TipoSorteoGeneral/DelTipoSorteoGeneral";
-const EndPointTipoSorteoGeneralXId = "https://localhost:44366/TipoSorteoGeneral/RecTipoSorteoGeneralXId";
+// const UrlBase = "https://localhost:44366/TipoSorteoGeneral/RecTipoSorteoGeneral";
+// const UrlPost = "https://localhost:44366/TipoSorteoGeneral/InsTipoSorteoGeneral";
+// const UrlPut = "https://localhost:44366/TipoSorteoGeneral/ModTipoSorteoGeneral";
+// const UrlDel = "https://localhost:44366/TipoSorteoGeneral/DelTipoSorteoGeneral";
+// const EndPointTipoSorteoGeneralXId = "https://localhost:44366/TipoSorteoGeneral/RecTipoSorteoGeneralXId";
 
 //////////////////////////TERMINA URLs///////////////////////////
 

@@ -24,7 +24,7 @@ const InputGeneral = ({ estado, cambiarEstado, tipo, label, placeholder, name, l
 				cambiarEstado({ ...estado, valido: 'false' });
 			}
 		}
-
+	
 		if (funcion) {
 			funcion();
 		}

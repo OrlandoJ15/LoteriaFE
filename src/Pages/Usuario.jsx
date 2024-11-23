@@ -20,11 +20,6 @@ import verificarToken from "../Components/VerificaToken";
 //////////////////////////INICIA SECCION COLUMNAS///////////////////////////
 //////////////////////////INICIA GRID INICIAL//////////////////////////
 
-
-// usuario 3 passwor Abcd1234
-
-
-
 const columnas = [
   { title: "Codigo", field: "id" },
   { title: "Nombre", field: "nombre" },
@@ -37,13 +32,13 @@ const columnas = [
 //////////////////////////TERMINA SECCION COLUMNAS///////////////////////////
 
 //////////////////////////INICIA URLs///////////////////////////
-const UrlBase = "http://190.113.84.163:8000/Usuario/RecUsuario";
-const UrlPost = "http://190.113.84.163:8000/Usuario/InsUsuario";
-const UrlPut = "http://190.113.84.163:8000/Usuario/ModUsuario";
-const UrlDel = "http://190.113.84.163:8000/Usuario/DelUsuario";
-const EndPointUsuarioXId = "http://190.113.84.163:8000/Usuario/RecUsuarioXId";
-const EndPointValidarUsuarioLogin ="http://190.113.84.163:8000/Usuario/ValidarUsuarioLogin";
-const EndPointCambiarClave = "http://190.113.84.163:8000/Usuario/ModClaveUsuario";
+// const UrlBase = "http://190.113.84.163:8000/Usuario/RecUsuario";
+// const UrlPost = "http://190.113.84.163:8000/Usuario/InsUsuario";
+// const UrlPut = "http://190.113.84.163:8000/Usuario/ModUsuario";
+// const UrlDel = "http://190.113.84.163:8000/Usuario/DelUsuario";
+// const EndPointUsuarioXId = "http://190.113.84.163:8000/Usuario/RecUsuarioXId";
+// const EndPointValidarUsuarioLogin ="http://190.113.84.163:8000/Usuario/ValidarUsuarioLogin";
+// const EndPointCambiarClave = "http://190.113.84.163:8000/Usuario/ModClaveUsuario";
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -54,6 +49,15 @@ const EndPointCambiarClave = "http://190.113.84.163:8000/Usuario/ModClaveUsuario
 // const EndPointUsuarioXId = "https://localhost:44366/Usuario/RecUsuarioXId";
 // const EndPointValidarUsuarioLogin ="https://localhost:44366/Usuario/ValidarUsuarioLogin";
 // const EndPointCambiarClave = "https://localhost:44366/Usuario/ModClaveUsuario";
+
+///////////////////////Usl Azure/////////////
+const UrlBase= "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/RecUsuario";
+const UrlPost= "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/RecUsuario";
+const UrlPut= "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/RecUsuario";
+const UrlDel= "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/RecUsuario";
+const EndPointUsuarioXId = "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/RecUsuario";
+const EndPointValidarUsuarioLogin = "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/RecUsuario";
+const EndPointCambiarClave = "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/RecUsuario";
 
 
 
@@ -439,7 +443,7 @@ const Usuario = () => {
 
   //////////////////////////FINALIZA PETICION CAMBIO CLAVE////////////////////////
 
-  //////////////////////////MODALES////////////////////////
+  //////////////////////////MODALES//////////////////////////////////////////////
 
   const abrirCerrarModalInsertar = () => {
     setModalInsertar(!modalInsertar);
