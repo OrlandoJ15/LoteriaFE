@@ -33,6 +33,8 @@ const columnas = [
 
 //////////////////////////INICIA URLs///////////////////////////
 
+//const UrlBase = "http://190.113.84.163:8000/Kardex/RecKardex";
+
 const UrlBase = "https://localhost:44366/Kardex/RecKardex";
 
 //////////////////////////TERMINA URLs///////////////////////////

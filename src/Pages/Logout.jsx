@@ -1,22 +1,37 @@
 import React, { Component } from 'react';
-// import Cookies from 'universal-cookie';
+import axios from 'axios';
 
-// const cookies = new Cookies();
+//const UrlBase = "http://190.113.84.163:8000/Usuario/eliminaCookie";
 
+//const UrlBase = "http://190.113.84.163:8000/Usuario/Logout";
+//const baseUrl = "https://localhost:44366/Usuario/Logout";
+const UrlBase = "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/Logout";
 class Logout extends Component {
-    // cerrarSesion = () => {
-    //     cookies.remove('Cod_Usuario', { path: "/" });
-    //     cookies.remove('Clave', { path: "/" });
-    //     window.location.href = './';
-    // }
 
-    // render() {
-    //     return (
-    //         <div>
-    //             <button onClick={this.cerrarSesion}>Cerrar Sesión</button>
-    //         </div>
-    //     );
-    // }
+
+    
+    cerrarSesion = async () => {
+        
+        try{
+            const response = await axios.post(UrlBase, {}, {withCredentials: true})
+            alert("Hasta Luego");
+            console.log(response);
+            //window.location.href = "/";
+        } catch (error){
+            alert("Eror al cerrar sesion, Error: ",error);
+            //window.location.href = "/";
+        }
+        
+        
+    }
+
+    render() {
+        return (
+            <div>
+                <button color="primary" onClick={this.cerrarSesion}>Cerrar Sesión</button>
+            </div>
+        );
+    }
 }
 
 export default Logout;

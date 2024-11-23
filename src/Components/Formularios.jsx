@@ -33,6 +33,12 @@ const Columna = styled.ul`
   padding-left: 0;
 `;
 
+const ColumnaMargin = styled.ul`
+  margin-bottom: 0;
+  padding-left: 5%;
+  padding-right: 5%;
+`;
+
 const Formulario = styled.form`
   display: grid;
   grid-template-columns: 1fr;
@@ -316,4 +322,5 @@ export {
   ColumnaRight,
   ColumnaLeft,
   ColumnaCenter,
+  ColumnaMargin,
 };
