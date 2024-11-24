@@ -51,16 +51,21 @@ const columnas = [
 // const EndPointCambiarClave = "https://localhost:44366/Usuario/ModClaveUsuario";
 
 ///////////////////////Usl Azure/////////////
-const UrlBase= "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/RecUsuario";
-const UrlPost= "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/RecUsuario";
-const UrlPut= "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/RecUsuario";
-const UrlDel= "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/RecUsuario";
-const EndPointUsuarioXId = "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/RecUsuario";
-const EndPointValidarUsuarioLogin = "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/RecUsuario";
-const EndPointCambiarClave = "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/RecUsuario";
 
-
-
+const UrlBase =
+  "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/RecUsuario";
+const UrlPost =
+  "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/InsUsuario";
+const UrlPut =
+  "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/ModUsuario";
+const UrlDel =
+  "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/DelUsuario";
+const EndPointUsuarioXId =
+  "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/RecUsuarioXId";
+const EndPointValidarUsuarioLogin =
+  "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/ValidarUsuarioLogin";
+const EndPointCambiarClave =
+  "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/ModClaveUsuario";
 
 //////////////////////////TERMINA URLs///////////////////////////
 
@@ -133,13 +138,7 @@ const Usuario = () => {
     ]);
 
   const onSubmitPut = (e) =>
-    handleSubmit(e, showQuestionPut, [
-      Id,
-      Nombre,
-      NombreUsuario,
-      Rol,
-      Correo,
-    ]);
+    handleSubmit(e, showQuestionPut, [Id, Nombre, NombreUsuario, Rol, Correo]);
 
   const onSubmitCambioClave = (e) =>
     handleSubmit(e, showQuestionCambioClave, [
@@ -266,10 +265,10 @@ const Usuario = () => {
     };
 
     try {
-      const response = await axios.post(UrlPost, options,{
+      const response = await axios.post(UrlPost, options, {
         headers: {
           Authorization: `Bearer ${token}`,
-        }
+        },
       });
       setData([...data, response.data]);
       abrirCerrarModalInsertar();
@@ -286,7 +285,7 @@ const Usuario = () => {
     const token = verificarToken(); // Verificar token antes de llamar a la API
     if (!token) return;
 
-    console.log("este es el token ",token);
+    console.log("este es el token ", token);
 
     const options = {
       id: Id.campo,
@@ -297,10 +296,10 @@ const Usuario = () => {
     };
 
     try {
-      const response = await axios.put(UrlPut, options,{
+      const response = await axios.put(UrlPut, options, {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
       const updatedData = data.map((user) =>
         user.id === options.id ? options : user
@@ -360,19 +359,23 @@ const Usuario = () => {
   //axios.defaults.withCredentials = true;
 
   const peticionGet = async () => {
-
     try {
+      console.log("try");
       const response = await axios.get(UrlBase, {
-        withCredentials: true // Importante para que las cookies se envíen automáticamente  
+        withCredentials: true, // Importante para que las cookies se envíen automáticamente
       });
       setData(response.data);
-      console.log('Datos Recibidos: ',response.data );
+      console.log("Datos Recibidos: ", response.data);
     } catch (error) {
       // Manejo de errores
       if (error.response) {
         // El servidor respondió con un código de estado diferente al 2xx
-        console.error("Error de respuesta del servidor:", error.response.status, error.response.data);
-        
+        console.error(
+          "Error de respuesta del servidor:",
+          error.response.status,
+          error.response.data
+        );
+
         // Si el error es 401 (no autorizado), redirige al usuario al login
         if (error.response.status === 401) {
           console.warn("No autorizado. Redirigiendo al login...");
@@ -424,10 +427,10 @@ const Usuario = () => {
     };
 
     try {
-      const response = await axios.put(EndPointCambiarClave, options,{
+      const response = await axios.put(EndPointCambiarClave, options, {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
       if (response.status === 200) {
         showExito();

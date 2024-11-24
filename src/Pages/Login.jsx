@@ -11,7 +11,7 @@ const baseUrl = "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.
 //const baseUrlOut = "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/Logout";
 
 
-const cookies = new Cookies();
+//const cookies = new Cookies();
 
 class Login extends React.Component {
   state = {
