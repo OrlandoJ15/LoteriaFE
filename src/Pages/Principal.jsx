@@ -14,6 +14,7 @@ import "../Styles/Cliente.modal.css";
 import InputGeneral from "../Components/InputGeneral";
 import { Formulario, Formulario3, Columna, ColumnaMargin } from "../Components/Formularios";
 import axios from "axios";
+import "../Styles/variables.css";
 
 const urlRecIdTipoSorteo = "https://localhost:44366/TipoSorteo/RecIdTipoSorteoFromTipoSorteoGeneral";
 

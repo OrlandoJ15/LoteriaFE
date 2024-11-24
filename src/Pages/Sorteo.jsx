@@ -11,11 +11,13 @@ import {
   Formulario,
   MensajeExito,
   MensajeError,
+  Formulario1,
 } from "../Components/Formularios";
 import "../Styles/Cliente.modal.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import verificarToken from "../Components/VerificaToken";
+import "../Styles/variables.css";
 
 //////////////////////////INICIA SECCION COLUMNAS///////////////////////////
 //////////////////////////INICIA GRID INICIAL//////////////////////////
@@ -319,7 +321,8 @@ const Sorteo = () => {
     overflowX: "hidden",
     overflowY: "scroll",
     position: "relative",
-    backgroundColor: "rgb(255, 255, 255)",
+    inset: "0",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   };
 
   const modalStyles = {
@@ -368,25 +371,27 @@ const Sorteo = () => {
   }) => {
     return (
       <>
-        {formularioValido === false && (
-          <MensajeError>
-            <p>
-              <FontAwesomeIcon icon={faExclamationTriangle} />
-              <b>Error:</b> Por favor rellena el formulario correctamente.
-            </p>
-          </MensajeError>
-        )}
-        {formularioValido === true && (
-          <MensajeExito>Campos llenos exitosamente!</MensajeExito>
-        )}
+      <div className="container-footer">
+          {formularioValido === false && (
+            <MensajeError>
+              <p>
+                <FontAwesomeIcon icon={faExclamationTriangle} />
+                <b>Error:</b> Por favor rellena el formulario correctamente.
+              </p>
+            </MensajeError>
+          )}
+          {formularioValido === true && (
+            <MensajeExito>Campos llenos exitosamente!</MensajeExito>
+          )}
 
-        <div align="right">
-          <Button color="success" onClick={onCancel}>
-            Cancelar
-          </Button>
-          <Button color="primary" onClick={onSubmit} type="submit">
-            {titulo}
-          </Button>
+          <div align="right">
+            <Button className="btn-cancelar" onClick={onCancel}>
+              Cancelar
+            </Button>
+            <Button class="btn-agregar" onClick={onSubmit} type="submit">
+              {titulo}
+            </Button>
+          </div>
         </div>
       </>
     );
@@ -394,12 +399,12 @@ const Sorteo = () => {
 
   const bodyInsertar = (
     <div style={scrollVertical}>
-      <h3>Insertar Sorteo</h3>
+      <h3 className="container-header"> 301 - Agregar Sorteo</h3>
       <div className="relleno-general">
         {" "}
         General
         <div className="container-fluid">
-          <Formulario>
+          <Formulario1>
             <Columna>
               <InputGeneral
                 estado={Id}
@@ -437,7 +442,7 @@ const Sorteo = () => {
                 expresionRegular={expresionesRegulares.IdTipoSorteo}
               />
             </Columna>
-          </Formulario>
+          </Formulario1>
         </div>
       </div>
       <MensajeFormulario
@@ -451,11 +456,11 @@ const Sorteo = () => {
 
   const bodyEditar = (
     <div style={scrollVertical}>
-      <h3>Editar Sorteo</h3>
+      <h3 className="container-header"> 302 - Modificar Sorteo</h3>
       <div className="relleno-general">
         General
         <div className="container-fluid">
-          <Formulario>
+          <Formulario1>
             <Columna>
               <InputGeneral
                 estado={IdUsuario}
@@ -479,7 +484,7 @@ const Sorteo = () => {
                 expresionRegular={expresionesRegulares.IdTipoSorteo}
               />
             </Columna>
-          </Formulario>
+          </Formulario1>
         </div>
       </div>
       <MensajeFormulario
@@ -493,18 +498,18 @@ const Sorteo = () => {
 
   const bodyEliminar = (
     <div style={scrollVertical}>
-      <h3>Eliminar Sorteo</h3>
+      <h3 className="container-header"> 303 - Eliminar Sorteo</h3>
       <div className="relleno-general">
         {" "}
         General
         <div className="container-fluid">
-          <Formulario>
+          <Formulario1>
             <Columna>
               <h4>Codigo: {Id.campo}</h4>
               <h4>Usuario: {IdUsuario.campo}</h4>
               <h4>Tipo De Sorteo: {IdTipoSorteo.campo}</h4>
             </Columna>
-          </Formulario>
+          </Formulario1>
         </div>
       </div>
       <MensajeFormulario
@@ -519,16 +524,16 @@ const Sorteo = () => {
     <div className="Cliente">
       <div className="banner">
         <h3>
-          <b>200-Mantenimiento De Sorteos</b>
+          300-Mantenimiento De Sorteos
         </h3>
       </div>
-      <div className="btn-agrega">
-        <Button
+      <div>
+        <button className="btn-añadir"
           startIcon={<AddBox />}
           onClick={() => abrirCerrarModalInsertar()}
         >
           Agregar Sorteo
-        </Button>
+        </button>
       </div>
       <br />
       <br />
@@ -570,13 +575,13 @@ const Sorteo = () => {
         }}
       />
 
-      <Modal open={modalInsertar} onClose={abrirCerrarModalInsertar}>
+      <Modal open={modalInsertar} onClose={abrirCerrarModalInsertar} style={modalStyles}>
         <>{bodyInsertar}</>
       </Modal>
-      <Modal open={modalEditar} onClose={abrirCerrarModalEditar}>
+      <Modal open={modalEditar} onClose={abrirCerrarModalEditar} style={modalStyles}>
         <>{bodyEditar}</>
       </Modal>
-      <Modal open={modalEliminar} onClose={abrirCerrarModalEliminar}>
+      <Modal open={modalEliminar} onClose={abrirCerrarModalEliminar} style={modalStylesDelete}>
         <>{bodyEliminar}</>
       </Modal>
     </div>

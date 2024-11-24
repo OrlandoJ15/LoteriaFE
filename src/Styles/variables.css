@@ -1,0 +1,93 @@
+
+@font-face {
+    font-family: 'Cooper Hewitt';
+    src: url('../assets/Fonts/CooperHewitt-Bold.otf') format('opentype');
+    font-weight: bold;
+  }
+  @font-face {
+    font-family: 'Cooper Hewitt';
+    src: url('../assets/Fonts/CooperHewitt-Regular.otf') format('opentype');
+    font-weight: normal;
+  }
+
+:root {
+    /* Paleta de colores */
+    --color-primary: #26065D;
+    --color-secondary: #ff0303;
+    --color-success: #198754;
+    --color-danger: #dc3545;
+    --color-warning: #ffc107;
+    --color-info: #f0990d;
+    --color-light: #f8f9fa;
+    --color-dark: #212529;
+    --color-background: #ffffff;
+    --color-text: #ffffff;
+
+    /* Estados interactivos */
+    --color-hover-primary: #f8f542d3;
+    --color-active-primary: #fffb00;
+
+    /* Tipo de letra */
+    --font-primary: 'Cooper Hewitt', sans-serif;
+
+    /* Tamaño de letra */
+    --font-size-small: 0.875rem; /* 14px */
+    --font-size-base: 1rem; /* 16px */
+    --font-size-large: 1.125rem; /* 18px */
+    --font-size-h1: 2rem; /* 32px */
+    --font-size-h2: 1.75rem; /* 28px */
+    --font-size-h3: 1.5rem; /* 24px */
+    --font-size-h4: 1.25rem; /* 20px */
+    --font-size-h5: 1rem; /* 16px */
+    --font-size-h6: 0.875rem; /* 14px */
+
+    /* Peso de la fuente */
+    --font-weight-light: 300;
+    --font-weight-regular: 400;
+    --font-weight-bold: 700;
+
+    /* Spacing */
+    --spacing-xs: 0.25rem; /* 4px */
+    --spacing-sm: 0.5rem; /* 8px */
+    --spacing-md: 1rem; /* 16px */
+    --spacing-lg: 1.5rem; /* 24px */
+    --spacing-xl: 2rem; /* 32px */
+
+    /* Grosor de borde */
+    --border-width-thin: 1px;
+    --border-width-medium: 2px;
+    --border-width-thick: 4px;
+
+    /* Radio de borde */
+    --border-radius-sm: 0.25rem; /* 4px */
+    --border-radius-md: 0.5rem; /* 8px */
+    --border-radius-lg: 1rem; /* 16px */
+    
+    /* Estilos de borde */
+    --border-style: solid;
+    --border-color: var(--color-text);
+
+    /* Tamaño del botón */
+    --btn-padding-y: var(--spacing-sm); /* Espaciado vertical */
+    --btn-padding-x: var(--spacing-md); /* Espaciado horizontal */
+    --btn-border-radius: var(--border-radius-sm);
+
+    /* Colores del botón */
+    --btn-color-primary: var(--color-primary);
+    --btn-color-secondary: var(--color-secondary);
+    --btn-color-disabled: var(--color-light);
+    --btn-background-primary: var(--color-primary);
+    --btn-background-secondary: var(--color-secondary);
+    --btn-background-disabled: var(--color-dark);
+
+    /* Sombra suave */
+    --shadow-light: 0px 1px 3px rgba(0, 0, 0, 0.1);
+    /* Sombra media */
+    --shadow-medium: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    /* Sombra profunda */
+    --shadow-heavy: 0px 10px 15px rgba(0, 0, 0, 0.15);
+
+    /* Transiciones */
+    --transition-duration: 0.3s;
+    --transition-ease: ease-in-out;
+}
