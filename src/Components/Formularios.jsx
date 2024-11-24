@@ -1,11 +1,11 @@
-import React from "react";
-import styled, { css } from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from 'react';
+import styled, { css } from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const colores = {
   borde: "#0075FF",
   error: "#bb2929",
-  exito: "#1ed12d",
+  exito: "#1ed12d"
 };
 
 const ColumnaLeft = styled.ul`
@@ -41,6 +41,19 @@ const ColumnaMargin = styled.ul`
 
 const Formulario = styled.form`
   display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+
+  @media (max-width: 800px) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media (max-width: 500px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const Formulario1 = styled.form`
+  display: grid;
   grid-template-columns: 1fr;
   gap: 20px;
 
@@ -71,11 +84,11 @@ const Formulario3 = styled.form`
   grid-template-columns: 1fr 1fr 1fr;
 
   @media (max-width: 800px) {
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
   }
 
   @media (max-width: 500px) {
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr;
   }
 `;
 
@@ -115,18 +128,15 @@ const FormularioTotales = styled.form`
 `;
 
 const Label = styled.label`
-  display: block;
-  font-weight: 700;
-  padding: 10px;
+  display: flex;
   min-height: 40px;
   cursor: pointer;
-  font-size: 80%;
+  align-items: center;
+  font-size: 5rem;
 
-  ${(props) =>
-    props.$valido === "false" &&
-    css`
-      color: ${colores.error};
-    `}
+  ${props => props.$valido === 'false' && css`
+    color: ${colores.error};
+  `}
 `;
 
 const GrupoInput = styled.div`
@@ -140,28 +150,24 @@ const Input = styled.input`
   border-radius: 3px;
   height: 45px;
   line-height: 45px;
-  padding: 0 40px 0 10px;
-  transition: 0.3s ease all;
+  transition: .3s ease all;
   border: 3px solid transparent;
   height: 25px;
+  margin-bottom: 1rem;
 
   &:focus {
     border: 3px solid ${colores.borde};
     outline: none;
-    box-shadow: 3px 0px 30px rgba(163, 163, 163, 0.4);
+    box-shadow: 3px 0px 30px rgba(163,163,163, 0.4);
   }
 
-  ${(props) =>
-    props.$valido === "true" &&
-    css`
-      border: 3px solid transparent;
-    `}
+  ${props => props.$valido === 'true' && css`
+    border: 3px solid transparent;
+  `}
 
-  ${(props) =>
-    props.$valido === "false" &&
-    css`
-      border: 3px solid ${colores.error} !important;
-    `}
+  ${props => props.$valido === 'false' && css`
+    border: 3px solid ${colores.error} !important;
+  `}
 `;
 
 const InputShapeTotales = styled.input`
@@ -171,26 +177,22 @@ const InputShapeTotales = styled.input`
   height: 45px;
   line-height: 45px;
   padding: 0 40px 0 10px;
-  transition: 0.3s ease all;
+  transition: .3s ease all;
   border: 3px solid transparent;
 
   &:focus {
     border: 3px solid ${colores.borde};
     outline: none;
-    box-shadow: 3px 0px 30px rgba(163, 163, 163, 0.4);
+    box-shadow: 3px 0px 30px rgba(163,163,163, 0.4);
   }
 
-  ${(props) =>
-    props.$valido === "true" &&
-    css`
-      border: 3px solid transparent;
-    `}
+  ${props => props.$valido === 'true' && css`
+    border: 3px solid transparent;
+  `}
 
-  ${(props) =>
-    props.$valido === "false" &&
-    css`
-      border: 3px solid ${colores.error} !important;
-    `}
+  ${props => props.$valido === 'false' && css`
+    border: 3px solid ${colores.error} !important;
+  `}
 
   @media (max-width: 500px) {
     text-align: right;
@@ -203,40 +205,32 @@ const LeyendaError = styled.p`
   color: ${colores.error};
   display: none;
 
-  ${(props) =>
-    props.$valido === "true" &&
-    css`
-      display: none;
-    `}
+  ${props => props.$valido === 'true' && css`
+    display: none;
+  `}
 
-  ${(props) =>
-    props.$valido === "false" &&
-    css`
-      display: block;
-    `}
+  ${props => props.$valido === 'false' && css`
+    display: block;
+  `}
 `;
 
 const IconoValidacion = styled(FontAwesomeIcon)`
-  position: absolute;
+  position: absolute;  
   right: 10px;
   top: 5px;
   z-index: 100;
   font-size: 16px;
   opacity: 0;
 
-  ${(props) =>
-    props.$valido === "false" &&
-    css`
-      opacity: 1;
-      color: ${colores.error};
-    `}
+  ${props => props.$valido === 'false' && css`
+    opacity: 1;
+    color: ${colores.error};
+  `}
 
-  ${(props) =>
-    props.$valido === "true" &&
-    css`
-      opacity: 1;
-      color: ${colores.exito};
-    `}
+  ${props => props.$valido === 'true' && css`
+    opacity: 1;
+    color: ${colores.exito};
+  `}
 `;
 
 const ContenedorTerminos = styled.div`
@@ -272,10 +266,10 @@ const Boton = styled.button`
   border: none;
   border-radius: 3px;
   cursor: pointer;
-  transition: 0.1s ease all;
+  transition: .1s ease all;
 
   &:hover {
-    box-shadow: 3px 0px 30px rgba(163, 163, 163, 1);
+    box-shadow: 3px 0px 30px rgba(163,163,163, 1);
   }
 `;
 
@@ -287,15 +281,15 @@ const MensajeExito = styled.p`
 const MensajeError = styled.div`
   height: 45px;
   line-height: 45px;
-  background: #f66060;
+  background: #F66060;
   padding: 0px 15px;
   border-radius: 3px;
   grid-column: span 2;
-
+  
   p {
     margin: 0;
-  }
-
+  } 
+  
   b {
     margin-left: 10px;
   }
@@ -303,6 +297,7 @@ const MensajeError = styled.div`
 
 export {
   Formulario,
+  Formulario1,
   Formulario2,
   Formulario3,
   FormularioEncabezado,

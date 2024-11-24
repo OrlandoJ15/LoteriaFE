@@ -1,18 +1,146 @@
-.btn-agrega {
-  background-color: #4caf50; /* Green */
+/*************** INICIO BOTONES AGREGAR**************/
+.btn-agregar {
+  background: var(--color-primary);
   color: white;
-  border-radius: 12px;
+  font-family: var(--font-primary);
+  padding: 0.35em;
+  padding-left: 1.2em;
+  font-size: var(--font-size-md);
+  font-weight: 500;
+  border-radius: 0.9em;
+  border: none;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+  height: 2.8em;
+  padding-right: 3.3em;
+  cursor: pointer;
   float: right;
 }
 
-.MuiTableCell-root {
+.btn-agregar .icon {
+  background: white;
+  margin-left: 1em;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.2em;
+  width: 2.2em;
+  border-radius: 0.7em;
+  right: 0.3em;
+  transition: all 0.3s;
+}
+
+.btn-agregar:hover .icon {
+  width: calc(100% - 0.6em);
+}
+
+.btn-agregar .icon svg {
+  width: 1.1em;
+  transition: transform 0.3s;
+  color: #7b52b9;
+}
+
+.btn-agregar:hover .icon svg {
+  transform: translateX(0.1em);
+}
+
+.btn-agregar:active .icon {
+  transform: scale(0.95);
+}
+/***************FIN BOTONES AGREGAR**************/
+
+/***************INICIO BOTONES CANCELAR**************/
+.btn-cancelar{
+  background: var(--color-primary);
+  color: white;
+  font-family: var(--font-primary);
+  padding: 0.35em;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  font-size: var(--font-size-md);
+  font-weight: 500;
+  border-radius: 0.9em;
+  border: 3px solid white;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+  height: 2.2em;
+  cursor: pointer;
+  float: left;
+}
+
+.btn-cancelar:hover{
+  background-color: var(--color-text);
+  color: var(--color-primary);
+}
+/***************FIN BOTONES CANCELAR**************/
+
+/***************INICIO BOTONES ELIMINAR**************/
+
+.btn-eliminar{
+  background: var(--color-secondary);
+  color: white;
+  font-family: var(--font-primary);
+  padding: 0.35em;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  font-size: var(--font-size-md);
+  font-weight: 500;
+  border-radius: 0.9em;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+  height: 2.2em;
+  cursor: pointer;
+  float: right;
+}
+
+.btn-eliminar:hover{
+  background-color: var(--color-text);
+  color: var(--color-primary);
+}
+/***************FIN BOTONES ELIMINAR**************/
+
+/*************** INICIO BOTONES AÑADIR**************/
+.btn-añadir {
+  background: var(--color-primary);
+  color: white;
+  font-family: var(--font-primary);
+  padding: 0.35em;
+  padding-left: 1em;
+  font-size: var(--font-size-md);
+  font-weight: 500;
+  border-radius: 0.5em;
+  border: none;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+  padding-right: 1em;
+  cursor: pointer;
+  float: right;
+}
+
+.btn-añadir:hover{
+  background-color: #7b52b9;
+  color: var(--color-primary);
+}
+/*************** FIN BOTONES AÑADIR**************/
+
+
+.MuiTableCell-root{
   width: auto-fit;
   height: auto-fit;
 }
 
-.modal-dialog {
+.modal-dialog{
   max-width: 1300px !important;
-  height: 900px !important;
+  height: 900px!important;
 }
 
 /********************** Sweer Alert **************************/
@@ -28,8 +156,6 @@
 #modalinsertar {
   z-index: 1000;
   position: fixed;
-  width: 50%;
-  margin-left: 20%;
 }
 
 #modalmodificar {
@@ -49,42 +175,65 @@
 
 /*********************** Modal *******************************/
 
-.container-fluid {
-  display: grid;
+/*.container-fluid{
+  display:grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-}
+}*/
 
-.banner {
-  background-color: cadetblue;
-}
-
-.relleno-general {
-  background-color: rgb(62, 148, 228);
+.container-header {
+  background-color: var(--color-primary);
   width: auto-fit;
   height: auto-fit;
-  padding-bottom: 1rem;
+	padding: 7% 5% 5% 5%;
+  font-weight: bold;
+  margin-top: -2%;
+  color: var(--color-text);
+}
+
+.branding1{
+  background-color: var(--color-primario);
+}
+
+.branding2{
+  background-color:black;
+}
+
+/*.h1{
+  background-color:black;
+}*/
+
+.h2{
+  background-color:black;
+}
+
+.h3{
+  background-color:black;
+}
+
+.relleno-general{
+  background-color: var(--color-primary);
+  width: auto-fit;
+  height: auto-fit;
+	padding: 5% 5% 5% 5%;
+  margin: 5% 5% 5% 5%;
+  color: var(--color-text);
   font-weight: bold;
 }
 
-.relleno-asociar {
-  background-color: rgb(62, 148, 228);
+.relleno-eliminar{
+  background-color: var(--color-secondary);
   width: auto-fit;
   height: auto-fit;
-  padding-bottom: 1rem;
-}
-
-.relleno-precios {
-  background-color: rgb(62, 148, 228);
-  width: auto-fit;
-  height: auto-fit;
-  padding-bottom: 1rem;
+	padding: 5% 5% 5% 5%;
+  margin: 5% 5% 5% 5%;
+  color: var(--color-text);
   font-weight: bold;
 }
 
-.relleno-hacienda {
-  background-color: rgb(62, 148, 228);
+.container-footer {
+  background-color: var(--color-primary);
   width: auto-fit;
   height: auto-fit;
-  padding-bottom: 1rem;
+	padding: 5% 5% 7% 5%;
   font-weight: bold;
 }
