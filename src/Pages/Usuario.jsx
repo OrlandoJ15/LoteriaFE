@@ -357,14 +357,16 @@ const Usuario = () => {
       : abrirCerrarModalCambioClave();
   };
 
-  //axios.defaults.withCredentials = true;
+  axios.defaults.withCredentials = true;
 
   const peticionGet = async () => {
+    
     try {
       console.log("try");
-      const response = await axios.get(UrlBase, {
-        withCredentials: true, // Importante para que las cookies se envíen automáticamente
-      });
+
+      axios.defaults.withCredentials = true;
+
+      const response = await axios.get(UrlBase);
       setData(response.data);
       console.log("Datos Recibidos: ", response.data);
     } catch (error) {
