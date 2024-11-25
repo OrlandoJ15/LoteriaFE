@@ -360,12 +360,8 @@ const Usuario = () => {
   axios.defaults.withCredentials = true;
 
   const peticionGet = async () => {
-    
     try {
       console.log("try");
-
-      axios.defaults.withCredentials = true;
-
       const response = await axios.get(UrlBase);
       setData(response.data);
       console.log("Datos Recibidos: ", response.data);
