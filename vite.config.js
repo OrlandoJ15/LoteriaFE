@@ -15,4 +15,9 @@ export default defineConfig({
   build: {
     outDir: 'dist',
   },
+  server: {
+    proxy: {
+      '/api': 'https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net', // URL de tu backend
+    }
+  }
 });
