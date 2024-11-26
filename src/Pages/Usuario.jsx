@@ -363,7 +363,7 @@ const Usuario = () => {
     const token = verificarToken(); // Verificar token antes de llamar a la API
     if (!token) return;
 
-    console.log(token);
+    console.log("Este es el token de vueta : ",token);
     try {
       const response = await axios.get(UrlBase, {
         headers:{
