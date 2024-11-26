@@ -60,13 +60,12 @@ class Login extends React.Component {
       if(response.status === 200){// && response.data.Message === "Inicio de sesión exitoso"){
         // Guardar el token y la información del usuario en cookies
         //console.log("entro al if ");
-        cookies.set("Token", data.token, { path: "/", secure: true });
-        cookies.set("Id", data.user.id, { path: "/", secure: true });
-        cookies.set("Nombre", data.user.nombre, { path: "/" , secure: true});
-        cookies.set("NombreUsuario", data.user.nombreUsuario, { path: "/", secure: true });
-        cookies.set("Correo", data.user.correo, { path: "/", secure: true });
-        cookies.set("Rol", data.user.rol, { path: "/", secure: true });
-
+        cookies.set("Token", data.token);
+        cookies.set("Id", data.user.id);
+        cookies.set("Nombre", data.user.nombre);
+        cookies.set("NombreUsuario", data.user.nombreUsuario);
+        cookies.set("Correo", data.user.correo);
+        cookies.set("Rol", data.user.rol);
         // Llamar al prop para actualizar el estado de autenticación
         //this.props.setIsAuthenticated(true);
         
