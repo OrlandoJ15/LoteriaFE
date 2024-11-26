@@ -54,7 +54,7 @@ const columnas = [
 ///////////////////////Usl Azure/////////////
 
 const UrlBase =
-  "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/RecUsuario";
+   "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/RecUsuario";
 const UrlPost =
   "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/InsUsuario";
 const UrlPut =
@@ -357,7 +357,6 @@ const Usuario = () => {
       : abrirCerrarModalCambioClave();
   };
 
-  axios.defaults.withCredentials = true;
 
   const peticionGet = async () => {
 
