@@ -54,7 +54,7 @@ const columnas = [
 ///////////////////////Usl Azure/////////////
 
 const UrlBase =
-  "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/RecUsuario";
+   "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/RecUsuario";
 const UrlPost =
   "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/InsUsuario";
 const UrlPut =
@@ -357,13 +357,17 @@ const Usuario = () => {
       : abrirCerrarModalCambioClave();
   };
 
-  axios.defaults.withCredentials = true;
 
   const peticionGet = async () => {
+
+    const token = verificarToken(); // Verificar token antes de llamar a la API
+    if (!token) return;
+
+    console.log(token);
     try {
       const response = await axios.get(UrlBase, {
         headers:{
-          Authorization: `Bearer $token`,
+          Authorization: `Bearer ${token}`,
         }
       });
       setData(response.data);
