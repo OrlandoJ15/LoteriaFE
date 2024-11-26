@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './Components/Navbar';
 import Cookies from 'universal-cookie';
 
+
 const Principal =lazy(()=>import('./Pages/Principal'));
 const Kardex =lazy(()=>import('./Pages/Kardex'));
 const Sorteo =lazy(()=>import('./Pages/Sorteo'));

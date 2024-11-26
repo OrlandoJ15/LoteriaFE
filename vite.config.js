@@ -14,10 +14,5 @@ export default defineConfig({
   plugins: [react()],
   build: {
     outDir: 'dist',
-  },
-  server: {
-    proxy: {
-      '/api': 'https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net', // URL de tu backend
-    }
   }
 });
