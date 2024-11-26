@@ -361,8 +361,11 @@ const Usuario = () => {
 
   const peticionGet = async () => {
     try {
-      console.log("try");
-      const response = await axios.get(UrlBase);
+      const response = await axios.get(UrlBase, {
+        headers:{
+          Authorization: `Bearer $token`,
+        }
+      });
       setData(response.data);
       console.log("Datos Recibidos: ", response.data);
     } catch (error) {
