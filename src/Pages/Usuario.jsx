@@ -360,10 +360,15 @@ const Usuario = () => {
   axios.defaults.withCredentials = true;
 
   const peticionGet = async () => {
+
+    const token = verificarToken(); // Verificar token antes de llamar a la API
+    if (!token) return;
+
+
     try {
       const response = await axios.get(UrlBase, {
         headers:{
-          Authorization: `Bearer $token`,
+          Authorization: `Bearer ${token}`,
         }
       });
       setData(response.data);
