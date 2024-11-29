@@ -36,12 +36,12 @@ const columnas = [
 //////////////////////////TERMINA SECCION COLUMNAS///////////////////////////
 
 //////////////////////////INICIA URLs///////////////////////////
-const UrlBase = "http://190.113.84.163:8000/Sorteo/RecSorteo";
-const UrlPost = "http://190.113.84.163:8000/Sorteo/InsSorteo";
-const UrlPut = "http://190.113.84.163:8000/Sorteo/ModSorteo";
-const UrlDel = "http://190.113.84.163:8000/Sorteo/DelSorteo";
-const EndPointSorteoXId = "http://190.113.84.163:8000/Sorteo/RecSorteoXId";
-const UrlPostKardex = "http://190.113.84.163:8000/Kardex/InsKardex";
+// const UrlBase = "http://190.113.84.163:8000/Sorteo/RecSorteo";
+// const UrlPost = "http://190.113.84.163:8000/Sorteo/InsSorteo";
+// const UrlPut = "http://190.113.84.163:8000/Sorteo/ModSorteo";
+// const UrlDel = "http://190.113.84.163:8000/Sorteo/DelSorteo";
+// const EndPointSorteoXId = "http://190.113.84.163:8000/Sorteo/RecSorteoXId";
+// const UrlPostKardex = "http://190.113.84.163:8000/Kardex/InsKardex";
 
 // const UrlBase = "https://localhost:44366/Sorteo/RecSorteo";
 // const UrlPost = "https://localhost:44366/Sorteo/InsSorteo";
@@ -49,6 +49,15 @@ const UrlPostKardex = "http://190.113.84.163:8000/Kardex/InsKardex";
 // const UrlDel = "https://localhost:44366/Sorteo/DelSorteo";
 // const EndPointSorteoXId = "https://localhost:44366/Sorteo/RecSorteoXId";
 // const UrlPostKardex = "https://localhost:44366/Kardex/InsKardex";
+
+////////////////////////Azure Url///////////////////
+
+const UrlBase = "https://loteriawebapimvp.azurewebsites.net/Sorteo/RecSorteo";
+const UrlPost = "https://loteriawebapimvp.azurewebsites.net/Sorteo/InsSorteo";
+const UrlPut = "https://loteriawebapimvp.azurewebsites.net/Sorteo/ModSorteo";
+const UrlDel = "https://loteriawebapimvp.azurewebsites.net/Sorteo/DelSorteo";
+const EndPointSorteoXId = "https://loteriawebapimvp.azurewebsites.net/Sorteo/RecSorteoXId";
+const UrlPostKardex = "https://loteriawebapimvp.azurewebsites.net/Kardex/InsKardex"
 
 //////////////////////////TERMINA URLs///////////////////////////
 

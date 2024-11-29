@@ -27,11 +27,11 @@ const columnas = [
 //////////////////////////TERMINA SECCION COLUMNAS///////////////////////////
 
 //////////////////////////INICIA URLs///////////////////////////
-const UrlBase = "http://190.113.84.163:8000/TipoSorteo/RecTipoSorteo";
-const UrlPost = "http://190.113.84.163:8000/TipoSorteo/InsTipoSorteo";
-const UrlPut = "http://190.113.84.163:8000/TipoSorteo/ModTipoSorteo";
-const UrlDel = "http://190.113.84.163:8000/TipoSorteo/DelTipoSorteo";
-const EndPointTipoSorteoXId = "http://190.113.84.163:8000/TipoSorteo/RecTipoSorteoXId";
+// const UrlBase = "http://190.113.84.163:8000/TipoSorteo/RecTipoSorteo";
+// const UrlPost = "http://190.113.84.163:8000/TipoSorteo/InsTipoSorteo";
+// const UrlPut = "http://190.113.84.163:8000/TipoSorteo/ModTipoSorteo";
+// const UrlDel = "http://190.113.84.163:8000/TipoSorteo/DelTipoSorteo";
+// const EndPointTipoSorteoXId = "http://190.113.84.163:8000/TipoSorteo/RecTipoSorteoXId";
 
 
 // const UrlBase = "https://localhost:44366/TipoSorteo/RecTipoSorteo";
@@ -39,6 +39,15 @@ const EndPointTipoSorteoXId = "http://190.113.84.163:8000/TipoSorteo/RecTipoSort
 // const UrlPut = "https://localhost:44366/TipoSorteo/ModTipoSorteo";
 // const UrlDel = "https://localhost:44366/TipoSorteo/DelTipoSorteo";
 // const EndPointTipoSorteoXId = "https://localhost:44366/TipoSorteo/RecTipoSorteoXId";
+
+
+//////////////////////////Azure URL/////////////////////////
+
+const UrlBase = "https://loteriawebapimvp.azurewebsites.net/TipoSorteo/RecTipoSorteo";
+const UrlPost = "https://loteriawebapimvp.azurewebsites.net/TipoSorteo/InsTipoSorteo";
+const UrlPut = "https://loteriawebapimvp.azurewebsites.net/TipoSorteo/ModTipoSorteo";
+const UrlDel = "https://loteriawebapimvp.azurewebsites.net/TipoSorteo/DelTipoSorteo";
+const EndPointTipoSorteoXId = "https://loteriawebapimvp.azurewebsites.net/TipoSorteo/RecTipoSorteoXId";
 
 //////////////////////////TERMINA URLs///////////////////////////
 

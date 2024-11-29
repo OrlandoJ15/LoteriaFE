@@ -435,7 +435,7 @@ const Usuario = () => {
     try {
       const response = await axios.put(EndPointCambiarClave, options, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          'Authorization': `Bearer ${token}`,
         },
       });
       if (response.status === 200) {

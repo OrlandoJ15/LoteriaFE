@@ -5,7 +5,7 @@ import axios from 'axios';
 
 //const UrlBase = "http://190.113.84.163:8000/Usuario/Logout";
 //const baseUrl = "https://localhost:44366/Usuario/Logout";
-const UrlBase = "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/Logout";
+const UrlBase = "https://loteriawebapimvp.azurewebsites.net/Usuario/Logout";
 class Logout extends Component {
 
 
