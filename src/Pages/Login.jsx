@@ -7,8 +7,8 @@ import { useNavigate } from "react-router-dom";
 
 
 ////////////url azure///
-const baseUrl = "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/Login";
-//const baseUrlOut = "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/Logout";
+const baseUrl = "https://loteriawebapimvp.azurewebsites.net/Usuario/Login";
+//const baseUrlOut = "https://loteriawebapimvp.azurewebsites.net/Usuario/Logout";
 
 
 const cookies = new Cookies();
