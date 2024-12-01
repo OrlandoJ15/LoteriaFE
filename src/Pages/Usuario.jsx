@@ -271,11 +271,31 @@ const Usuario = () => {
           Authorization: `Bearer ${token}`,
         },
       });
+  
+      // Verifica si la respuesta es exitosa
+      if (response.status === 200) {
+        setData([...data, response.data]);
+        abrirCerrarModalInsertar();
+      } else {
+        console.error("Error en la respuesta del servidor", response);
+        alert("Ocurrió un error en la solicitud.");
+      }
+    } catch (error) {
+      console.error("Error en la peticion Post: ", error);
+      alert("Error durante la petición. Intenta nuevamente.");
+    }
+
+    /*try {
+      const response = await axios.post(UrlPost, options, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setData([...data, response.data]);
       abrirCerrarModalInsertar();
     } catch (error) {
       console.error("Error en la peticion Post: ", error);
-    }
+    }*/
   };
 
   ////////////////////////////FINALIZA PETICION POST/////////////////////////////////////////
