@@ -54,19 +54,19 @@ const columnas = [
 ///////////////////////Usl Azure/////////////
 
 const UrlBase =
-   "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/RecUsuario";
+   "https://loteriabackapi-djhxctfjhdg5csfm.centralus-01.azurewebsites.net/Usuario/RecUsuario";
 const UrlPost =
-  "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/InsUsuario";
+  "https://loteriabackapi-djhxctfjhdg5csfm.centralus-01.azurewebsites.net/Usuario/InsUsuario";
 const UrlPut =
-  "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/ModUsuario";
+  "https://loteriabackapi-djhxctfjhdg5csfm.centralus-01.azurewebsites.net/Usuario/ModUsuario";
 const UrlDel =
-  "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/DelUsuario";
+  "https://loteriabackapi-djhxctfjhdg5csfm.centralus-01.azurewebsites.net/Usuario/DelUsuario";
 const EndPointUsuarioXId =
-  "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/RecUsuarioXId";
+  "https://loteriabackapi-djhxctfjhdg5csfm.centralus-01.azurewebsites.net/Usuario/RecUsuarioXId";
 const EndPointValidarUsuarioLogin =
-  "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/ValidarUsuarioLogin";
+  "https://loteriabackapi-djhxctfjhdg5csfm.centralus-01.azurewebsites.net/ValidarUsuarioLogin";
 const EndPointCambiarClave =
-  "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/ModClaveUsuario";
+  "https://loteriabackapi-djhxctfjhdg5csfm.centralus-01.azurewebsites.net/Usuario/ModClaveUsuario";
 
 //////////////////////////TERMINA URLs///////////////////////////
 
