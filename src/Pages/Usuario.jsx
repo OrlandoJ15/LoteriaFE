@@ -54,19 +54,19 @@ const columnas = [
 ///////////////////////Usl Azure/////////////
 
 const UrlBase =
-   "https://loteriabackapi-djhxctfjhdg5csfm.centralus-01.azurewebsites.net/Usuario/RecUsuario";
+   "https://loteriabackapi.azurewebsites.net/api/Usuario/RecUsuario";
 const UrlPost =
-  "https://loteriabackapi-djhxctfjhdg5csfm.centralus-01.azurewebsites.net/Usuario/InsUsuario";
+  "https://loteriabackapi.azurewebsites.net/api/Usuario/InsUsuario";
 const UrlPut =
-  "https://loteriabackapi-djhxctfjhdg5csfm.centralus-01.azurewebsites.net/Usuario/ModUsuario";
+  "https://loteriabackapi.azurewebsites.net/api/Usuario/ModUsuario";
 const UrlDel =
-  "https://loteriabackapi-djhxctfjhdg5csfm.centralus-01.azurewebsites.net/Usuario/DelUsuario";
+  "https://loteriabackapi.azurewebsites.net/api/Usuario/DelUsuario";
 const EndPointUsuarioXId =
-  "https://loteriabackapi-djhxctfjhdg5csfm.centralus-01.azurewebsites.net/Usuario/RecUsuarioXId";
+  "https://loteriabackapi.azurewebsites.net/api/Usuario/RecUsuarioXId";
 const EndPointValidarUsuarioLogin =
-  "https://loteriabackapi-djhxctfjhdg5csfm.centralus-01.azurewebsites.net/ValidarUsuarioLogin";
+  "https://loteriabackapi.azurewebsites.net/api/ValidarUsuarioLogin";
 const EndPointCambiarClave =
-  "https://loteriabackapi-djhxctfjhdg5csfm.centralus-01.azurewebsites.net/Usuario/ModClaveUsuario";
+  "https://loteriabackapi.azurewebsites.net/api/Usuario/ModClaveUsuario";
 
 //////////////////////////TERMINA URLs///////////////////////////
 
