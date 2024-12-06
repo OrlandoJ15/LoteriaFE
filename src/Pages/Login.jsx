@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 
 ////////////url azure///
-const baseUrl = "https://loteriabackapi-djhxctfjhdg5csfm.centralus-01.azurewebsites.net/Usuario/Login";
+const baseUrl = "https://loteriabackapi.azurewebsites.net/api/Usuario/Login";
 //const baseUrlOut = "https://loteriawebapimvp.azurewebsites.net/Usuario/Logout";
 
 
