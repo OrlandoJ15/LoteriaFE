@@ -25,7 +25,7 @@ const columnas = [
   { title: "Codigo", field: "id" },
   { title: "Nombre", field: "nombre" },
   { title: "Nombre De Usuario", field: "nombreUsuario" },
-  { title: "Rol", field: "rol", type: "numeric" },
+  { title: "Rol", field: "idRol", type: "numeric" },
   { title: "Correo", field: "correo" },
 ];
 
@@ -43,16 +43,17 @@ const columnas = [
 
 ///////////////////////////////////////////////////////////////////////
 
-// const UrlBase = "https://localhost:44366/Usuario/RecUsuario";
-// const UrlPost = "https://localhost:44366/Usuario/InsUsuario";
-// const UrlPut = "https://localhost:44366/Usuario/ModUsuario";
-// const UrlDel = "https://localhost:44366/Usuario/DelUsuario";
-// const EndPointUsuarioXId = "https://localhost:44366/Usuario/RecUsuarioXId";
-// const EndPointValidarUsuarioLogin ="https://localhost:44366/Usuario/ValidarUsuarioLogin";
-// const EndPointCambiarClave = "https://localhost:44366/Usuario/ModClaveUsuario";
+const UrlBase = "https://localhost:44366/Usuario/RecUsuario";
+const UrlPost = "https://localhost:44366/Usuario/InsUsuario";
+const UrlPut = "https://localhost:44366/Usuario/ModUsuario";
+const UrlDel = "https://localhost:44366/Usuario/DelUsuario";
+const EndPointUsuarioXId = "https://localhost:44366/Usuario/RecUsuarioXId";
+const EndPointValidarUsuarioLogin ="https://localhost:44366/Usuario/ValidarUsuarioLogin";
+const EndPointCambiarClave = "https://localhost:44366/Usuario/ModClaveUsuario";
 
 ///////////////////////Usl Azure/////////////
 
+<<<<<<< Updated upstream
 const UrlBase =
    "https://loteriabackapi.azurewebsites.net/api/Usuario/RecUsuario";
 const UrlPost =
@@ -67,6 +68,22 @@ const EndPointValidarUsuarioLogin =
   "https://loteriabackapi.azurewebsites.net/api/ValidarUsuarioLogin";
 const EndPointCambiarClave =
   "https://loteriabackapi.azurewebsites.net/api/Usuario/ModClaveUsuario";
+=======
+// const UrlBase =
+//    "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/RecUsuario";
+// const UrlPost =
+//   "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/InsUsuario";
+// const UrlPut =
+//   "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/ModUsuario";
+// const UrlDel =
+//   "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/DelUsuario";
+// const EndPointUsuarioXId =
+//   "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/RecUsuarioXId";
+// const EndPointValidarUsuarioLogin =
+//   "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/ValidarUsuarioLogin";
+// const EndPointCambiarClave =
+//   "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/ModClaveUsuario";
+>>>>>>> Stashed changes
 
 //////////////////////////TERMINA URLs///////////////////////////
 
@@ -160,6 +177,7 @@ const Usuario = () => {
     try {
       const response = await axios.post(url, options);
 
+
       if (tipoValidacion === "id") {
         // Validación para existencia de usuario por ID
         if (response.data === null) {
@@ -190,7 +208,7 @@ const Usuario = () => {
       id: Id.campo,
       nombre: "",
       nombreUsuario: "",
-      rol: 0,
+      idRol: 0,
       correo: "",
       clave: "",
     };
@@ -209,7 +227,7 @@ const Usuario = () => {
       id: Id.campo,
       nombre: "",
       nombreUsuario: "",
-      rol: 0,
+      idRol: 0,
       correo: "",
       clave: Clave.campo,
     };
@@ -253,19 +271,20 @@ const Usuario = () => {
   };
 
   const peticionPost = async () => {
-    const token = verificarToken(); // Verificar token antes de llamar a la API
-    if (!token) return;
+    //const token = verificarToken(); // Verificar token antes de llamar a la API
+    //if (!token) return;
 
     const options = {
       Id: Id.campo,
       Nombre: Nombre.campo,
       NombreUSuario: NombreUsuario.campo,
-      Rol: Rol.campo,
+      IdRol: Rol.campo,
       Correo: Correo.campo,
       Clave: Clave.campo,
     };
 
     try {
+<<<<<<< Updated upstream
       const response = await axios.post(UrlPost, options, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -291,6 +310,14 @@ const Usuario = () => {
           Authorization: `Bearer ${token}`,
         },
       });
+=======
+      // const response = await axios.post(UrlPost, options, {
+      //   headers: {
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      // });
+      const response = await axios.post(UrlPost, options);
+>>>>>>> Stashed changes
       setData([...data, response.data]);
       abrirCerrarModalInsertar();
     } catch (error) {
@@ -303,25 +330,26 @@ const Usuario = () => {
   ////////////////////////////PETICION PUT///////////////////////////////////////////////////
 
   const peticionPut = async () => {
-    const token = verificarToken(); // Verificar token antes de llamar a la API
-    if (!token) return;
+    //const token = verificarToken(); // Verificar token antes de llamar a la API
+    //if (!token) return;
 
-    console.log("este es el token ", token);
+    //console.log("este es el token ", token);
 
     const options = {
       id: Id.campo,
       nombre: Nombre.campo,
       nombreUsuario: NombreUsuario.campo,
-      rol: Rol.campo,
+      idRol: Rol.campo,
       correo: Correo.campo,
     };
 
     try {
-      const response = await axios.put(UrlPut, options, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      // const response = await axios.put(UrlPut, options, {
+      //   headers: {
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      // });
+      const response = await axios.put(UrlPut, options);
       const updatedData = data.map((user) =>
         user.id === options.id ? options : user
       );
@@ -337,14 +365,14 @@ const Usuario = () => {
   ////////////////////////PETICION DELETE////////////////////////
 
   const peticionDelete = async () => {
-    const token = verificarToken(); // Verificar token antes de llamar a la API
-    if (!token) return;
+    //const token = verificarToken(); // Verificar token antes de llamar a la API
+    //if (!token) return;
 
     const id = Id.campo; // Asegúrate de que esto esté obteniendo el ID correcto
     const payload = {
       headers: {
         "Content-Type": "application/json", // Establecer tipo de contenido
-        Authorization: `Bearer ${token}`,
+        //Authorization: `Bearer ${token}`,
       },
       data: JSON.stringify(id), // Convertimos a JSON, Aquí pasas el ID del usuario en el cuerpo de la solicitud
     };
@@ -380,16 +408,16 @@ const Usuario = () => {
 
   const peticionGet = async () => {
 
-    const token = verificarToken(); // Verificar token antes de llamar a la API
-    if (!token) return;
+    //const token = verificarToken(); // Verificar token antes de llamar a la API
+    //if (!token) return;
 
-    console.log("Este es el token de vueta : ",token);
+    //console.log("Este es el token de vueta : ",token);
     try {
-      const response = await axios.get(UrlBase, {
-        headers:{
-          Authorization: `Bearer ${token}`,
-        }
-      });
+      // const response = await axios.get(UrlBase, {
+      //   headers:{
+      //     Authorization: `Bearer ${token}`,
+      //   }
+      const response = await axios.get(UrlBase);
       setData(response.data);
       console.log("Datos Recibidos: ", response.data);
     } catch (error) {
@@ -426,8 +454,8 @@ const Usuario = () => {
   ////////////////////////// PETICION CAMBIO CLAVE////////////////////////
 
   const peticionCambioClave = async () => {
-    const token = verificarToken(); // Verificar token antes de llamar a la API
-    if (!token) return;
+    //const token = verificarToken(); // Verificar token antes de llamar a la API
+    //if (!token) return;
 
     function showError() {
       Swal.fire({
@@ -446,18 +474,19 @@ const Usuario = () => {
     const options = {
       Id: Id.campo,
       Clave: ConfirmarNuevaClave.campo,
-      Rol: 0,
+      IdRol: 0,
       Nombre: "",
       NombreUsuario: "",
       Correo: "",
     };
 
     try {
-      const response = await axios.put(EndPointCambiarClave, options, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
+      // const response = await axios.put(EndPointCambiarClave, options, {
+      //   headers: {
+      //     'Authorization': `Bearer ${token}`,
+      //   },
+      // });
+      const response = await axios.put(EndPointCambiarClave, options);
       if (response.status === 200) {
         showExito();
         abrirCerrarModalCambioClave();

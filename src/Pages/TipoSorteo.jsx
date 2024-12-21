@@ -172,8 +172,8 @@ const TipoSorteo = () => {
   // };
 
   const peticionPost = async () => {
-    const token = verificarToken(); // Verificar token antes de llamar a la API
-    if (!token) return;
+    //const token = verificarToken(); // Verificar token antes de llamar a la API
+    //if (!token) return;
 
     const options = {
       Id: Id.campo,
@@ -183,11 +183,13 @@ const TipoSorteo = () => {
     };
 
     try {
-      const response = await axios.post(UrlPost, options,{
-        headers: {
-          Authorization: `Bearer ${token}`,
-        }
-      });
+      // const response = await axios.post(UrlPost, options,{
+      //   headers: {
+      //     Authorization: `Bearer ${token}`,
+      //   }
+      // });
+      const response = await axios.post(UrlPost, options);
+
       setData([...data, response.data]);
       abrirCerrarModalInsertar();
     }catch (error){
@@ -200,8 +202,8 @@ const TipoSorteo = () => {
   ////////////////////////////PETICION PUT///////////////////////////////////////////////////
 
   const peticionPut = async () => {
-    const token = verificarToken(); // Verificar token antes de llamar a la API
-    if (!token) return;
+    //const token = verificarToken(); // Verificar token antes de llamar a la API
+    //if (!token) return;
 
     const options = {
       id: Id.campo,
@@ -212,11 +214,13 @@ const TipoSorteo = () => {
     };
 
     try{
-      const response = await axios.put(UrlPut, options,{
-        headers: {
-          Authorization: `Bearer ${token}`,
-        }
-      });
+      // const response = await axios.put(UrlPut, options,{
+      //   headers: {
+      //     Authorization: `Bearer ${token}`,
+      //   }
+      // });
+      const response = await axios.put(UrlPut, options);
+
       const updatedData = data.map(user => (user.id === options.id ? options : user));
       setData(updatedData);
       abrirCerrarModalEditar();
@@ -230,14 +234,14 @@ const TipoSorteo = () => {
   ////////////////////////PETICION DELETE////////////////////////
 
   const peticionDelete = async () => {
-    const token = verificarToken(); // Verificar token antes de llamar a la API
-    if (!token) return;
+    // const token = verificarToken(); // Verificar token antes de llamar a la API
+    // if (!token) return;
 
     const id = Id.campo; // Asegúrate de que esto esté obteniendo el ID correcto
     const payload = {
         headers: {
           "Content-Type": "application/json", // Establecer tipo de contenido
-          Authorization: `Bearer ${token}`,
+          //Authorization: `Bearer ${token}`,
         },
         data: JSON.stringify(id), // Convertimos a JSON, Aquí pasas el ID del TipoSorteo en el cuerpo de la solicitud
       };
@@ -268,15 +272,17 @@ const TipoSorteo = () => {
   };
 
   const peticionGet = async () => {
-    const token = verificarToken(); // Verificar token antes de llamar a la API
-    if (!token) return;
+    //const token = verificarToken(); // Verificar token antes de llamar a la API
+    //if (!token) return;
 
     try{
-      const response = await axios.get(UrlBase, {
-        headers:{
-          Authorization: `Bearer ${token}`,
-        }
-      });
+      // const response = await axios.get(UrlBase, {
+      //   headers:{
+      //     Authorization: `Bearer ${token}`,
+      //   }
+      // });
+      const response = await axios.get(UrlBase);
+
       setData(response.data);
     } catch (eror){
       console.error ("Error al obtener los tipos de sorteos", error);

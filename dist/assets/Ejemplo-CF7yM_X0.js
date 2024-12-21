@@ -1,0 +1,1 @@
+import{r as s,l as n,j as r}from"./index-C541Cvoq.js";const o=()=>{const e=s.useRef(null),t=n.useReactToPrint({content:()=>e.current});return r.jsxs(r.Fragment,{children:[r.jsx("button",{onClick:t,children:"Imprimir"}),r.jsx("div",{ref:e,children:r.jsx("h1",{children:"Esto es el label a imprimir "})})]})};export{o as default};
