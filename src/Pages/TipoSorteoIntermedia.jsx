@@ -17,9 +17,12 @@ import "../Styles/variables.css";
 
 const columnas = [
   { title: "Codigo", field: "id" },
-  { title: "Nombre", field: "nombre" },
+  { title: "Sorteo", field: "nombre" },
   { title: "Fondo", field: "fondo" },
-  { title: "Porcentaje De Pago", field: "porcentajePago" },
+  { title: "% De Pago", field: "porcentajePago" },
+  { title: "Hora Inicio", field: "inicio" },
+  { title: "Hora Fin", field: "fin" },
+
 ];
 
 //////////////////////////TERMINA GRID INICIAL//////////////////////////
@@ -32,9 +35,8 @@ const columnas = [
 // const UrlDel = "http://190.113.84.163:8000/TipoSorteoGeneral/DelTipoSorteoGeneral";
 // const EndPointTipoSorteoGeneralXId = "http://190.113.84.163:8000/TipoSorteoGeneral/RecTipoSorteoGeneralXId";
 
-const UrlBase = "https://localhost:44366/TipoSorteoGeneral/RecTipoSorteoGeneralDetallado";
-//const UrlBase = "https://localhost:44366/TipoSorteoGeneral/RecTipoSorteoGeneral";
-const UrlPost = "https://localhost:44366/TipoSorteoGeneral/InsTipoSorteoGeneral";
+const UrlBase = "https://localhost:44366/TipoSorteoIntermedia/RecTipoSorteoIntermediaDetallado";
+const UrlPost = "https://localhost:44366/TipoSorteoInteredia/InsTipoSorteoIntermedia";
 const UrlPut = "https://localhost:44366/TipoSorteoGeneral/ModTipoSorteoGeneral";
 const UrlDel = "https://localhost:44366/TipoSorteoGeneral/DelTipoSorteoGeneral";
 const EndPointTipoSorteoGeneralXId = "https://localhost:44366/TipoSorteoGeneral/RecTipoSorteoGeneralXId";
@@ -53,7 +55,7 @@ const EndPointTipoSorteoGeneralXId = "https://localhost:44366/TipoSorteoGeneral/
 
 //////////////////////////TERMINA URLs///////////////////////////
 
-const TipoSorteoGeneral = () => {
+const TipoSorteoIntermedia = () => {
     
   //////////////////////////INICIA CONSTANTES - STATE///////////////////////////
   const initialState = {campo: "", valido: null};
@@ -62,22 +64,30 @@ const TipoSorteoGeneral = () => {
   const [Nombre, cambiarNombre] = useState(initialState);
   const [Fondo, cambiarFondo] = useState({campo: 0, valido: null});
   const [PorcentajePago, cambiarPorcentajePago] = useState({campo: 0, valido: null});
+  const [NombreReventado, cambiarNombreReventado] = useState(initialState);
+  const [PorcentajePagoReventado, cambiarPorcentajePagoReventado] = useState({campo: 0, valido: null});
+  const [HoraInicio, cambiarHoraInicio] = useState(initialState);
   const [HoraFin, cambiarHoraFin] = useState(initialState);
   const [formularioValido, cambiarFormularioValido] = useState(false);
   const [data, setData] = useState([]);
   const [modalInsertar, setModalInsertar] = useState(false);
   const [modalEditar, setModalEditar] = useState(false);
   const [modalEliminar, setModalEliminar] = useState(false);
+  const [esReventado, cambiarEsReventado] = useState(false);
+
+
 
   //////////////////////////TERMINA CONSTANTES - STATE///////////////////////////
   /////////////////////////////////////INICIA EXPRESIONES//////////////////////////////////
 
   const expresionesRegulares = {
     Id: /^[0-9]*$/,
-    Nombre: /^[a-zA-Z0-9_-\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
+    Nombre: /^[\s\S]{1,40}$/, //El nombre admite cualquier caracter unicamente valida la longitud a 30
     Fondo: /^[0-9]*$/,
     PorcentajePago: /^[0-9]*$/,
-    HoraFin: /^[0-9]*$/,
+    NombreReventado: /^[\s\S]{1,40}$/, //El nombre admite cualquier caracter unicamente valida la longitud a 30
+    PorcentajePagoReventado: /^[0-9]*$/,
+    //HoraFin: /^[0-9]*$/,
   };
 
 
@@ -97,17 +107,32 @@ const TipoSorteoGeneral = () => {
 
   const handleSubmit = (e, action, fields) => {
     console.log(fields);
+    console.log(HoraFin);
     e.preventDefault();
-    if (validarFormulario(fields)) {
-      cambiarFormularioValido(true);
-      resetForm();
-      action();
-    } else {
-      cambiarFormularioValido(false);
-    }
+    if (esReventado){
+      console.log("entro el if de check");
+      if (validarFormulario(fields)) {
+        cambiarFormularioValido(true);
+        resetForm();
+        action();
+      } else {
+        cambiarFormularioValido(false);
+      }
+    }else{
+      console.log("entro el if de No check");
+      fields=[Nombre, Fondo, PorcentajePago, HoraInicio, HoraFin];
+      console.log(fields);
+      if (validarFormulario(fields)) {
+        cambiarFormularioValido(true);
+        resetForm();
+        action();
+      } else {
+        cambiarFormularioValido(false);
+      }
+    }   
   };
 
-  const onSubmitPost = (e) => handleSubmit(e, showQuestionPost, [Id, Nombre, Fondo, PorcentajePago, HoraFin]);
+  const onSubmitPost = (e) => handleSubmit(e, showQuestionPost, [Nombre, Fondo, PorcentajePago, HoraInicio, HoraFin, esReventado, NombreReventado, PorcentajePagoReventado]);
 
   const onSubmitPut = (e) => handleSubmit(e, showQuestionPut, [Id, Nombre, Fondo, PorcentajePago, HoraFin]);
 
@@ -182,11 +207,11 @@ const TipoSorteoGeneral = () => {
     //if (!token) return;
 
     const options = {
-      Id: Id.campo,
       Nombre: Nombre.campo,
       Fondo: Fondo.campo,
       PorcentajePago: porcentaje.campo,
-      HoraFin: horaFin.campo
+      HoraInicio: horaInicio.campo,
+      HoraFin: horaFin.campo,
     };
 
     try {
@@ -395,83 +420,214 @@ const TipoSorteoGeneral = () => {
     );
   };
   
+  // const bodyInsertar = (
+  //   <div style={scrollVertical}>
+  //     <h3>Incluir Tipo De Sorteo General</h3>
+  //     <div className="relleno-general">
+  //       {" "}
+  //       General
+  //       <div className="container-fluid">
+  //         <Formulario>
+  //           <Columna>
+  //             {/* <InputGeneral
+  //               estado={Id}
+  //               cambiarEstado={cambiarId}
+  //               tipo="text"
+  //               label="Id Tipo De Sorteo General"
+  //               placeholder="Introduzca el id del tipo de sorteo"
+  //               name="Id"
+  //               leyendaError="El Id Del Tipo de Sorteo solo puede contener numeros."
+  //               expresionRegular={expresionesRegulares.Id}
+  //               onChange={validarExistenciaTipoSorteoGeneralId}
+  //               onBlur={validarExistenciaTipoSorteoGeneralId}
+  //               autofocus
+  //             /> */}
+  //             <InputGeneral
+  //               estado={Nombre}
+  //               cambiarEstado={cambiarNombre}
+  //               tipo="text"
+  //               label="Nombre"
+  //               placeholder="Introduzca el nombre"
+  //               name="Nombre"
+  //               leyendaError="El nombre solo puede contener letras y espacios."
+  //               expresionRegular={expresionesRegulares.Nombre}
+  //             />
+
+  //             <InputGeneral
+  //               estado={Fondo}
+  //               cambiarEstado={cambiarFondo}
+  //               tipo="numeric"
+  //               label="Fondo del sorteo"
+  //               placeholder="Introduzca el fondo para el sorteo"
+  //               name="Fondo"
+  //               leyendaError="El fondo debe ser numerico"
+  //               expresionRegular={expresionesRegulares.Fondo}
+  //             />
+
+  //             <InputGeneral
+  //               estado={PorcentajePago}
+  //               cambiarEstado={cambiarPorcentajePago}
+  //               tipo="numeric"
+  //               label="Porcentaje de pago"
+  //               placeholder="Introduzca el porcentaje de pago"
+  //               name="FechaFin"
+  //               leyendaError="El porcentaje de pago debe ser numerico"
+  //               expresionRegular={expresionesRegulares.PorcentajePago}
+  //             />
+
+  //             <InputGeneral
+  //               estado={HoraFin}
+  //               cambiarEstado={cambiarHoraFin}
+  //               tipo="time"
+  //               label="Hora De Fin"
+  //               placeholder="Introduzca la hora de fin"
+  //               name="HoraFin"
+  //               leyendaError="Formato de hora incorrecta "
+  //               expresionRegular={expresionesRegulares.HoraFin}
+  //             />
+  //           </Columna>
+  //         </Formulario>
+  //       </div>
+  //     </div>
+  //     <MensajeFormulario
+  //       titulo= "Insertar"
+  //       formularioValido={formularioValido}
+  //       onCancel={abrirCerrarModalInsertar}
+  //       onSubmit={onSubmitPost} // Reemplaza con la función adecuada
+  //     />
+  //   </div>
+  // );
+
+
+
+
   const bodyInsertar = (
     <div style={scrollVertical}>
       <h3>Incluir Tipo De Sorteo General</h3>
       <div className="relleno-general">
-        {" "}
-        General
-        <div className="container-fluid">
-          <Formulario>
-            <Columna>
-              <InputGeneral
-                estado={Id}
-                cambiarEstado={cambiarId}
-                tipo="text"
-                label="Id Tipo De Sorteo Geeral"
-                placeholder="Introduzca Id Del Tipo de Sorteo"
-                name="Id"
-                leyendaError="El Id Del Tipo de Sorteo solo puede contener numeros."
-                expresionRegular={expresionesRegulares.Id}
-                onChange={validarExistenciaTipoSorteoGeneralId}
-                onBlur={validarExistenciaTipoSorteoGeneralId}
-                autofocus
-              />
-              <InputGeneral
-                estado={Nombre}
-                cambiarEstado={cambiarNombre}
-                tipo="text"
-                label="Nombre"
-                placeholder="Introduzca El Nombre"
-                name="Nombre"
-                leyendaError="El Nombre solo puede contener letras y espacios."
-                expresionRegular={expresionesRegulares.Nombre}
-              />
-
-              <InputGeneral
-                estado={Fondo}
-                cambiarEstado={cambiarFondo}
-                tipo="numeric"
-                label="Fondo del Sorteo"
-                placeholder="Introduzca el Fondo Para El Sorteo"
-                name="Fondo"
-                leyendaError="El Fondo Debe Ser Numerico"
-                expresionRegular={expresionesRegulares.Fondo}
-              />
-
-              <InputGeneral
-                estado={PorcentajePago}
-                cambiarEstado={cambiarPorcentajePago}
-                tipo="numeric"
-                label="Porcentaje De Pago"
-                placeholder="Introduzca El Porcentaje De Pago"
-                name="FechaFin"
-                leyendaError="El Porcentaje De Pago Debe Ser Numerico"
-                expresionRegular={expresionesRegulares.PorcentajePago}
-              />
-
-              <InputGeneral
-                estado={HoraFin}
-                cambiarEstado={cambiarHoraFin}
-                tipo="time"
-                label="Hora De Fin"
-                placeholder="Introduzca La Hora De Fin"
-                name="HoraFin"
-                leyendaError="Formato De Hora Incorrecta "
-                expresionRegular={expresionesRegulares.HoraFin}
-              />
-            </Columna>
-          </Formulario>
+        <div className="grupo">
+          <h4>General</h4>
+          <div className="container-fluid">
+            <Formulario>
+              <Columna>
+                <InputGeneral
+                  estado={Nombre}
+                  cambiarEstado={cambiarNombre}
+                  tipo="text"
+                  label="Nombre"
+                  placeholder="Introduzca el nombre"
+                  name="Nombre"
+                  leyendaError="El nombre solo puede contener letras y espacios."
+                  expresionRegular={expresionesRegulares.Nombre}
+                />
+  
+                <InputGeneral
+                  estado={Fondo}
+                  cambiarEstado={cambiarFondo}
+                  tipo="numeric"
+                  label="Fondo del sorteo"
+                  placeholder="Introduzca el fondo para el sorteo"
+                  name="Fondo"
+                  leyendaError="El fondo debe ser numerico"
+                  expresionRegular={expresionesRegulares.Fondo}
+                />
+  
+                <InputGeneral
+                  estado={PorcentajePago}
+                  cambiarEstado={cambiarPorcentajePago}
+                  tipo="numeric"
+                  label="Porcentaje de pago"
+                  placeholder="Introduzca el porcentaje de pago"
+                  name="PorcentajePago"
+                  leyendaError="El porcentaje de pago debe ser numerico"
+                  expresionRegular={expresionesRegulares.PorcentajePago}
+                />
+  
+                <InputGeneral
+                  estado={HoraInicio}
+                  cambiarEstado={cambiarHoraInicio}
+                  tipo="time"
+                  label="Hora De Inicio"
+                  placeholder="Introduzca la hora de inicio"
+                  name="HoraInicio"
+                  leyendaError="Formato de hora incorrecta"
+                  //expresionRegular={expresionesRegulares.HoraInicio}
+                />
+  
+                <InputGeneral
+                  estado={HoraFin}
+                  cambiarEstado={cambiarHoraFin}
+                  tipo="time"
+                  label="Hora De Fin"
+                  placeholder="Introduzca la hora de fin"
+                  name="HoraFin"
+                  leyendaError="Formato de hora incorrecta"
+                  //expresionRegular={expresionesRegulares.HoraFin}
+                />
+              </Columna>
+            </Formulario>
+          </div>
         </div>
+  
+        <div className="checkbox-container">
+          <label>
+            <input
+              type="checkbox"
+              checked={esReventado}
+              onChange={(e) => cambiarEsReventado(e.target.checked)}
+            />
+            Sorteo Reventado
+          </label>
+        </div>
+  
+        {esReventado && (
+          <div className="grupo">
+            <h4>Reventado</h4>
+            <div className="container-fluid">
+              <Formulario>
+                <Columna>
+                  <InputGeneral
+                    estado={NombreReventado}
+                    cambiarEstado={cambiarNombreReventado}
+                    tipo="text"
+                    label="Nombre"
+                    placeholder="Introduzca el nombre"
+                    name="NombreReventado"
+                    leyendaError="El nombre solo puede contener letras y espacios."
+                    expresionRegular={expresionesRegulares.Nombre}
+                  />
+  
+                  <InputGeneral
+                    estado={PorcentajePagoReventado}
+                    cambiarEstado={cambiarPorcentajePagoReventado}
+                    tipo="numeric"
+                    label="Porcentaje de pago"
+                    placeholder="Introduzca el porcentaje de pago"
+                    name="PorcentajePagoReventado"
+                    leyendaError="El porcentaje de pago debe ser numerico"
+                    expresionRegular={expresionesRegulares.PorcentajePago}
+                  />
+                </Columna>
+                <p style={{ marginTop: "1rem", fontStyle: "italic" }}>
+                  El fondo sugerido será generado automáticamente.
+                </p>
+              </Formulario>
+            </div>
+          </div>
+        )}
       </div>
+  
       <MensajeFormulario
-        titulo= "Insertar"
+        titulo="Insertar"
         formularioValido={formularioValido}
         onCancel={abrirCerrarModalInsertar}
-        onSubmit={onSubmitPost} // Reemplaza con la función adecuada
+        onSubmit={onSubmitPost}
       />
     </div>
   );
+
+
+
 
   const bodyEditar = (
     <div style={scrollVertical}>
@@ -572,7 +728,7 @@ const TipoSorteoGeneral = () => {
     <div className="Cliente">
       <div className="banner">
         <h3>
-          <b>200-Mantenimiento Tipo De Sorteos General</b>
+          <b>200-Mantenimiento Tipo De Sorteos Intermedia</b>
         </h3>
       </div>
       <div className="btn-agrega">
@@ -580,7 +736,7 @@ const TipoSorteoGeneral = () => {
           startIcon={<AddBox />}
           onClick={() => abrirCerrarModalInsertar()}
         >
-          Agregar Tipo De Sorteo General
+          Agregar Tipo De Sorteo Intermedia
         </Button>
       </div>
       <br />
@@ -588,7 +744,7 @@ const TipoSorteoGeneral = () => {
       <MaterialTable
         columns={columnas}
         data={data}
-        title="Tipo De Sorteo General"
+        title="Tipo De Sorteo Intermedia"
         actions={[
           {
             icon: Edit,
@@ -632,4 +788,4 @@ const TipoSorteoGeneral = () => {
   );
 };
 
-export default TipoSorteoGeneral;
+export default TipoSorteoIntermedia;

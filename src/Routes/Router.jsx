@@ -6,6 +6,8 @@ import Kardex from "../Pages/Kardex";
 import Sorteo from "../Pages/Sorteo";
 import TipoSorteo from "../Pages/TipoSorteo";
 import TipoSorteoGeneral from "../Pages/TipoSorteoGeneral";
+import TipoSorteoIntermedia from "../Pages/TipoSorteoIntermedia";
+
 import Usuario from "../Pages/Usuario";
 import Login from "../Pages/Login";
 import Navbar from "../Components/Navbar";
@@ -22,6 +24,7 @@ function Router() {
         <Route path="/Usuario" exact element={<Usuario />} />
         <Route path="/TipoSorteo" exact element={<TipoSorteo />} />
         <Route path="/TipoSorteoGeneral" exact element={<TipoSorteoGeneral />} />
+        <Route path="/TipoSorteoIntermedia" exact element={<TipoSorteoIntermedia />} />
         <Route path="/Sorteo" exact element={<Sorteo />} />
         <Route path="/Kardex" exact element={<Kardex />} />
         <Route path="/Logout" exact element={<Logout />} />

@@ -30,6 +30,12 @@ export const SidebarData = [
     cName: 'nav-text'
   },
   {
+    title: 'Tipo de Sorteos Intermedia',
+    path: '/TipoSorteoIntermedia',
+    icon: <FaIcons.FaTicketAlt />,
+    cName: 'nav-text'
+  },
+  {
     title: 'Tipo de Sorteos General',
     path: '/TipoSorteoGeneral',
     icon: <FaIcons.FaTicketAlt />,
