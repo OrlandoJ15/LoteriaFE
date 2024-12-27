@@ -5,7 +5,13 @@ import { Modal, Button } from "@mui/material";
 import { AddBox, DeleteOutline, Edit, Password } from "@mui/icons-material";
 import Swal from "sweetalert2";
 import InputGeneral from "../Components/InputGeneral";
-import {ColumnaCenter, Columna, Formulario, MensajeExito, MensajeError} from "../Components/Formularios";
+import {
+  ColumnaCenter,
+  Columna,
+  Formulario,
+  MensajeExito,
+  MensajeError,
+} from "../Components/Formularios";
 import "../Styles/Cliente.modal.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
@@ -20,9 +26,8 @@ const columnas = [
   { title: "Sorteo", field: "nombre" },
   { title: "Fondo", field: "fondo" },
   { title: "% De Pago", field: "porcentajePago" },
-  { title: "Hora Inicio", field: "inicio" },
-  { title: "Hora Fin", field: "fin" },
-
+  { title: "Hora Inicio", field: "fechaInicio" },
+  { title: "Hora Fin", field: "fechaFin" },
 ];
 
 //////////////////////////TERMINA GRID INICIAL//////////////////////////
@@ -35,13 +40,13 @@ const columnas = [
 // const UrlDel = "http://190.113.84.163:8000/TipoSorteoGeneral/DelTipoSorteoGeneral";
 // const EndPointTipoSorteoGeneralXId = "http://190.113.84.163:8000/TipoSorteoGeneral/RecTipoSorteoGeneralXId";
 
-const UrlBase = "https://localhost:44366/TipoSorteoIntermedia/RecTipoSorteoIntermediaDetallado";
-const UrlPost = "https://localhost:44366/TipoSorteoInteredia/InsTipoSorteoIntermedia";
+const UrlBase =
+  "https://localhost:44366/TipoSorteoIntermedia/RecTipoSorteoIntermediaDetallado";
+const UrlPost =
+  "https://localhost:44366/TipoSorteoIntermedia/InsTipoSorteoIntermediaDetallado";
 const UrlPut = "https://localhost:44366/TipoSorteoGeneral/ModTipoSorteoGeneral";
 const UrlDel = "https://localhost:44366/TipoSorteoGeneral/DelTipoSorteoGeneral";
-const EndPointTipoSorteoGeneralXId = "https://localhost:44366/TipoSorteoGeneral/RecTipoSorteoGeneralXId";
-
-
+const UrlGetXId = "localhost:44366/TipoSorteoIntermedia/RecTipoSorteoIntermediaXId";
 
 //////////////////URL AZURE///////////////////////
 // const UrlBase =
@@ -56,16 +61,21 @@ const EndPointTipoSorteoGeneralXId = "https://localhost:44366/TipoSorteoGeneral/
 //////////////////////////TERMINA URLs///////////////////////////
 
 const TipoSorteoIntermedia = () => {
-    
   //////////////////////////INICIA CONSTANTES - STATE///////////////////////////
-  const initialState = {campo: "", valido: null};
+  const initialState = { campo: "", valido: null };
 
   const [Id, cambiarId] = useState(initialState);
   const [Nombre, cambiarNombre] = useState(initialState);
-  const [Fondo, cambiarFondo] = useState({campo: 0, valido: null});
-  const [PorcentajePago, cambiarPorcentajePago] = useState({campo: 0, valido: null});
+  const [Fondo, cambiarFondo] = useState({ campo: 0, valido: null });
+  const [PorcentajePago, cambiarPorcentajePago] = useState({
+    campo: 0,
+    valido: null,
+  });
   const [NombreReventado, cambiarNombreReventado] = useState(initialState);
-  const [PorcentajePagoReventado, cambiarPorcentajePagoReventado] = useState({campo: 0, valido: null});
+  const [PorcentajePagoReventado, cambiarPorcentajePagoReventado] = useState({
+    campo: 0,
+    valido: null,
+  });
   const [HoraInicio, cambiarHoraInicio] = useState(initialState);
   const [HoraFin, cambiarHoraFin] = useState(initialState);
   const [formularioValido, cambiarFormularioValido] = useState(false);
@@ -73,9 +83,8 @@ const TipoSorteoIntermedia = () => {
   const [modalInsertar, setModalInsertar] = useState(false);
   const [modalEditar, setModalEditar] = useState(false);
   const [modalEliminar, setModalEliminar] = useState(false);
-  const [esReventado, cambiarEsReventado] = useState(false);
-
-
+  const [esReventado, cambiarEsReventado] = useState(initialState);
+  const [esCustomizado, cambiarEsCustomizado] = useState(false);
 
   //////////////////////////TERMINA CONSTANTES - STATE///////////////////////////
   /////////////////////////////////////INICIA EXPRESIONES//////////////////////////////////
@@ -90,62 +99,100 @@ const TipoSorteoIntermedia = () => {
     //HoraFin: /^[0-9]*$/,
   };
 
-
   /////////////////////////////////////TERMINA EXPRESIONES//////////////////////////////////
 
   const resetForm = () => {
     cambiarId(initialState);
     cambiarNombre(initialState);
+    cambiarNombreReventado(initialState);
     cambiarFondo(initialState);
     cambiarPorcentajePago(initialState);
+    cambiarPorcentajePagoReventado(initialState);
+    cambiarHoraInicio(initialState);
     cambiarHoraFin(initialState);
+    cambiarEsReventado(initialState);
+    cambiarEsCustomizado(initialState);
   };
 
   const validarFormulario = (fields) => {
-    return fields.every(field => field.valido === "true");
+    return fields.every((field) => field.valido === "true");
   };
 
   const handleSubmit = (e, action, fields) => {
-    console.log(fields);
-    console.log(HoraFin);
     e.preventDefault();
-    if (esReventado){
-      console.log("entro el if de check");
-      if (validarFormulario(fields)) {
-        cambiarFormularioValido(true);
-        resetForm();
-        action();
+    if (esCustomizado) {
+      if (esReventado) {
+        if (validarFormulario(fields)) {
+          cambiarFormularioValido(true);
+          resetForm();
+          action();
+        } else {
+          cambiarFormularioValido(false);
+        }
       } else {
-        cambiarFormularioValido(false);
+        fields = [Nombre, Fondo, PorcentajePago, HoraInicio, HoraFin];
+
+        if (validarFormulario(fields)) {
+          cambiarFormularioValido(true);
+          resetForm();
+          action();
+        } else {
+          cambiarFormularioValido(false);
+        }
       }
-    }else{
-      console.log("entro el if de No check");
-      fields=[Nombre, Fondo, PorcentajePago, HoraInicio, HoraFin];
-      console.log(fields);
-      if (validarFormulario(fields)) {
-        cambiarFormularioValido(true);
-        resetForm();
-        action();
+    } else {
+      if (esReventado) {
+        if (validarFormulario(fields)) {
+          cambiarFormularioValido(true);
+          resetForm();
+          action();
+        } else {
+          cambiarFormularioValido(false);
+        }
       } else {
-        cambiarFormularioValido(false);
+        fields = [Nombre, Fondo, PorcentajePago, HoraFin];
+
+        if (validarFormulario(fields)) {
+          cambiarFormularioValido(true);
+          resetForm();
+          action();
+        } else {
+          cambiarFormularioValido(false);
+        }
       }
-    }   
+    }
   };
 
-  const onSubmitPost = (e) => handleSubmit(e, showQuestionPost, [Nombre, Fondo, PorcentajePago, HoraInicio, HoraFin, esReventado, NombreReventado, PorcentajePagoReventado]);
+  const onSubmitPost = (e) =>
+    handleSubmit(e, showQuestionPost, [
+      Nombre,
+      Fondo,
+      PorcentajePago,
+      HoraInicio,
+      HoraFin,
+      NombreReventado,
+      PorcentajePagoReventado,
+    ]);
 
-  const onSubmitPut = (e) => handleSubmit(e, showQuestionPut, [Id, Nombre, Fondo, PorcentajePago, HoraFin]);
+  const onSubmitPut = (e) =>
+    handleSubmit(e, showQuestionPut, [
+      Id,
+      Nombre,
+      Fondo,
+      PorcentajePago,
+      HoraFin,
+    ]);
 
   ////////////////////////////////VALIDACIONES ID/////////////////////////////////
-  
+
   const validarExistenciaTipoSorteoGeneralId = async () => {
     const options = {
-          id: Id.campo,
-          nombre: "",
-          fondo: 0,
-          porcentajePago: 0,
-          horaFin: "",
-        };  
+      id: Id.campo,
+      nombre: "",
+      fondo: 0,
+      porcentajePago: 0,
+      horaFin: "",
+    };
     try {
       const response = await axios.post(EndPointTipoSorteoGeneralXId, options);
 
@@ -156,18 +203,37 @@ const TipoSorteoIntermedia = () => {
       } else {
         // Si existe otro usuario con ese ID, seteamos el campo a vacío y no válido
         cambiarId({ campo: "", valido: "false" });
-        Swal.fire({ icon: "error", title: "Cuidado", text: "Código Tipo de Sorteo Existente, Intente Nuevamente" });
+        Swal.fire({
+          icon: "error",
+          title: "Cuidado",
+          text: "Código Tipo de Sorteo Existente, Intente Nuevamente",
+        });
       }
     } catch (error) {
       console.error("Error:", error);
     }
   };
-  
+
+  const validarHoraCustom = () => {
+    //cambiarEsCustomizado((prev) => ({ ...prev}));
+    if (esCustomizado) {
+      cambiarHoraInicio(HoraFin);
+    } else {
+      const valor = HoraFin.campo.value;
+      const valor2 = new Date(valor);
+      const hora = valor2.toTimeString().split(":").slice(0, 2).join(":");
+      cambiarHoraFin(hora);
+    }
+  };
+
   ////////////////////////////////FINALIZA VALIDACIONES ID/////////////////////////////////
 
-  const showQuestionPost = () => showQuestion("Desea Guardar Los Cambios?", peticionPost);
-  const showQuestionPut = () => showQuestion("Desea Editar Los Cambios?", peticionPut);
-  const showQuestionDel = () => showQuestion("Desea Eliminar Los Cambios?", peticionDelete);
+  const showQuestionPost = () =>
+    showQuestion("Desea Guardar Los Cambios?", peticionPost);
+  const showQuestionPut = () =>
+    showQuestion("Desea Editar Los Cambios?", peticionPut);
+  const showQuestionDel = () =>
+    showQuestion("Desea Eliminar Los Cambios?", peticionDelete);
 
   ////////////////////////////PETICION POST//////////////////////////////////////////////////
 
@@ -178,11 +244,11 @@ const TipoSorteoIntermedia = () => {
       confirmButtonText: "Confirmar",
       denyButtonText: "Cancelar",
     }).then((result) => {
-      if (result.isConfirmed){
+      if (result.isConfirmed) {
         Swal.fire("Operacion Exitosa", "", "success");
         accion();
-      }else if (result.isDenied){
-        Swal.fire("Cambios No Guardados", "","info");
+      } else if (result.isDenied) {
+        Swal.fire("Cambios No Guardados", "", "info");
       }
     });
   };
@@ -209,23 +275,28 @@ const TipoSorteoIntermedia = () => {
     const options = {
       Nombre: Nombre.campo,
       Fondo: Fondo.campo,
-      PorcentajePago: porcentaje.campo,
-      HoraInicio: horaInicio.campo,
-      HoraFin: horaFin.campo,
+      PorcentajePago: PorcentajePago.campo,
+      FechaInicio: HoraInicio.campo,
+      //HoraInicio: new Date(HoraInicio.campo).toISOString(),
+      FechaFin: HoraFin.campo,
+      //HoraFin: new Date(HoraFin.campo).toISOString(),
+      NombreReventado: NombreReventado.campo,
+      PorcentajePagoReventado: PorcentajePagoReventado.campo,
     };
-
+    console.log("estos son los datos que vamos a insertar: ", options);
     try {
       // const response = await axios.post(UrlPost, options, {
       //   headers: {
       //       Authorization: `Bearer ${token}`,
       //   }
       // });
+
       const response = await axios.post(UrlPost, options);
 
       setData([...data, response.data]);
       abrirCerrarModalInsertar();
-    }catch (error){
-      console.error("Error en la peticion Post: ",error);
+    } catch (error) {
+      console.error("Error en la peticion Post: ", error);
     }
   };
 
@@ -238,14 +309,15 @@ const TipoSorteoIntermedia = () => {
     //if (!token) return;
 
     const options = {
-        Id: Id.campo,
-        Nombre: Nombre.campo,
-        Fondo: Fondo.campo,
-        PorcentajePago: porcentaje.campo,
-        HoraFin: horaFin.campo
-      };
+      Id: Id.campo,
+      Nombre: Nombre.campo,
+      Fondo: Fondo.campo,
+      PorcentajePago: PorcentajePago.campo,
+      FechaInicio: FechaInicio.campo,
+      FechaFin: FechaFin.campo,
+    };
 
-    try{
+    try {
       // const response = await axios.put(UrlPut, options,{
       //   headers: {
       //       Authorization: `Bearer ${token}`,
@@ -253,10 +325,12 @@ const TipoSorteoIntermedia = () => {
       // });
       const response = await axios.put(UrlPut, options);
 
-      const updatedData = data.map(user => (user.id === options.idTipoSorteoGeneral ? options : user));
+      const updatedData = data.map((user) =>
+        user.id === options.idTipoSorteoGeneral ? options : user
+      );
       setData(updatedData);
       abrirCerrarModalEditar();
-    } catch (error){
+    } catch (error) {
       console.error("Error En La Peticion Post: ", error);
     }
   };
@@ -271,15 +345,15 @@ const TipoSorteoIntermedia = () => {
 
     const id = Id.campo; // Asegúrate de que esto esté obteniendo el ID correcto
     const payload = {
-        headers: {
-          "Content-Type": "application/json", // Establecer tipo de contenido
-          //Authorization: `Bearer ${token}`,
-        },
-        data: JSON.stringify(id), // Convertimos a JSON, Aquí pasas el ID del TipoSorteoGeneral en el cuerpo de la solicitud
-      };
-    try{
-      await axios.delete(UrlDel, payload)
-      setData(data.filter(user => user.Id !== Id.campo));
+      headers: {
+        "Content-Type": "application/json", // Establecer tipo de contenido
+        //Authorization: `Bearer ${token}`,
+      },
+      data: JSON.stringify(id), // Convertimos a JSON, Aquí pasas el ID del TipoSorteoGeneral en el cuerpo de la solicitud
+    };
+    try {
+      await axios.delete(UrlDel, payload);
+      setData(data.filter((user) => user.Id !== Id.campo));
       abrirCerrarModalEliminar();
       peticionGet();
     } catch (error) {
@@ -291,34 +365,51 @@ const TipoSorteoIntermedia = () => {
 
   //////////////////////////PETICION SELECT////////////////////////
 
-  const seleccionarTipoSorteoGeneral = async (TipoSorteoGeneral, caso) => {
-    const XTipoSorteoGeneral = Object.values(...TipoSorteoGeneral);
+  const seleccionarTipoSorteoIntermedia = async (TipoSorteoIntermedia , caso ) => {
+   
+    options = {
+      Id: TipoSorteoIntermedia.Id,
+      IdTipoSorteoGeneral: 0,
+      IdTipoSortepGeeralExtraordinario: 0,
+      Fondo: 0,
+      PorcentajePago: 0,
+      HoraInicio: new Date(),
+      HoraFin: new Date()
+    }
 
-    cambiarId({ campo: XTipoSorteoGeneral[0], valido: "true" });
-    cambiarNombre({ campo: XTipoSorteoGeneral[1], valido: "true" });
-    cambiarFondo({ campo: XTipoSorteoGeneral[2], valido: "true" });
-    cambiarPorcentajePago({ campo: XTipoSorteoGeneral[3], valido: "true" });
-    cambiarHoraFin({ campo: XTipoSorteoGeneral[4], valido: "true" });
-    caso === "Editar"
-      ? abrirCerrarModalEditar()
-      : abrirCerrarModalEliminar()
+    const response = await axios.get(UrlGetXId, options);
+    console.log("Esta es la respuesta del get x id", response);
+    
+    const XTipoSorteoIntermedia = Object.values(...TipoSorteoIntermedia);
+
+
+    console.log("Entamos el seleccionar");
+    console.log("esta es la entidad", TipoSorteoIntermedia),
+      console.log("esta es la copia", TipoSorteoIntermedia),
+      //cambiarId({ campo: XTipoSorteoIntermedia[0], valido: "true" });
+      cambiarNombre({ campo: XTipoSorteoIntermedia[0], valido: "true" });
+    cambiarFondo({ campo: XTipoSorteoIntermedia[3], valido: "true" });
+    cambiarPorcentajePago({ campo: XTipoSorteoIntermedia[4], valido: "true" });
+    cambiarHoraInicio({ campo: XTipoSorteoIntermedia[5], valido: "true" });
+    cambiarHoraFin({ campo: XTipoSorteoIntermedia[6], valido: "true" });
+    caso === "Editar" ? abrirCerrarModalEditar() : abrirCerrarModalEliminar();
   };
 
   const peticionGet = async () => {
     //const token = verificarToken(); // Verificar token antes de llamar a la API
     //if (!token) return;
 
-    try{
+    try {
       // const response = await axios.get(UrlBase,{
       //   headers: {
       //       Authorization: `Bearer ${token}`,
       //   }
       // });
       const response = await axios.get(UrlBase);
-      
+
       setData(response.data);
-    } catch (eror){
-      console.error ("Error al obtener los tipos de sorteos", error);
+    } catch (eror) {
+      console.error("Error al obtener los tipos de sorteos", error);
     }
   };
 
@@ -355,45 +446,50 @@ const TipoSorteoIntermedia = () => {
     backgroundColor: "rgb(255, 255, 255)",
   };
 
-  const modalStyles = {
-    position: "fixed",
-    top: "50%",
-    left: "50%",
-    width: "100%",
-    height: "100%",
-    transform: "translate(-50%, -50%)",
-    zIndex: 1040,
-    padding: "0 0 0 25%",
-  };
+  // const modalStyles = {
+  //   position: "fixed",
+  //   top: "50%",
+  //   left: "50%",
+  //   width: "100%",
+  //   height: "100%",
+  //   transform: "translate(-50%, -50%)",
+  //   zIndex: 1040,
+  //   padding: "0 0 0 25%",
+  // };
 
-  const modalStylesDelete = {
-    position: "fixed",
-    top: "50%",
-    left: "50%",
-    width: "100%",
-    height: "100%",
-    transform: "translate(-50%, -50%)",
-    zIndex: 1040,
-    padding: "0 0 0 25%",
-  };
+  // const modalStylesDelete = {
+  //   position: "fixed",
+  //   top: "50%",
+  //   left: "50%",
+  //   width: "100%",
+  //   height: "100%",
+  //   transform: "translate(-50%, -50%)",
+  //   zIndex: 1040,
+  //   padding: "0 0 0 25%",
+  // };
 
-  const ListStyleButton = {
-    margin: "20px 0px 0px 0px",
-  };
+  // const ListStyleButton = {
+  //   margin: "20px 0px 0px 0px",
+  // };
 
-  const StyleLabelAfterButton = {
-    margin: "0px 0px 10px 0px",
-  };
+  // const StyleLabelAfterButton = {
+  //   margin: "0px 0px 10px 0px",
+  // };
 
-  const Text = {
-    fontWeight: "bold",
-  };
+  // const Text = {
+  //   fontWeight: "bold",
+  // };
 
   ////////////////////////////CSS SCROLL, MODAL////////////////////////////
 
   /////////////////////////INCLUIR ARTICULOS////////////////////////////
 
-  const MensajeFormulario = ({titulo, formularioValido, onCancel, onSubmit }) => {
+  const MensajeFormulario = ({
+    titulo,
+    formularioValido,
+    onCancel,
+    onSubmit,
+  }) => {
     return (
       <>
         {formularioValido === false && (
@@ -407,7 +503,7 @@ const TipoSorteoIntermedia = () => {
         {formularioValido === true && (
           <MensajeExito>Campos llenos exitosamente!</MensajeExito>
         )}
-  
+
         <div align="right">
           <Button color="success" onClick={onCancel}>
             Cancelar
@@ -419,87 +515,6 @@ const TipoSorteoIntermedia = () => {
       </>
     );
   };
-  
-  // const bodyInsertar = (
-  //   <div style={scrollVertical}>
-  //     <h3>Incluir Tipo De Sorteo General</h3>
-  //     <div className="relleno-general">
-  //       {" "}
-  //       General
-  //       <div className="container-fluid">
-  //         <Formulario>
-  //           <Columna>
-  //             {/* <InputGeneral
-  //               estado={Id}
-  //               cambiarEstado={cambiarId}
-  //               tipo="text"
-  //               label="Id Tipo De Sorteo General"
-  //               placeholder="Introduzca el id del tipo de sorteo"
-  //               name="Id"
-  //               leyendaError="El Id Del Tipo de Sorteo solo puede contener numeros."
-  //               expresionRegular={expresionesRegulares.Id}
-  //               onChange={validarExistenciaTipoSorteoGeneralId}
-  //               onBlur={validarExistenciaTipoSorteoGeneralId}
-  //               autofocus
-  //             /> */}
-  //             <InputGeneral
-  //               estado={Nombre}
-  //               cambiarEstado={cambiarNombre}
-  //               tipo="text"
-  //               label="Nombre"
-  //               placeholder="Introduzca el nombre"
-  //               name="Nombre"
-  //               leyendaError="El nombre solo puede contener letras y espacios."
-  //               expresionRegular={expresionesRegulares.Nombre}
-  //             />
-
-  //             <InputGeneral
-  //               estado={Fondo}
-  //               cambiarEstado={cambiarFondo}
-  //               tipo="numeric"
-  //               label="Fondo del sorteo"
-  //               placeholder="Introduzca el fondo para el sorteo"
-  //               name="Fondo"
-  //               leyendaError="El fondo debe ser numerico"
-  //               expresionRegular={expresionesRegulares.Fondo}
-  //             />
-
-  //             <InputGeneral
-  //               estado={PorcentajePago}
-  //               cambiarEstado={cambiarPorcentajePago}
-  //               tipo="numeric"
-  //               label="Porcentaje de pago"
-  //               placeholder="Introduzca el porcentaje de pago"
-  //               name="FechaFin"
-  //               leyendaError="El porcentaje de pago debe ser numerico"
-  //               expresionRegular={expresionesRegulares.PorcentajePago}
-  //             />
-
-  //             <InputGeneral
-  //               estado={HoraFin}
-  //               cambiarEstado={cambiarHoraFin}
-  //               tipo="time"
-  //               label="Hora De Fin"
-  //               placeholder="Introduzca la hora de fin"
-  //               name="HoraFin"
-  //               leyendaError="Formato de hora incorrecta "
-  //               expresionRegular={expresionesRegulares.HoraFin}
-  //             />
-  //           </Columna>
-  //         </Formulario>
-  //       </div>
-  //     </div>
-  //     <MensajeFormulario
-  //       titulo= "Insertar"
-  //       formularioValido={formularioValido}
-  //       onCancel={abrirCerrarModalInsertar}
-  //       onSubmit={onSubmitPost} // Reemplaza con la función adecuada
-  //     />
-  //   </div>
-  // );
-
-
-
 
   const bodyInsertar = (
     <div style={scrollVertical}>
@@ -510,6 +525,34 @@ const TipoSorteoIntermedia = () => {
           <div className="container-fluid">
             <Formulario>
               <Columna>
+                {/* <div className="checkbox-container">
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={esCustomizado}
+                      onChange={(e) => cambiarEsCustomizado(e.target.checked)}
+                    />
+                    Sorteo Customizado
+                  </label>
+                </div> */}
+
+                <div className="checkbox-container">
+
+                <InputGeneral
+                  estado={esCustomizado}
+                  cambiarEstado={cambiarEsCustomizado}
+                  //cambiarEstado((prev) => ({ ...prev, valido: 'false' }));
+                  tipo="checkbox"
+                  label="Customizado"
+                  name="esCustomizado"
+                  onChange={validarHoraCustom}
+                  onBlur={validarHoraCustom}
+
+                />
+                </div>
+
+
+
                 <InputGeneral
                   estado={Nombre}
                   cambiarEstado={cambiarNombre}
@@ -520,7 +563,7 @@ const TipoSorteoIntermedia = () => {
                   leyendaError="El nombre solo puede contener letras y espacios."
                   expresionRegular={expresionesRegulares.Nombre}
                 />
-  
+
                 <InputGeneral
                   estado={Fondo}
                   cambiarEstado={cambiarFondo}
@@ -531,7 +574,7 @@ const TipoSorteoIntermedia = () => {
                   leyendaError="El fondo debe ser numerico"
                   expresionRegular={expresionesRegulares.Fondo}
                 />
-  
+
                 <InputGeneral
                   estado={PorcentajePago}
                   cambiarEstado={cambiarPorcentajePago}
@@ -542,45 +585,69 @@ const TipoSorteoIntermedia = () => {
                   leyendaError="El porcentaje de pago debe ser numerico"
                   expresionRegular={expresionesRegulares.PorcentajePago}
                 />
-  
-                <InputGeneral
-                  estado={HoraInicio}
-                  cambiarEstado={cambiarHoraInicio}
-                  tipo="time"
-                  label="Hora De Inicio"
-                  placeholder="Introduzca la hora de inicio"
-                  name="HoraInicio"
-                  leyendaError="Formato de hora incorrecta"
-                  //expresionRegular={expresionesRegulares.HoraInicio}
-                />
-  
-                <InputGeneral
-                  estado={HoraFin}
-                  cambiarEstado={cambiarHoraFin}
-                  tipo="time"
-                  label="Hora De Fin"
-                  placeholder="Introduzca la hora de fin"
-                  name="HoraFin"
-                  leyendaError="Formato de hora incorrecta"
-                  //expresionRegular={expresionesRegulares.HoraFin}
-                />
+
+                {esCustomizado && (
+                  <InputGeneral
+                    estado={HoraInicio}
+                    cambiarEstado={cambiarHoraInicio}
+                    tipo="datetime-local"
+                    label="Inicio"
+                    placeholder="Introduzca la hora de inicio"
+                    name="HoraInicio"
+                    leyendaError="Formato de hora incorrecta"
+                    onChange={validarHoraCustom}
+                    onBlur={validarHoraCustom}
+                    //expresionRegular={expresionesRegulares.HoraInicio}
+                  />
+                )}
+
+                {!esCustomizado && (
+                  <InputGeneral
+                    estado={HoraFin}
+                    cambiarEstado={cambiarHoraFin}
+                    tipo="time"
+                    label="Fin"
+                    placeholder="Introduzca la hora de fin"
+                    name="HoraFin"
+                    leyendaError="Formato de hora incorrecta"
+                    onChange={validarHoraCustom}
+                    onBlur={validarHoraCustom}
+                    //expresionRegular={expresionesRegulares.HoraFin}
+                  />
+                )}
+                {esCustomizado && (
+                  <InputGeneral
+                    estado={HoraFin}
+                    cambiarEstado={cambiarHoraFin}
+                    tipo="datetime-local"
+                    label="Fin"
+                    placeholder="Introduzca la hora de fin"
+                    name="HoraFin"
+                    leyendaError="Formato de hora incorrecta"
+                    onChange={validarHoraCustom}
+                    onBlur={validarHoraCustom}
+
+                    //expresionRegular={expresionesRegulares.HoraFin}
+                  />
+                )}
               </Columna>
             </Formulario>
           </div>
         </div>
-  
+
         <div className="checkbox-container">
-          <label>
-            <input
-              type="checkbox"
-              checked={esReventado}
-              onChange={(e) => cambiarEsReventado(e.target.checked)}
-            />
-            Sorteo Reventado
-          </label>
+
+          <InputGeneral
+            estado={esReventado}
+            cambiarEstado={cambiarEsReventado}
+            tipo="checkbox"
+            label="Sorteo Reventado"
+            name="esReventado"
+           
+          />
         </div>
-  
-        {esReventado && (
+
+        {esReventado.campo === 0 && (
           <div className="grupo">
             <h4>Reventado</h4>
             <div className="container-fluid">
@@ -596,7 +663,7 @@ const TipoSorteoIntermedia = () => {
                     leyendaError="El nombre solo puede contener letras y espacios."
                     expresionRegular={expresionesRegulares.Nombre}
                   />
-  
+
                   <InputGeneral
                     estado={PorcentajePagoReventado}
                     cambiarEstado={cambiarPorcentajePagoReventado}
@@ -616,7 +683,7 @@ const TipoSorteoIntermedia = () => {
           </div>
         )}
       </div>
-  
+
       <MensajeFormulario
         titulo="Insertar"
         formularioValido={formularioValido}
@@ -626,69 +693,127 @@ const TipoSorteoIntermedia = () => {
     </div>
   );
 
-
-
-
   const bodyEditar = (
     <div style={scrollVertical}>
       <h3>Editar Tipo De Sorteo General</h3>
       <div className="relleno-general">
-        General
-        <div className="container-fluid">
-          <Formulario>
-            <Columna>
-            <InputGeneral
-                estado={Nombre}
-                cambiarEstado={cambiarNombre}
-                tipo="text"
-                label="Nombre"
-                placeholder="Introduzca El Nombre"
-                name="Nombre"
-                leyendaError="El Nombre solo puede contener letras y espacios."
-                expresionRegular={expresionesRegulares.Nombre}
-                value={Nombre.campo}
-              />
+        <div className="grupo">
+          <h4>General</h4>
+          <div className="container-fluid">
+            <Formulario>
+              <Columna>
+                <InputGeneral
+                  estado={Nombre}
+                  cambiarEstado={cambiarNombre}
+                  tipo="text"
+                  label="Nombre"
+                  placeholder="Introduzca El Nombre"
+                  name="Nombre"
+                  leyendaError="El Nombre solo puede contener letras y espacios."
+                  expresionRegular={expresionesRegulares.Nombre}
+                  value={Nombre.campo}
+                />
 
-              <InputGeneral
-                estado={Fondo}
-                cambiarEstado={cambiarFondo}
-                tipo="numeric"
-                label="Fondo del Sorteo"
-                placeholder="Introduzca el Fondo Para El Sorteo"
-                name="Fondo"
-                leyendaError="El Fondo Debe Ser Numerico"
-                expresionRegular={expresionesRegulares.Fondo}
-                value={Fondo.campo}
-              />
+                <InputGeneral
+                  estado={Fondo}
+                  cambiarEstado={cambiarFondo}
+                  tipo="numeric"
+                  label="Fondo del Sorteo"
+                  placeholder="Introduzca el Fondo Para El Sorteo"
+                  name="Fondo"
+                  leyendaError="El Fondo Debe Ser Numerico"
+                  expresionRegular={expresionesRegulares.Fondo}
+                  value={Fondo.campo}
+                />
 
-              <InputGeneral
-                estado={PorcentajePago}
-                cambiarEstado={cambiarPorcentajePago}
-                tipo="numeric"
-                label="Porcentaje De Pago"
-                placeholder="Introduzca El Porcentaje De Pago"
-                name="FechaFin"
-                leyendaError="El Porcentaje De Pago Debe Ser Numerico"
-                expresionRegular={expresionesRegulares.PorcentajePago}
-                value={PorcentajePago.campo}
-              />
+                <InputGeneral
+                  estado={PorcentajePago}
+                  cambiarEstado={cambiarPorcentajePago}
+                  tipo="numeric"
+                  label="Porcentaje De Pago"
+                  placeholder="Introduzca El Porcentaje De Pago"
+                  name="FechaFin"
+                  leyendaError="El Porcentaje De Pago Debe Ser Numerico"
+                  expresionRegular={expresionesRegulares.PorcentajePago}
+                  value={PorcentajePago.campo}
+                />
 
-              <InputGeneral
-                estado={HoraFin}
-                cambiarEstado={cambiarHoraFin}
-                tipo="time"
-                label="Hora De Fin"
-                placeholder="Introduzca La Hora De Fin"
-                name="HoraFin"
-                leyendaError="Formato De Hora Incorrecta "
-                expresionRegular={expresionesRegulares.HoraFin}
-                value={HoraFin.campo}
-              />
-              
-            </Columna>
-          </Formulario>
+                <InputGeneral
+                  estado={HoraInicio}
+                  cambiarEstado={cambiarHoraInicio}
+                  tipo="datetime-local"
+                  label="Inicio"
+                  placeholder="Introduzca La Hora De Inicio"
+                  name="HoraInicio"
+                  leyendaError="Formato De Hora Incorrecta "
+                  expresionRegular={expresionesRegulares.HoraInicio}
+                  value={HoraInicio.campo}
+                />
+
+                <InputGeneral
+                  estado={HoraFin}
+                  cambiarEstado={cambiarHoraFin}
+                  tipo="datetime-local"
+                  label="Fin"
+                  placeholder="Introduzca La Hora De Fin"
+                  name="HoraFin"
+                  leyendaError="Formato De Hora Incorrecta "
+                  expresionRegular={expresionesRegulares.HoraFin}
+                  value={HoraFin.campo}
+                />
+              </Columna>
+            </Formulario>
+          </div>
         </div>
+
+        <div className="checkbox-container">
+          <label>
+            <input
+              type="checkbox"
+              checked={esReventado}
+              onChange={(e) => cambiarEsReventado(e.target.checked)}
+            />
+            Sorteo Reventado
+          </label>
+        </div>
+
+        {esReventado && (
+          <div className="grupo">
+            <h4>Reventado</h4>
+            <div className="container-fluid">
+              <Formulario>
+                <Columna>
+                  <InputGeneral
+                    estado={NombreReventado}
+                    cambiarEstado={cambiarNombreReventado}
+                    tipo="text"
+                    label="Nombre"
+                    placeholder="Introduzca el nombre"
+                    name="NombreReventado"
+                    leyendaError="El nombre solo puede contener letras y espacios."
+                    expresionRegular={expresionesRegulares.Nombre}
+                  />
+
+                  <InputGeneral
+                    estado={PorcentajePagoReventado}
+                    cambiarEstado={cambiarPorcentajePagoReventado}
+                    tipo="numeric"
+                    label="Porcentaje de pago"
+                    placeholder="Introduzca el porcentaje de pago"
+                    name="PorcentajePagoReventado"
+                    leyendaError="El porcentaje de pago debe ser numerico"
+                    expresionRegular={expresionesRegulares.PorcentajePago}
+                  />
+                </Columna>
+                <p style={{ marginTop: "1rem", fontStyle: "italic" }}>
+                  El fondo sugerido será generado automáticamente.
+                </p>
+              </Formulario>
+            </div>
+          </div>
+        )}
       </div>
+
       <MensajeFormulario
         titulo="Editar"
         formularioValido={formularioValido}
@@ -717,7 +842,7 @@ const TipoSorteoIntermedia = () => {
         </div>
       </div>
       <MensajeFormulario
-        titulo = "Eliminar"
+        titulo="Eliminar"
         onCancel={abrirCerrarModalEliminar}
         onSubmit={showQuestionDel} // Reemplaza con la función adecuada
       />
@@ -749,13 +874,14 @@ const TipoSorteoIntermedia = () => {
           {
             icon: Edit,
             tooltip: "Modificar",
-            onClick: (event, rowData) => seleccionarTipoSorteoGeneral(rowData, "Editar"),
+            onClick: (event, rowData) =>
+              seleccionarTipoSorteoIntermedia(rowData, "Editar"),
           },
           {
             icon: DeleteOutline,
             tooltip: "Eliminar",
             onClick: (event, rowData) =>
-              seleccionarTipoSorteoGeneral(rowData, "Eliminar"),
+              seleccionarTipoSorteoIntermedia(rowData, "Eliminar"),
           },
         ]}
         options={{

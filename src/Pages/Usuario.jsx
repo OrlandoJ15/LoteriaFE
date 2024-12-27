@@ -53,22 +53,21 @@ const EndPointCambiarClave = "https://localhost:44366/Usuario/ModClaveUsuario";
 
 ///////////////////////Usl Azure/////////////
 
-<<<<<<< Updated upstream
-const UrlBase =
-   "https://loteriabackapi.azurewebsites.net/api/Usuario/RecUsuario";
-const UrlPost =
-  "https://loteriabackapi.azurewebsites.net/api/Usuario/InsUsuario";
-const UrlPut =
-  "https://loteriabackapi.azurewebsites.net/api/Usuario/ModUsuario";
-const UrlDel =
-  "https://loteriabackapi.azurewebsites.net/api/Usuario/DelUsuario";
-const EndPointUsuarioXId =
-  "https://loteriabackapi.azurewebsites.net/api/Usuario/RecUsuarioXId";
-const EndPointValidarUsuarioLogin =
-  "https://loteriabackapi.azurewebsites.net/api/ValidarUsuarioLogin";
-const EndPointCambiarClave =
-  "https://loteriabackapi.azurewebsites.net/api/Usuario/ModClaveUsuario";
-=======
+// const UrlBase =
+//    "https://loteriabackapi.azurewebsites.net/api/Usuario/RecUsuario";
+// const UrlPost =
+//   "https://loteriabackapi.azurewebsites.net/api/Usuario/InsUsuario";
+// const UrlPut =
+//   "https://loteriabackapi.azurewebsites.net/api/Usuario/ModUsuario";
+// const UrlDel =
+//   "https://loteriabackapi.azurewebsites.net/api/Usuario/DelUsuario";
+// const EndPointUsuarioXId =
+//   "https://loteriabackapi.azurewebsites.net/api/Usuario/RecUsuarioXId";
+// const EndPointValidarUsuarioLogin =
+//   "https://loteriabackapi.azurewebsites.net/api/ValidarUsuarioLogin";
+// const EndPointCambiarClave =
+//   "https://loteriabackapi.azurewebsites.net/api/Usuario/ModClaveUsuario";
+
 // const UrlBase =
 //    "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/RecUsuario";
 // const UrlPost =
@@ -83,7 +82,7 @@ const EndPointCambiarClave =
 //   "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/ValidarUsuarioLogin";
 // const EndPointCambiarClave =
 //   "https://multiplicados-fnf2edgqbuffbpgj.ukwest-01.azurewebsites.net/Usuario/ModClaveUsuario";
->>>>>>> Stashed changes
+
 
 //////////////////////////TERMINA URLs///////////////////////////
 
@@ -275,24 +274,25 @@ const Usuario = () => {
     //if (!token) return;
 
     const options = {
-      Id: Id.campo,
+      Id: parseInt(Id.campo, 10),
       Nombre: Nombre.campo,
-      NombreUSuario: NombreUsuario.campo,
-      IdRol: Rol.campo,
+      NombreUsuario: NombreUsuario.campo,
+      IdRol: parseInt(Rol.campo, 10),
       Correo: Correo.campo,
       Clave: Clave.campo,
     };
 
     try {
-<<<<<<< Updated upstream
-      const response = await axios.post(UrlPost, options, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+
+      // const response = await axios.post(UrlPost, options, {
+      //   headers: {
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      // });
+      const response = await axios.post(UrlPost, options);
   
       // Verifica si la respuesta es exitosa
-      if (response.status === 200) {
+      if (response.status === 201) {
         setData([...data, response.data]);
         abrirCerrarModalInsertar();
       } else {
@@ -310,14 +310,14 @@ const Usuario = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-=======
+
       // const response = await axios.post(UrlPost, options, {
       //   headers: {
       //     Authorization: `Bearer ${token}`,
       //   },
       // });
       const response = await axios.post(UrlPost, options);
->>>>>>> Stashed changes
+
       setData([...data, response.data]);
       abrirCerrarModalInsertar();
     } catch (error) {
@@ -652,7 +652,7 @@ const Usuario = () => {
                 tipo="number"
                 label="Rol"
                 placeholder="Introduzca El Rol"
-                name="Rol"
+                name="IdRol"
                 leyendaError="El rol solo puede contener numeros"
                 expresionRegular={expresionesRegulares.Rol}
               />

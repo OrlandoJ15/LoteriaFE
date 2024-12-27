@@ -113,18 +113,30 @@ const InputGeneral = ({ estado, cambiarEstado, tipo, label, placeholder, name, l
 
 
 	const validacion = () => {
-		console.log("entrando al metodo validacion del input");
 		const valor = estado.campo; // Utilizamos el valor actualizado del estado
 
-		if (tipo === "date" && expresionRegular) {
+		if (tipo === "datetime-local") {
+			// Validar el formato completo de fecha y hora
+			if (valor) {
+				cambiarEstado((prev) => ({ ...prev, valido: 'true' }));
+			} else {
+				cambiarEstado((prev) => ({ ...prev, valido: 'false' }));
+			}
+		} else if (tipo === "date") {
 			//const fechaFormato = estado.campo; // Obtenemos el valor en formato yyyy-mm-dd
-			if (expresionRegular.test(valor)) {
+			if (valor) {
 				cambiarEstado((prev) => ({ ...prev, valido: 'true' }));
 			} else {
 				cambiarEstado((prev) => ({ ...prev, valido: 'false' }));
 			}
 		} else if (tipo === "time") {
-			console.log("entro al valicadion de time del input");
+			// Validar que el campo no esté vacío
+			if (valor) { // `estado.campo` contiene el valor del timepicker
+				cambiarEstado((prev) => ({ ...prev, valido: 'true' }));
+			} else {
+				cambiarEstado((prev) => ({ ...prev, valido: 'false' }));
+			}
+		} else if (tipo === "checkbox") {
 			// Validar que el campo no esté vacío
 			if (valor) { // `estado.campo` contiene el valor del timepicker
 				cambiarEstado((prev) => ({ ...prev, valido: 'true' }));
@@ -177,12 +189,14 @@ const InputGeneral = ({ estado, cambiarEstado, tipo, label, placeholder, name, l
 					//onKeyUp={validacion}
 					onBlur={validacionOnBlur}
 					$valido={estado.valido}
+					//$checked={estado.campo}
 					style={EstiloInput}
 				/>
 				<IconoValidacion
 					icon={estado.valido === 'true' ? faCheckCircle : faTimesCircle}
 					$valido={estado.valido}
 				/>
+				
 			</GrupoInput>
 			<LeyendaError $valido={estado.valido}>{leyendaError}</LeyendaError>
 		</div>
